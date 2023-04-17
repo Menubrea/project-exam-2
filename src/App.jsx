@@ -1,22 +1,23 @@
-import { CssBaseline, Typography, Container } from '@mui/joy';
+import { CssBaseline } from '@mui/joy';
 import { CssVarsProvider } from '@mui/joy/styles';
 import { theme } from './theme';
+import { Routes, Route } from 'react-router-dom';
+import { Layout } from './components/UI/Layout';
+import { Home } from './pages/Home';
+import { Venue } from './pages/Venue';
+import { Profile } from './pages/Profile';
 
 function App() {
   return (
     <CssVarsProvider defaultMode='system' theme={theme}>
       <CssBaseline />
-      <Container maxWidth='sm'>
-        <Typography
-          fontFamily={'amatic-sc, sans-serif'}
-          textAlign={'center'}
-          level='h1'>
-          Hello World
-        </Typography>
-        <Typography textAlign={'center'} level='body1'>
-          This is an example paragraph
-        </Typography>
-      </Container>
+      <Routes>
+        <Route path='/' element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/venue' element={<Venue />} />
+        </Route>
+      </Routes>
     </CssVarsProvider>
   );
 }
