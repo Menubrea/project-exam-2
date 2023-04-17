@@ -1,14 +1,22 @@
-import { Box, CssBaseline, Typography } from "@mui/joy";
-import { CssVarsProvider } from "@mui/joy/styles";
-import { theme } from "./theme";
+import { CssBaseline, Typography, Container } from '@mui/joy';
+import { CssVarsProvider } from '@mui/joy/styles';
+import { theme } from './theme';
 
 function App() {
   return (
-    <CssVarsProvider defaultMode="system" theme={theme}>
+    <CssVarsProvider defaultMode='system' theme={theme}>
       <CssBaseline />
-      <Typography sx={{ fontFamily: "amatic-sc, sans-serif" }} level="h1">
-        Hello World
-      </Typography>
+      <Container maxWidth='sm'>
+        <Typography
+          fontFamily={'amatic-sc, sans-serif'}
+          textAlign={'center'}
+          level='h1'>
+          Hello World
+        </Typography>
+        <Typography textAlign={'center'} level='body1'>
+          This is an example paragraph
+        </Typography>
+      </Container>
     </CssVarsProvider>
   );
 }
