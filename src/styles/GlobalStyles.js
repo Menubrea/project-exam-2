@@ -43,4 +43,8 @@ export const ModalSheet = styled(Sheet)(({ theme }) => ({
     theme.palette.mode === 'dark'
       ? theme.palette.common.white
       : theme.palette.primary[900],
+  border:
+    theme.palette.mode === 'dark'
+      ? `1px solid ${theme.palette.common.white}`
+      : `1px solid ${theme.palette.primary[700]}`,
 }));

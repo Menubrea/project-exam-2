@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Box, Menu, MenuItem, styled } from '@mui/joy';
+import { useState, useEffect } from 'react';
+import { Avatar, Box, Menu, MenuItem, styled } from '@mui/joy';
 import { Link } from 'react-router-dom';
 import { ChangeTheme } from './ChangeTheme';
 import { AuthModal } from '../../modals/AuthModal';
@@ -38,6 +38,26 @@ export function MainMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleLoggedIn = () => {
+    const storedProfile = localStorage.getItem('profile');
+    setIsLoggedIn(true);
+    setIsOpen(false);
+    setProfile(JSON.parse(storedProfile));
+  };
+
+  const handleLoggedOut = () => {
+    setIsLoggedIn(false);
+    localStorage.clear('token');
+    localStorage.clear('profile');
+    setAnchorEl(null);
+  };
 
   const handleMenu = (event) => {
     isLoggedIn ? setAnchorEl(event.currentTarget) : setIsOpen(true);
@@ -49,16 +69,36 @@ export function MainMenu() {
 
   return (
     <>
-      <MainThemeButton size='sm' onClick={handleMenu}>
-        {!isLoggedIn ? 'Login' : 'Menu'}
+      <MainThemeButton
+        size='md'
+        onClick={handleMenu}
+        endDecorator={
+          isLoggedIn && (
+            <Avatar
+              key={profile?.id}
+              size='sm'
+              sx={{ height: 25, width: 25 }}
+              src={profile?.avatar}
+            />
+          )
+        }>
+        {!isLoggedIn ? 'Login' : profile?.name}
       </MainThemeButton>
-      <LoggedInMenu anchorEl={anchorEl} handleClose={handleClose} />
-      <AuthModal open={open} handleClose={handleClose} />
+      <LoggedInMenu
+        anchorEl={anchorEl}
+        handleClose={handleClose}
+        handleLoggedOut={handleLoggedOut}
+      />
+      <AuthModal
+        open={open}
+        handleClose={handleClose}
+        handleLoggedIn={handleLoggedIn}
+      />
     </>
   );
 }
 
-export function LoggedInMenu({ anchorEl, handleClose }) {
+export function LoggedInMenu({ anchorEl, handleClose, handleLoggedOut }) {
   return (
     <StyledMenu
       placement='bottom-end'
@@ -78,7 +118,7 @@ export function LoggedInMenu({ anchorEl, handleClose }) {
           }}>
           <ChangeTheme />
         </StyledMenuItem>
-        <StyledMenuItem onClick={handleClose}>Logout</StyledMenuItem>
+        <StyledMenuItem onClick={handleLoggedOut}>Logout</StyledMenuItem>
       </Box>
     </StyledMenu>
   );
