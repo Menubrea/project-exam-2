@@ -41,15 +41,17 @@ export function MainMenu() {
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
+    const storedProfile = localStorage.getItem('profile');
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
+    setProfile(JSON.parse(storedProfile));
   }, []);
 
   const handleLoggedIn = () => {
     const storedProfile = localStorage.getItem('profile');
+    setProfile(JSON.parse(storedProfile));
     setIsLoggedIn(true);
     setIsOpen(false);
-    setProfile(JSON.parse(storedProfile));
   };
 
   const handleLoggedOut = () => {
