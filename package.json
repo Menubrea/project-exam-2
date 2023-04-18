@@ -1,7 +1,7 @@
 {
   "name": "project-exam-2",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,11 +11,14 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@hookform/resolvers": "^3.1.0",
     "@mui/joy": "^5.0.0-alpha.75",
     "prettier": "^2.8.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.10.0"
+    "react-hook-form": "^7.43.9",
+    "react-router-dom": "^6.10.0",
+    "yup": "^1.1.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

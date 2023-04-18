@@ -1,21 +1,27 @@
-import { Link } from 'react-router-dom';
+import { Search } from './UI_components/Search';
+import { Logo } from '../Logo';
+import { Container, Box } from '@mui/joy';
+import { MainMenu } from './UI_components/MainMenu';
+import { ChangeTheme } from './UI_components/ChangeTheme';
 
 export function Header() {
   return (
-    <header>
-      <nav>
-        <ul>
-          <li>
-            <Link to={'/'}>Home</Link>
-          </li>
-          <li>
-            <Link to={'/profile'}>Profile</Link>
-          </li>
-          <li>
-            <Link to={'/venue'}>Venue</Link>
-          </li>
-        </ul>
-      </nav>
-    </header>
+    <Container
+      component={'header'}
+      maxWidth='lg'
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        paddingY: 2,
+        marginTop: 2,
+        alignItems: 'center',
+      }}>
+      <Logo />
+      <Box sx={{ display: 'flex', gap: 1 }}>
+        <ChangeTheme />
+        <Search />
+        <MainMenu />
+      </Box>
+    </Container>
   );
 }
