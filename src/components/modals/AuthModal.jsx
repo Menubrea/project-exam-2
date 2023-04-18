@@ -24,8 +24,6 @@ export function AuthModal({ open, handleClose, handleLoggedIn }) {
         sx={{
           maxWidth: 800,
           minWidth: 300,
-          border: '1px solid #fff',
-          borderRadius: 3,
         }}>
         <ModalClose
           variant='solid'
