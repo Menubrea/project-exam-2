@@ -1,17 +1,16 @@
-import { Container, Typography } from '@mui/joy';
+import { Container } from '@mui/joy';
+import { VenueCard } from '../components/Cards/VenueCard';
+import { MainGrid } from '../styles/GlobalStyles';
 
-export function Home() {
+export function Home({ data }) {
+  console.log(data);
+
   return (
-    <Container maxWidth='sm'>
-      <Typography
-        fontFamily={'amatic-sc, sans-serif'}
-        textAlign={'center'}
-        level='h1'>
-        Home
-      </Typography>
-      <Typography textAlign={'center'} level='body1'>
-        This is an example paragraph
-      </Typography>
+    <Container maxWidth='lg'>
+      <MainGrid>
+        {data &&
+          data.map((venue) => <VenueCard key={venue.id} venue={venue} />)}
+      </MainGrid>
     </Container>
   );
 }
