@@ -1,4 +1,10 @@
-import { Button, Input, Sheet, styled, Box } from '@mui/joy';
+import { Button, Input, Sheet, styled, Container } from '@mui/joy';
+import { Link } from 'react-router-dom';
+
+export const LinkWrapper = styled(Link)(() => ({
+  textDecoration: 'none',
+  color: 'inherit',
+}));
 
 export const MainThemeButton = styled(Button)(({ theme }) => ({
   color: theme.palette.common.white,
@@ -49,7 +55,7 @@ export const ModalSheet = styled(Sheet)(({ theme }) => ({
       : `1px solid ${theme.palette.primary[700]}`,
 }));
 
-export const MainGrid = styled(Box)`
+export const MainGrid = styled(Container)`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1em;
