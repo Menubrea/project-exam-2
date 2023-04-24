@@ -20,8 +20,9 @@ export const theme = extendTheme({
           900: '#1E2729',
         },
         text: {
-          primary: 'var(--joy-palette-primary-500)',
+          primary: 'var(--joy-palette-primary-700)',
         },
+        background: { body: 'var(--joy-palette-neutral-50)' },
       },
     },
     dark: {

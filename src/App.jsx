@@ -21,7 +21,7 @@ function App() {
         <Route path='/' element={<Layout />}>
           <Route index element={<Home data={data} />} />
           <Route path='/profile' element={<Profile />} />
-          <Route path='/venue' element={<Venue />} />
+          <Route path='/venue/:id' element={<Venue venue={data} />} />
         </Route>
       </Routes>
     </CssVarsProvider>
