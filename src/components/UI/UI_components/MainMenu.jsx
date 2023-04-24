@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Avatar, Box, Menu, MenuItem, styled } from '@mui/joy';
 import { Link } from 'react-router-dom';
-import { ChangeTheme } from './ChangeTheme';
-import { AuthModal } from '../../modals/AuthModal';
+import { AuthModal } from '../../modals';
 import { MainThemeButton } from '../../../styles/GlobalStyles';
 
 const StyledLink = styled(Link)(({ theme }) => ({
@@ -34,7 +33,7 @@ const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   },
 }));
 
-export function MainMenu() {
+export default function MainMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -111,14 +110,6 @@ export function LoggedInMenu({ anchorEl, handleClose, handleLoggedOut }) {
       <Box>
         <StyledMenuItem onClick={handleClose}>
           <StyledLink to={'/profile'}>My Account</StyledLink>
-        </StyledMenuItem>
-        <StyledMenuItem
-          onClick={handleClose}
-          sx={{
-            borderTop: '1px solid #fff',
-            borderBottom: '1px solid #fff',
-          }}>
-          <ChangeTheme />
         </StyledMenuItem>
         <StyledMenuItem onClick={handleLoggedOut}>Logout</StyledMenuItem>
       </Box>

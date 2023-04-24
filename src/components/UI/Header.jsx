@@ -1,8 +1,6 @@
-import { Search } from './UI_components/Search';
-import { Logo } from '../Logo';
+import { Logo } from './UI_components';
 import { Container, Box } from '@mui/joy';
-import { MainMenu } from './UI_components/MainMenu';
-import { ChangeTheme } from './UI_components/ChangeTheme';
+import { MainMenu, ChangeTheme, Search } from './UI_components';
 
 export function Header() {
   return (

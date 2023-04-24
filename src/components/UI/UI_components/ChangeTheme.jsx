@@ -1,7 +1,7 @@
 import { useColorScheme, Button } from '@mui/joy';
 
 // Component for changing the theme of the app
-export function ChangeTheme() {
+export default function ChangeTheme() {
   const { mode, setMode } = useColorScheme();
 
   const handleThemeChange = () => {

@@ -16,7 +16,7 @@ const registerSchema = yup.object({
   venueManager: yup.boolean(),
 });
 
-export function RegisterForm() {
+export default function RegisterForm() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const {

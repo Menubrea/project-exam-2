@@ -13,7 +13,7 @@ const loginSchema = yup.object({
   password: yup.string().required().trim(),
 });
 
-export function LoginForm({ onLoginSuccess }) {
+export default function LoginForm({ onLoginSuccess }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
 

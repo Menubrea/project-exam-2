@@ -1,8 +1,8 @@
 import { Box } from '@mui/joy';
-import { HeroCard, VenueCard } from '../components/cards';
-import { MainGrid } from '../styles/GlobalStyles';
+import { HeroCard, VenueCard } from '../cards';
+import { MainGrid } from '../../styles/GlobalStyles';
 
-export function Home({ data }) {
+export default function Home({ data }) {
   console.log(data[0]);
   if (!data || data.length === 0) return <div>Loading...</div>;
 

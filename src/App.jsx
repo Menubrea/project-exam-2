@@ -2,10 +2,8 @@ import { CssBaseline } from '@mui/joy';
 import { CssVarsProvider } from '@mui/joy/styles';
 import { theme } from './theme';
 import { Routes, Route } from 'react-router-dom';
-import { Layout } from './components/UI/Layout';
-import { Home } from './pages/Home';
-import { Venue } from './pages/Venue';
-import { Profile } from './pages/Profile';
+import { Layout } from './components/UI';
+import { Home, Venue, Profile } from './components/pages/';
 import { useApi } from './api/useApi';
 
 const venueUrl = 'https://api.noroff.dev/api/v1/holidaze';

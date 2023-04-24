@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { Modal, ModalClose, Box, Typography } from '@mui/joy';
-import { LoginForm } from '../forms/LoginForm';
+import { LoginForm, RegisterForm } from '../forms';
 import { MainThemeButton } from '../../styles/GlobalStyles';
 import { ModalSheet } from '../../styles/GlobalStyles';
-import { RegisterForm } from '../forms/RegisterForm';
 
-export function AuthModal({ open, handleClose, handleLoggedIn }) {
+export default function AuthModal({ open, handleClose, handleLoggedIn }) {
   const [hasAccount, setHasAccount] = useState(true);
 
   const handleAccountChange = () => {

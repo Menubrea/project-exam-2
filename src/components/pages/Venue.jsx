@@ -17,7 +17,7 @@ const VenueDetails = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
-export function Venue({ venue }) {
+export default function Venue({ venue }) {
   const { id } = useParams();
   const [venueById, setVenueById] = useState(null);
 
