@@ -1,5 +1,5 @@
 import { Box, Typography, styled } from '@mui/joy';
-import VenueMeta from '../VenueMeta';
+import { VenueMeta } from '../venueData';
 import { LinkWrapper } from '../../styles/GlobalStyles';
 
 const StyledTitle = styled(Typography)(({ theme }) => ({

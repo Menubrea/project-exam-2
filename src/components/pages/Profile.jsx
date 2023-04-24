@@ -1,6 +1,6 @@
 import { Container, Typography } from '@mui/joy';
 
-export function Profile() {
+export default function Profile() {
   return (
     <Container maxWidth='sm'>
       <Typography

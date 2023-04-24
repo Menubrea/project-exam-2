@@ -1,5 +1,5 @@
 import { Box, Typography, styled, Container } from '@mui/joy';
-import VenueMeta from '../VenueMeta';
+import { VenueMeta } from '../venueData';
 import { MainThemeButton, LinkWrapper } from '../../styles/GlobalStyles';
 
 // Styling for Hero section container.

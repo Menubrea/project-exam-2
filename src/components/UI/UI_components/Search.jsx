@@ -1,6 +1,6 @@
 import { MainThemeInput } from '../../../styles/GlobalStyles';
 
-export function Search() {
+export default function Search() {
   return (
     <>
       <MainThemeInput
