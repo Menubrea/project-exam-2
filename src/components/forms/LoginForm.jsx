@@ -49,6 +49,7 @@ export function LoginForm({ onLoginSuccess }) {
 
         default:
           setErrorMessage('Something went wrong, please try again');
+          throw new Error('Something went wrong, please try again');
       }
     } catch (error) {
       console.log(error);

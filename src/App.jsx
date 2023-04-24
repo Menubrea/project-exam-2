@@ -6,16 +6,22 @@ import { Layout } from './components/UI/Layout';
 import { Home } from './pages/Home';
 import { Venue } from './pages/Venue';
 import { Profile } from './pages/Profile';
+import { useApi } from './api/useApi';
+
+const venueUrl = 'https://api.noroff.dev/api/v1/holidaze';
+const action = '/venues';
 
 function App() {
+  const { data, error, loading } = useApi(venueUrl + action);
+
   return (
     <CssVarsProvider defaultMode='system' theme={theme}>
       <CssBaseline />
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Home data={data} />} />
           <Route path='/profile' element={<Profile />} />
-          <Route path='/venue' element={<Venue />} />
+          <Route path='/venue/:id' element={<Venue venue={data} />} />
         </Route>
       </Routes>
     </CssVarsProvider>

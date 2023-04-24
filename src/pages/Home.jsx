@@ -1,17 +1,18 @@
-import { Container, Typography } from '@mui/joy';
+import { Box } from '@mui/joy';
+import { HeroCard, VenueCard } from '../components/cards';
+import { MainGrid } from '../styles/GlobalStyles';
 
-export function Home() {
+export function Home({ data }) {
+  console.log(data[0]);
+  if (!data || data.length === 0) return <div>Loading...</div>;
+
   return (
-    <Container maxWidth='sm'>
-      <Typography
-        fontFamily={'amatic-sc, sans-serif'}
-        textAlign={'center'}
-        level='h1'>
-        Home
-      </Typography>
-      <Typography textAlign={'center'} level='body1'>
-        This is an example paragraph
-      </Typography>
-    </Container>
+    <Box component={'main'}>
+      {data && <HeroCard venue={data[6]} />}
+      <MainGrid maxWidth='lg'>
+        {data &&
+          data.map((venue) => <VenueCard key={venue.id} venue={venue} />)}
+      </MainGrid>
+    </Box>
   );
 }

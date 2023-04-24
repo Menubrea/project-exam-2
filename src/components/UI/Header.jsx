@@ -8,13 +8,16 @@ export function Header() {
   return (
     <Container
       component={'header'}
-      maxWidth='lg'
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
         paddingY: 2,
         marginTop: 2,
         alignItems: 'center',
+        position: 'absolute',
+        zIndex: 100,
+        left: '50%',
+        transform: 'translateX(-50%)',
       }}>
       <Logo />
       <Box sx={{ display: 'flex', gap: 1 }}>
