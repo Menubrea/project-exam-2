@@ -4,7 +4,7 @@ import { MainThemeButton, LinkWrapper } from '../../styles/GlobalStyles';
 
 // Styling for Hero section container.
 const HeroContainer = styled(Box)(({ theme }) => ({
-  height: '70vh',
+  height: 'min(70vh, 500px)',
   position: 'relative',
   overflow: 'hidden',
 
@@ -12,13 +12,12 @@ const HeroContainer = styled(Box)(({ theme }) => ({
     content: '""',
     zIndex: 1,
     position: 'absolute',
-    top: 0,
     left: 0,
     width: '100%',
-    height: '40%',
   },
   ':after': {
-    height: '100%',
+    height: 'min(40vh, 350px)',
+    bottom: 0,
     background:
       theme.palette.mode === 'dark'
         ? `linear-gradient(0deg, ${theme.palette.primary[500]} 0%, rgba(255,255,255,0) 100%)`
@@ -28,9 +27,10 @@ const HeroContainer = styled(Box)(({ theme }) => ({
 }));
 
 // Styling for hero section body.
-const HeroBody = styled(Container)(({ theme }) => ({
+const HeroBody = styled(Box)(({ theme }) => ({
+  width: 'clamp(310px, 80%, 700px)',
   position: 'absolute',
-  minHeight: 170,
+  height: '222px',
   zIndex: 2,
   bottom: theme.spacing(2),
   left: '50%',
@@ -38,7 +38,18 @@ const HeroBody = styled(Container)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  borderRadius: 10,
+  borderRadius: 3,
+  backdropFilter: 'blur(3px)',
+
+  background:
+    theme.palette.mode === 'dark'
+      ? `linear-gradient(45deg, ${theme.palette.primary[800]} 0%, rgba(255,255,255,0) 100%)`
+      : `linear-gradient(45deg, ${theme.palette.neutral[50]} 0%, rgba(255,255,255,0) 100%)`,
+
+  border:
+    theme.palette.mode === 'dark'
+      ? `1px solid ${theme.palette.common.white}`
+      : `1px solid ${theme.palette.primary[500]}`,
 }));
 
 export default function HeroCard({ venue }) {
@@ -50,36 +61,51 @@ export default function HeroCard({ venue }) {
         alt={venue.name}
         sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
       />
-      <HeroBody sx={{ padding: 2 }}>
+      <HeroBody>
         <Box sx={{ maxWidth: 700, display: 'flex' }}>
           <VenueMeta
             position='static'
+            height='220px'
+            borderRadius='0px'
+            border='none'
             meta={venue.meta}
             maxGuests={venue.maxGuests}
           />
           <Box sx={{ padding: 2 }}>
             <Typography
-              level='h5'
+              level='h6'
               component='p'
               sx={{
                 fontFamily: 'futura-PT-condensed',
                 textTransform: 'Uppercase',
-                lineHeight: 0,
+                lineHeight: 1,
               }}>
               This week's featured venue
             </Typography>
             <Typography
-              level='h1'
+              level='h3'
               component={'h2'}
-              sx={{ fontFamily: 'amatic-sc' }}>
+              sx={{
+                fontFamily: 'futura-PT-condensed',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+              }}>
               {venue.name}
             </Typography>
-            <Typography level='body1'>
-              {venue.description.slice(0, 480)}
+            <Typography
+              level='body1'
+              sx={{ overflow: 'hidden', height: '130px' }}>
+              {venue.description.slice(0, 450).concat('...')}
             </Typography>
           </Box>
         </Box>
-        <MainThemeButton sx={{ alignSelf: 'end' }}>
+        <MainThemeButton
+          sx={{
+            position: 'absolute',
+            bottom: '-1.2em',
+            left: '75%',
+            transform: 'translateX(-50%)',
+          }}>
           <LinkWrapper to={`/venue/${venue.id}`}>Read More</LinkWrapper>
         </MainThemeButton>
       </HeroBody>

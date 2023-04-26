@@ -1,15 +1,15 @@
 import { Box } from '@mui/joy';
 import { HeroCard, VenueCard } from '../cards';
-import { MainGrid } from '../../styles/GlobalStyles';
+import { MainGrid, StyledDivider } from '../../styles/GlobalStyles';
 
 export default function Home({ data }) {
-  console.log(data[0]);
   if (!data || data.length === 0) return <div>Loading...</div>;
 
   return (
     <Box component={'main'}>
-      {data && <HeroCard venue={data[6]} />}
-      <MainGrid maxWidth='lg'>
+      {data && <HeroCard venue={data[14]} />}
+      <StyledDivider />
+      <MainGrid maxWidth='lg' sx={{ marginTop: 2 }}>
         {data &&
           data.map((venue) => <VenueCard key={venue.id} venue={venue} />)}
       </MainGrid>

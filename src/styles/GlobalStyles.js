@@ -1,9 +1,21 @@
-import { Button, Input, Sheet, styled, Container } from '@mui/joy';
+import { Button, Input, Sheet, styled, Container, Box } from '@mui/joy';
 import { Link } from 'react-router-dom';
 
 export const LinkWrapper = styled(Link)(() => ({
   textDecoration: 'none',
   color: 'inherit',
+}));
+
+export const StyledDivider = styled(Box)(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? theme.palette.primary[400]
+      : theme.palette.neutral[300],
+  width: 'max(30vw, 30%)',
+  minWidth: '100px',
+  height: '5px',
+  borderRadius: '100vh',
+  margin: theme.spacing(2, 'auto'),
 }));
 
 export const MainThemeButton = styled(Button)(({ theme }) => ({
@@ -57,7 +69,7 @@ export const ModalSheet = styled(Sheet)(({ theme }) => ({
 
 export const MainGrid = styled(Container)`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1em;
   max-width: 100%;
   margin: 0 auto 2em;

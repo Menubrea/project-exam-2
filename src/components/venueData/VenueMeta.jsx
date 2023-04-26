@@ -15,15 +15,15 @@ const VenueMetaStyle = styled(Box)(({ theme, ...props }) => ({
       : theme.palette.neutral[50],
   border:
     theme.palette.mode === 'dark'
-      ? `1px solid ${theme.palette.common.white}`
-      : `1px solid ${theme.palette.primary[700]}`,
-  borderRadius: 100,
+      ? props.border || `1px solid ${theme.palette.common.white}`
+      : props.border || `1px solid ${theme.palette.primary[700]}`,
+  borderRadius: props.borderRadius || 2,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-evenly',
   alignItems: 'center',
   width: 'fit-content',
-  height: 'fit-content',
+  height: props.height || 'fit-content',
 }));
 
 const StyledIconBox = styled(Box)(({ theme }) => ({
@@ -51,7 +51,11 @@ const StyledIconBox = styled(Box)(({ theme }) => ({
 
 export default function VenueMeta({ meta, maxGuests, ...props }) {
   return (
-    <VenueMetaStyle position={props.position}>
+    <VenueMetaStyle
+      position={props.position}
+      borderRadius={props.borderRadius}
+      height={props.height}
+      border={props.border}>
       <StyledIconBox sx={{}}>
         <GroupsIcon />
         {maxGuests}
