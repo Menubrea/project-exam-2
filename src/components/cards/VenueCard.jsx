@@ -3,23 +3,28 @@ import { VenueMeta } from '../venueData';
 import { LinkWrapper } from '../../styles/GlobalStyles';
 
 const StyledTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: 'amatic-sc',
+  fontFamily: 'futura-pt-condensed, sans-serif',
+  textTransform: 'uppercase',
+  fontWeight: 700,
   padding: theme.spacing(1),
-  textAlign: 'center',
   width: '100%',
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.primary[700]
-      : theme.palette.neutral[50],
+  backdropFilter: 'blur(10px)',
   borderTop:
     theme.palette.mode === 'dark'
       ? `1px solid ${theme.palette.common.white}`
       : `1px solid ${theme.palette.primary[700]}`,
+
+  textAlign: 'right',
+  position: 'absolute',
+  bottom: 0,
+  background:
+    theme.palette.mode === 'dark'
+      ? ` ${theme.palette.primary[700]}`
+      : `${theme.palette.neutral[100]}`,
 }));
 
 const StyledCard = styled(Box)(({ theme }) => ({
-  height: 390,
-  borderRadius: 10,
+  height: 350,
   position: 'relative',
   boxShadow: '0 0 10px 1px rgba(0,0,0,0.1)',
   overflow: 'hidden',
@@ -30,6 +35,21 @@ const StyledCard = styled(Box)(({ theme }) => ({
         ? `1px solid ${theme.palette.common.white}`
         : `1px solid ${theme.palette.primary[700]}`,
   },
+}));
+
+const CardPrice = styled(Typography)(({ theme }) => ({
+  fontFamily: 'futura-pt-condensed, sans-serif',
+  position: 'absolute',
+  top: 10,
+  right: 10,
+  fontWeight: 700,
+  padding: theme.spacing(1),
+  width: 'fit-content',
+  backdropFilter: 'blur(10px)',
+  background:
+    theme.palette.mode === 'dark'
+      ? ` ${theme.palette.primary[900]}`
+      : `${theme.palette.neutral[100]}`,
 }));
 
 const altImage =
@@ -45,18 +65,14 @@ export default function VenueCard({ venue }) {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            borderRadius: 10,
           }}
           src={venue.media ? venue.media[0] : altImage}
           onError={(e) => (e.target.src = altImage)}
         />
-        <StyledTitle
-          level='h5'
-          component='h2'
-          sx={{
-            position: 'absolute',
-            bottom: 0,
-          }}>
+        <CardPrice level='body1' component='p'>
+          {venue.price},-
+        </CardPrice>
+        <StyledTitle level='body1' component='h2'>
           {venue.name}
         </StyledTitle>
         <VenueMeta meta={venue.meta} maxGuests={venue.maxGuests} />
