@@ -1,10 +1,10 @@
-import { Box, Typography, styled, Container } from '@mui/joy';
+import { Box, Typography, styled } from '@mui/joy';
 import { VenueMeta } from '../venueData';
 import { MainThemeButton, LinkWrapper } from '../../styles/GlobalStyles';
 
 // Styling for Hero section container.
 const HeroContainer = styled(Box)(({ theme }) => ({
-  height: 'min(70vh, 500px)',
+  height: 'min(97vh, 1000px)',
   position: 'relative',
   overflow: 'hidden',
 
