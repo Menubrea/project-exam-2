@@ -1,13 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Avatar, Box, Menu, MenuItem, styled } from '@mui/joy';
-import { Link } from 'react-router-dom';
 import { AuthModal } from '../../modals';
-import { MainThemeButton } from '../../../styles/GlobalStyles';
-
-const StyledLink = styled(Link)(({ theme }) => ({
-  textDecoration: 'none',
-  color: theme.palette.text.primary,
-}));
+import { LinkWrapper, MainThemeButton } from '../../../styles/GlobalStyles';
 
 const StyledMenu = styled(Menu)(({ theme }) => ({
   border:
@@ -51,6 +45,8 @@ export default function MainMenu() {
     setProfile(JSON.parse(storedProfile));
     setIsLoggedIn(true);
     setIsOpen(false);
+
+    document.dispatchEvent(new Event('login'));
   };
 
   const handleLoggedOut = () => {
@@ -58,6 +54,8 @@ export default function MainMenu() {
     localStorage.clear('token');
     localStorage.clear('profile');
     setAnchorEl(null);
+
+    document.dispatchEvent(new Event('logout'));
   };
 
   const handleMenu = (event) => {
@@ -71,6 +69,7 @@ export default function MainMenu() {
   return (
     <>
       <MainThemeButton
+        id='login-button'
         size='md'
         onClick={handleMenu}
         endDecorator={
@@ -106,11 +105,12 @@ export function LoggedInMenu({ anchorEl, handleClose, handleLoggedOut }) {
       anchorEl={anchorEl}
       open={Boolean(anchorEl)}
       onClose={handleClose}
-      sx={{ width: 300 }}>
+      sx={{ width: { xs: '100%', sm: 300 } }}>
       <Box>
-        <StyledMenuItem onClick={handleClose}>
-          <StyledLink to={'/profile'}>My Account</StyledLink>
-        </StyledMenuItem>
+        <LinkWrapper to={'/profile'}>
+          <StyledMenuItem onClick={handleClose}>My Account</StyledMenuItem>
+        </LinkWrapper>
+
         <StyledMenuItem onClick={handleLoggedOut}>Logout</StyledMenuItem>
       </Box>
     </StyledMenu>

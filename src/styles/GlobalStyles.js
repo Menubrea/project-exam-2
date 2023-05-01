@@ -20,7 +20,7 @@ export const StyledDivider = styled(Box)(({ theme }) => ({
 
 export const MainThemeButton = styled(Button)(({ theme }) => ({
   color: theme.palette.common.white,
-  backgroundColor: theme.palette.primary[700],
+  backgroundColor: theme.palette.primary[600],
   border:
     theme.palette.mode === 'dark'
       ? `1px solid ${theme.palette.common.white}`
@@ -29,10 +29,16 @@ export const MainThemeButton = styled(Button)(({ theme }) => ({
 }));
 
 export const MainThemeInput = styled(Input)(({ theme }) => ({
-  color:
-    theme.palette.mode === 'dark'
-      ? theme.palette.primary[900]
-      : theme.palette.primary[900],
+  color: theme.palette.primary[900],
+
+  ':placeholder': {
+    color: theme.palette.primary[900],
+  },
+
+  ':hover': {
+    backgroundColor: theme.palette.primary[100],
+  },
+
   backgroundColor:
     theme.palette.mode === 'dark'
       ? theme.palette.neutral[100]
@@ -67,7 +73,7 @@ export const ModalSheet = styled(Sheet)(({ theme }) => ({
       : `1px solid ${theme.palette.primary[700]}`,
 }));
 
-export const MainGrid = styled(Container)`
+export const MainGrid = styled(Box)`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1em;

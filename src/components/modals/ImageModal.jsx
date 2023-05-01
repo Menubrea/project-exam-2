@@ -87,6 +87,7 @@ export default function ImageModal({ venue, open, handleClose }) {
               objectFit: 'cover',
               borderRadius: '.2rem',
             }}
+            onClick={handleNext}
             src={venue.media[count]}
             alt={`${venue.name} media`}
           />
