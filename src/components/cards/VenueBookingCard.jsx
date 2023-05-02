@@ -30,6 +30,7 @@ const TextStyle = styled(Typography)(({ theme, ...props }) => ({
     theme.palette.mode === 'dark'
       ? theme.palette.primary[700]
       : theme.palette.neutral[100],
+  zIndex: 99,
 }));
 
 export default function VenueBookingCard({ bookings }) {
@@ -67,12 +68,13 @@ export default function VenueBookingCard({ bookings }) {
             position: 'absolute',
             right: 10,
             top: 40,
-            backgroundColor: 'white',
+            backgroundColor: 'rgba(255,255,255,0.5)',
+            backdropFilter: 'blur(5px)',
             color: 'black',
             padding: '0.2rem 1rem',
             borderRadius: '0.2rem',
           }}>
-          total guests: {bookings.guests}
+          Guests: {bookings.guests}
         </Typography>
       </VenueBookingCardStyle>
     </LinkWrapper>

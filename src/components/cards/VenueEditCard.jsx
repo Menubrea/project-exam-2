@@ -12,8 +12,26 @@ const StyledVenueCard = styled(Box)(({ theme }) => ({
 }));
 
 export default function VenueEditCard({ venue }) {
+  // Sort venue bookings by date
+  const sortedBookings = venue.bookings.sort((a, b) => {
+    return new Date(a.date) - new Date(b.date);
+  });
+
+  const formatDate = (date) => {
+    let formatDate = new Date(date).toLocaleDateString('en-UK', {
+      year: '2-digit',
+      month: 'short',
+      day: 'numeric',
+    });
+    return formatDate;
+  };
+
+  if (venue.bookings.length > 0) {
+    console.log(sortedBookings[0].id);
+  }
+
   return (
-    <StyledVenueCard sx={{ display: 'flex', gap: 2 }}>
+    <StyledVenueCard sx={{ display: 'flex', gap: 1 }}>
       {venue && (
         <Box
           component={'img'}
@@ -27,19 +45,38 @@ export default function VenueEditCard({ venue }) {
           }}
         />
       )}
-      <Box>
+      <Box sx={{ width: '100%' }}>
         <Typography
-          level='body1'
+          level='h6'
           component={'h3'}
           sx={{
             fontFamily: 'futura-PT-condensed',
             textTransform: 'uppercase',
+            lineHeight: 1,
           }}>
           {venue.name}
         </Typography>
         <Typography level='body1' component={'p'}>
-          Current bookings: {venue.bookings.length}
+          Upcoming booking(s): {venue.bookings.length}
         </Typography>
+        {venue.bookings.length > 0 && (
+          <Typography
+            component={'p'}
+            sx={{
+              fontFamily: 'futura-PT-condensed',
+              textTransform: 'uppercase',
+              fontSize: '.9rem',
+              backgroundColor: 'rgba(0,0,0,.1)',
+              padding: 0.1,
+              paddingX: 2,
+              textAlign: 'center',
+              borderRadius: 3,
+            }}>
+            {formatDate(sortedBookings[0].dateFrom)} -{' '}
+            {formatDate(sortedBookings[0].dateTo)}, guest(s):{' '}
+            {sortedBookings[0].guests}
+          </Typography>
+        )}
       </Box>
     </StyledVenueCard>
   );

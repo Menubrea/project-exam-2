@@ -78,7 +78,12 @@ export default function Profile() {
     }
   }, [token]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <Box sx={{ height: '100vh', width: '100vw', backgroundColor: 'red' }}>
+        Loading...
+      </Box>
+    );
   if (error) return <p>Something went wrong, please try again</p>;
 
   if (profile) {
