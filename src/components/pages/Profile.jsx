@@ -1,25 +1,17 @@
 import { Box, Container, Typography, styled } from '@mui/joy';
 import { useState, useEffect } from 'react';
-import { ProfileMeta } from '../profileData';
-import { VenueBookingCard } from '../cards';
+import { ProfileBookings, ProfileMeta, ProfileVenues } from '../profileData';
 
 const profileUrl = 'https://api.noroff.dev/api/v1/holidaze';
 const action = '/profiles/';
 const flags = '?_bookings=true&_venues=true';
 const venueFlags = '/venues?_bookings=true';
 
-const BookingsContainer = styled(Box)(({ theme }) => ({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-  gap: theme.spacing(2),
-}));
-
 export default function Profile() {
   const [token, setToken] = useState('');
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [profileBookings, setProfileBookings] = useState([]);
   const [profileVenues, setProfileVenues] = useState([]);
 
   useEffect(() => {
@@ -29,7 +21,6 @@ export default function Profile() {
     if (storedProfile && storedToken) {
       setProfile(JSON.parse(storedProfile));
       setToken(JSON.parse(storedToken));
-      setLoading(false);
     }
   }, []);
 
@@ -87,34 +78,21 @@ export default function Profile() {
     }
   }, [token]);
 
-  useEffect(() => {
-    let date = new Date();
-    if (Array.isArray(profile.bookings)) {
-      const profileBookings = profile.bookings.filter((booking) => {
-        const bookingDate = new Date(booking.dateFrom);
-        return bookingDate > date;
-      });
-      setProfileBookings(profileBookings);
-    }
-  }, [profile.bookings]);
-
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Something went wrong, please try again</p>;
 
   if (profile) {
     return (
-      <Box>
-        <ProfileMeta profile={profile} venues={profileVenues} />
+      <Box component={'main'}>
+        <ProfileMeta profile={profile} />
+
+        {profile.venueManager && <ProfileVenues venues={profileVenues} />}
 
         <Container sx={{ marginTop: 2 }}>
-          <Typography level='h6'>Upcoming Bookings:</Typography>
-          <BookingsContainer>
-            {Array.isArray(profileBookings) &&
-              profileBookings.length > 0 &&
-              profileBookings.map((booking) => (
-                <VenueBookingCard key={booking.id} bookings={booking} />
-              ))}
-          </BookingsContainer>
+          <Typography level='h6' component={'h2'}>
+            Upcoming Bookings:
+          </Typography>
+          <ProfileBookings profile={profile} />
         </Container>
       </Box>
     );

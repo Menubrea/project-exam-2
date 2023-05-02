@@ -1,57 +1,60 @@
-import { Box, Typography, styled, Button, Container } from '@mui/joy';
-import { MainThemeButton } from '../../styles/GlobalStyles';
-import { useState } from 'react';
+import { Box, Typography, styled, IconButton } from '@mui/joy';
+import { MainThemeButton, MainThemeInput } from '../../styles/GlobalStyles';
+import { useEffect, useState } from 'react';
 import { VenueFormModal } from '../modals';
-import { VenueEditCard } from '../cards';
+import EditIcon from '@mui/icons-material/Edit';
+import SendIcon from '@mui/icons-material/Send';
+import CloseIcon from '@mui/icons-material/Close';
+import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-const VenueContainer = styled(Container)(({ theme }) => ({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-  gap: theme.spacing(2),
-}));
+const EditMediaSchema = yup.object({
+  avatar: yup.string().required().trim(),
+});
 
-const VenueWrapper = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(2, 0),
-  width: '100%',
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.primary[900]
-      : theme.palette.neutral[50],
-  borderTop:
-    theme.palette.mode === 'dark'
-      ? `1px solid ${theme.palette.common.white}`
-      : `1px solid ${theme.palette.primary[700]}`,
-  borderBottom:
-    theme.palette.mode === 'dark'
-      ? `1px solid ${theme.palette.common.white}`
-      : `1px solid ${theme.palette.primary[700]}`,
-}));
-
-const ProfileContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.primary[700]
-      : theme.palette.neutral[200],
-  height: 'clamp(450px, 25vh, 700px)',
-  gap: theme.spacing(2),
-  paddingTop: theme.spacing(10),
-}));
-
-const FlexContainer = styled(Box)(({ theme, ...props }) => ({
-  display: 'flex',
-  gap: theme.spacing(3) || props.gap,
-}));
-
-export default function ProfileMeta({ profile, venues }) {
+export default function ProfileMeta({ profile }) {
+  const [token, setToken] = useState('');
+  const [showInput, setShowInput] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const handleClose = () => setOpen(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(EditMediaSchema),
+    defaultValues: {
+      avatar: '',
+    },
+  });
 
-  if (!profile) return <div>Loading...</div>;
+  const onSubmit = async (data) => {
+    const response = await fetch(
+      `https://api.noroff.dev/api/v1/holidaze/profiles/${profile.name}/media`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setShowInput(false);
+    const result = await response.json();
+  };
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(JSON.parse(storedToken));
+    }
+  }, []);
+
+  const handleClose = () => setOpen(false);
+  const handleShowInput = () => setShowInput(true);
+  const handleCloseInput = () => setShowInput(false);
 
   return (
     <ProfileContainer>
@@ -68,13 +71,60 @@ export default function ProfileMeta({ profile, venues }) {
             }}
           />
           <Box
+            component={'form'}
+            onSubmit={handleSubmit(onSubmit)}
             sx={{
               position: 'absolute',
-              bottom: 30,
-              left: '50%',
-              transform: 'translateX(-50%)',
+              bottom: '35px',
+              left: '-15px',
             }}>
-            <MainThemeButton>Edit Avatar</MainThemeButton>
+            {showInput && (
+              <>
+                <EditAvatarInput
+                  aria-label='avatar-input'
+                  type='url'
+                  placeholder='Paste url'
+                  {...register('avatar')}
+                />
+                <IconButton
+                  type='button'
+                  aria-label='close-input-button'
+                  size='small'
+                  sx={{
+                    backgroundColor: 'black',
+                    color: 'white',
+                    position: 'absolute',
+                    right: '-120px',
+                    bottom: '3px',
+                    height: '25px',
+                    width: '25px',
+                    borderRadius: '100vh',
+                  }}>
+                  <CloseIcon fontSize='small' onClick={handleCloseInput} />
+                </IconButton>
+              </>
+            )}
+            {!showInput ? (
+              <IconButton
+                type='button'
+                aria-label='edit-avatar-button'
+                onClick={handleShowInput}
+                color='primary'
+                variant='solid'
+                size='sm'
+                sx={{ borderRadius: '100vh', border: '1px solid white' }}>
+                <EditIcon fontSize='sm' />
+              </IconButton>
+            ) : (
+              <IconButton
+                type='submit'
+                color='primary'
+                variant='solid'
+                size='sm'
+                sx={{ borderRadius: '100vh', border: '1px solid white' }}>
+                <SendIcon fontSize='sm' />
+              </IconButton>
+            )}
           </Box>
         </Box>
         <Box>
@@ -113,25 +163,34 @@ export default function ProfileMeta({ profile, venues }) {
       {profile.venueManager && (
         <VenueFormModal handleClose={handleClose} open={open} />
       )}
-      <VenueWrapper>
-        <Container component={'section'}>
-          <Typography
-            level='h5'
-            component={'h2'}
-            sx={{
-              fontFamily: 'futura-PT-condensed',
-              textTransform: 'uppercase',
-            }}>
-            Manage Venues:
-          </Typography>
-        </Container>
-        <VenueContainer>
-          {venues &&
-            venues.map((venue) => (
-              <VenueEditCard key={venue.id} venue={venue} />
-            ))}
-        </VenueContainer>
-      </VenueWrapper>
     </ProfileContainer>
   );
 }
+
+const EditAvatarInput = styled(MainThemeInput)(({ theme }) => ({
+  position: 'absolute',
+  bottom: theme.spacing(-0.5),
+  left: theme.spacing(-0.5),
+  paddingLeft: theme.spacing(5),
+  borderRadius: '100vh',
+  width: 165,
+}));
+
+const ProfileContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? theme.palette.primary[700]
+      : theme.palette.neutral[200],
+  height: 'clamp(300px, 25vh, 500px)',
+  gap: theme.spacing(2),
+  paddingTop: theme.spacing(10),
+}));
+
+const FlexContainer = styled(Box)(({ theme, ...props }) => ({
+  display: 'flex',
+  gap: theme.spacing(3) || props.gap,
+}));

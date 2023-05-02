@@ -8,10 +8,8 @@ export default function Home({ data, error, loading }) {
   if (error) return <div>Error</div>;
 
   const promotedVenue = data.filter(
-    (venue) => venue.name === 'Remote Forest Cabin'
+    (venue) => venue.name === 'Lakeside Mountain Lodge'
   );
-
-  console.log(promotedVenue);
 
   if (data) {
     return (

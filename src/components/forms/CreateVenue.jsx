@@ -30,7 +30,7 @@ const CreateVenueSchema = yup.object({
 });
 
 export default function CreateVenue() {
-  const [mediaInputs, setMediaInputs] = useState([0]);
+  const [mediaInputs, setMediaInputs] = useState([]);
 
   const handleAddMedia = () => {
     setMediaInputs([...mediaInputs, mediaInputs.length]);
@@ -69,6 +69,10 @@ export default function CreateVenue() {
 
   const onSubmit = async (data) => {
     data.media = [data.media];
+    // Push all entries of media to data.media
+    mediaInputs.forEach((index) => {
+      data.media.push(data[`media${index}`]);
+    });
 
     try {
       const res = await fetch('https://api.noroff.dev/api/v1/holidaze/venues', {
@@ -85,7 +89,6 @@ export default function CreateVenue() {
       console.log(error);
     }
   };
-
   return (
     <Box component={'form'} onSubmit={handleSubmit(onSubmit)}>
       <Box sx={{ display: 'flex', gap: 1 }}>
@@ -155,7 +158,7 @@ export default function CreateVenue() {
                   sx={{ width: '100%' }}
                   id={`venueMedia${inputId}`}
                   type='url'
-                  {...register('media')}
+                  {...register(`media${inputId}`)}
                   multiple
                 />
                 <MainThemeButton

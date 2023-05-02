@@ -12,7 +12,6 @@ const StyledVenueCard = styled(Box)(({ theme }) => ({
 }));
 
 export default function VenueEditCard({ venue }) {
-  console.log(venue);
   return (
     <StyledVenueCard sx={{ display: 'flex', gap: 2 }}>
       {venue && (

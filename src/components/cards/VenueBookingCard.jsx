@@ -1,4 +1,5 @@
 import { Typography, Box, styled } from '@mui/joy';
+import { LinkWrapper } from '../../styles/GlobalStyles';
 
 const VenueBookingCardStyle = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -9,6 +10,13 @@ const VenueBookingCardStyle = styled(Box)(({ theme }) => ({
   height: 'clamp(200px, 25vh, 300px)',
   borderRadius: theme.spacing(0.5),
   overflow: 'hidden',
+
+  '&:hover': {
+    '& img': {
+      transform: 'scale(1.1)',
+      transition: 'transform 0.3s ease-in-out',
+    },
+  },
 }));
 
 const TextStyle = styled(Typography)(({ theme, ...props }) => ({
@@ -17,7 +25,7 @@ const TextStyle = styled(Typography)(({ theme, ...props }) => ({
   bottom: props.bottom ? props.bottom : 'auto',
   right: props.right ? props.right : 'auto',
   padding: props.padding ? props.padding : theme.spacing(0.5),
-  width: '100%',
+  width: '100%' || props.width,
   backgroundColor:
     theme.palette.mode === 'dark'
       ? theme.palette.primary[700]
@@ -25,24 +33,48 @@ const TextStyle = styled(Typography)(({ theme, ...props }) => ({
 }));
 
 export default function VenueBookingCard({ bookings }) {
-  return (
-    <VenueBookingCardStyle>
-      <TextStyle textAlign={'center'} top={'0'} level='body1'>
-        From: {bookings.dateFrom.slice(0, 10)}
-      </TextStyle>
-      <Box
-        component={'img'}
-        src={bookings.venue.media[0]}
-        alt={bookings.venue.name}
-        sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
-      />
+  const formatDate = (date) => {
+    let formatDate = new Date(date).toLocaleDateString('en-UK', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+    return formatDate;
+  };
 
-      <TextStyle bottom={'0'} textAlign={'center'} level='body1'>
-        To: {bookings.dateTo.slice(0, 10)}
-      </TextStyle>
-      <TextStyle level='h6' component={'p'}>
-        {bookings.guests}
-      </TextStyle>
-    </VenueBookingCardStyle>
+  return (
+    <LinkWrapper to={`/venue/${bookings.venue.id}`}>
+      <VenueBookingCardStyle>
+        <TextStyle textAlign={'center'} top={'0'} level='body1'>
+          From: {formatDate(bookings.dateFrom)} - To:{' '}
+          {formatDate(bookings.dateTo)}
+        </TextStyle>
+        <Box
+          component={'img'}
+          src={bookings.venue.media[0]}
+          alt={bookings.venue.name}
+          sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+
+        <TextStyle bottom={'0'} textAlign={'center'} level='body1'>
+          {bookings.venue.location.address || 'Unknown'},{' '}
+          {bookings.venue.location.city}, {bookings.venue.location.country}
+        </TextStyle>
+        <Typography
+          level='body1'
+          component={'p'}
+          sx={{
+            position: 'absolute',
+            right: 10,
+            top: 40,
+            backgroundColor: 'white',
+            color: 'black',
+            padding: '0.2rem 1rem',
+            borderRadius: '0.2rem',
+          }}>
+          total guests: {bookings.guests}
+        </Typography>
+      </VenueBookingCardStyle>
+    </LinkWrapper>
   );
 }

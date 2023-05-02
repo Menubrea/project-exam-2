@@ -5,15 +5,29 @@ import { Routes, Route } from 'react-router-dom';
 import { Layout } from './components/UI';
 import { Home, Venue, Profile } from './components/pages/';
 import { useApi } from './api/useApi';
+import { HandleStorageListener } from './handlers';
+import { useEffect, useState } from 'react';
 
 const venueUrl = 'https://api.noroff.dev/api/v1/holidaze';
 const action = '/venues';
 const flags = '?_bookings=true&_owner=true';
 
+const profileUrl = 'https://api.noroff.dev/api/v1/holidaze';
+const profileAction = '/profiles/';
+const profileFlags = '?_bookings=true&_venues=true';
+
 function App() {
+  // const { token, profile } = HandleStorageListener();
+  // const options = { headers: { Authorization: `Bearer ${token}` } };
   const { data, error, loading } = useApi(venueUrl + action + flags);
 
+  // const { data: profileData } = useApi(
+  //   profileUrl + profileAction + profile.name + profileFlags,
+  //   options
+  // );
+
   if (error) return <div>Error</div>;
+  if (loading) return <div>Loading...</div>;
 
   if (data) {
     return (
