@@ -21,13 +21,19 @@ const VenueDetails = styled(Box)(({ theme }) => ({
 }));
 
 export default function Venue({ venue, loading, error }) {
-  const { id } = useParams(); // Get ID from URL
-  const [venueById, setVenueById] = useState(null); // Venue by ID
-  const [open, setOpen] = useState(false); // Modal State
-  const [profile, setProfile] = useState({ name: '' }); // Profile State
-  const handleClose = () => setOpen(false); // Close modal.
+  const { id } = useParams();
+  const [venueById, setVenueById] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [profile, setProfile] = useState({ name: '' });
+  const handleClose = () => setOpen(false);
 
-  if (!venue) return null; // If no venue, return null.
+  if (!venue) return null;
+
+  const handleOpen = () => {
+    if (window.innerWidth > 600) {
+      setOpen(true);
+    }
+  };
 
   useEffect(() => {
     venue.filter((filteredVenue) =>
@@ -82,13 +88,18 @@ export default function Venue({ venue, loading, error }) {
               height: '100%',
               objectFit: 'cover',
             }}
-            onClick={() => setOpen(true)}
+            onClick={handleOpen}
           />
 
           {venueById && venueById.media.length > 1 && (
             <MainThemeButton
-              onClick={() => setOpen(true)}
-              sx={{ position: 'absolute', top: 20, right: 20 }}>
+              onClick={handleOpen}
+              sx={{
+                position: 'absolute',
+                bottom: 20,
+                right: 20,
+                display: { xs: 'none', sm: 'block' },
+              }}>
               View Gallery of all {venueById.media.length} images
             </MainThemeButton>
           )}
@@ -100,10 +111,21 @@ export default function Venue({ venue, loading, error }) {
             gridColumn: { xs: '-1 / -1', md: '8 / 13' },
           }}>
           <Typography
+            level='h6'
+            component={'p'}
+            sx={{
+              fontFamily: 'futura-pt-condensed, sans-serif',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              lineHeight: 0.5,
+            }}>
+            Introducing
+          </Typography>
+          <Typography
             level='h2'
             component={'h1'}
             sx={{
-              fontFamily: 'futura-PT-condensed',
+              fontFamily: 'amatic-sc, sans-serif',
               fontWeight: 700,
               textTransform: 'uppercase',
             }}>

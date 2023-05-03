@@ -5,11 +5,6 @@ import { MainMenu, ChangeTheme, Search } from './UI_components';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   width: '100%',
-  backdropFilter: 'blur(10px)',
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? alpha(theme.palette.primary[700], 0.3)
-      : alpha(theme.palette.neutral[200], 0.3),
   position: 'absolute',
   zIndex: 100,
   left: '50%',

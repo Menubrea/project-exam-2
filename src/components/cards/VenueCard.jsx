@@ -4,23 +4,22 @@ import { VenueMeta } from '../venueData';
 import { LinkWrapper } from '../../styles/GlobalStyles';
 
 const StyledTitle = styled(Typography)(({ theme, alphaValue }) => ({
-  fontFamily: 'futura-pt-condensed, sans-serif',
+  fontFamily: 'amatic-sc, sans-serif',
   textTransform: 'uppercase',
   fontWeight: 700,
   padding: theme.spacing(1),
   width: '100%',
   borderTop: `1px solid ${theme.palette.common.white}`,
   backdropFilter: 'blur(3px)',
-
-  textAlign: 'right',
+  textAlign: 'center',
   position: 'absolute',
   bottom: 0,
-  background: alpha(theme.palette.primary[700], 0.8),
+  background: alpha(theme.palette.primary[700], 1),
   color: theme.palette.common.white,
 }));
 
 const StyledCard = styled(Box)(({ theme }) => ({
-  height: 350,
+  height: 420,
   borderRadius: theme.spacing(0.5),
   position: 'relative',
   boxShadow: '0 0 10px 1px rgba(0,0,0,0.1)',
@@ -68,7 +67,7 @@ export default function VenueCard({ venue }) {
         <CardPrice level='body1' component='p'>
           Per night: {venue.price},-
         </CardPrice>
-        <StyledTitle level='body1' component='h2'>
+        <StyledTitle level='h5' component='h2'>
           {venue.name}
         </StyledTitle>
         <VenueMeta meta={venue.meta} maxGuests={venue.maxGuests} />

@@ -17,7 +17,7 @@ export default function Home({ data, error, loading }) {
         {data && <HeroCard venue={promotedVenue[0]} />}
         <StyledDivider />
         <Container>
-          <MainGrid maxWidth='lg' sx={{ marginTop: 2 }}>
+          <MainGrid maxWidth='lg'>
             {data &&
               data.map((venue) => <VenueCard key={venue.id} venue={venue} />)}
           </MainGrid>

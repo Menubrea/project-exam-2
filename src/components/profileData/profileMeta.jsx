@@ -17,6 +17,7 @@ export default function ProfileMeta({ profile }) {
   const [token, setToken] = useState('');
   const [showInput, setShowInput] = useState(false);
   const [open, setOpen] = useState(false);
+  const [avatar, setAvatar] = useState(profile.avatar || '');
 
   const {
     register,
@@ -29,20 +30,28 @@ export default function ProfileMeta({ profile }) {
     },
   });
 
+  const updateAvatar = (newAvatar) => {
+    setAvatar(newAvatar);
+  };
+
   const onSubmit = async (data) => {
-    const response = await fetch(
-      `https://api.noroff.dev/api/v1/holidaze/profiles/${profile.name}/media`,
-      {
-        method: 'PUT',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    setShowInput(false);
-    const result = await response.json();
+    if (showInput) {
+      const response = await fetch(
+        `https://api.noroff.dev/api/v1/holidaze/profiles/${profile.name}/media`,
+        {
+          method: 'PUT',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const result = await response.json();
+      setShowInput(false);
+      updateAvatar(result.avatar);
+    }
   };
 
   useEffect(() => {
@@ -62,7 +71,7 @@ export default function ProfileMeta({ profile }) {
         <Box sx={{ position: 'relative' }}>
           <Box
             component={'img'}
-            src={profile.avatar}
+            src={avatar}
             sx={{
               height: '124px',
               aspectRatio: '1 / 1',
@@ -119,6 +128,7 @@ export default function ProfileMeta({ profile }) {
               <IconButton
                 type='submit'
                 color='primary'
+                aria-label='submit-button'
                 variant='solid'
                 size='sm'
                 sx={{ borderRadius: '100vh', border: '1px solid white' }}>
@@ -132,7 +142,7 @@ export default function ProfileMeta({ profile }) {
             level='h1'
             component={'h1'}
             sx={{
-              fontFamily: 'futura-pt-condensed, sans-serif',
+              fontFamily: 'amatic-sc, sans-serif',
               textTransform: 'uppercase',
             }}>
             {profile.name}
