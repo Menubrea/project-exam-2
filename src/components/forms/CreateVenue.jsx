@@ -67,7 +67,7 @@ export default function CreateVenue() {
     },
   });
 
-  const onSubmit = async (data) => {
+  const submitCreateVenue = async (data) => {
     data.media = [data.media];
     // Push all entries of media to data.media
     mediaInputs.forEach((index) => {
@@ -90,7 +90,7 @@ export default function CreateVenue() {
     }
   };
   return (
-    <Box component={'form'} onSubmit={handleSubmit(onSubmit)}>
+    <Box component={'form'} onSubmit={handleSubmit(submitCreateVenue)}>
       <Box sx={{ display: 'flex', gap: 1 }}>
         <Box>
           <Typography htmlFor='venueName'>Name</Typography>

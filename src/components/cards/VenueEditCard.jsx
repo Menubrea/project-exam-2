@@ -33,13 +33,11 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-export default function VenueEditCard({ venue, openEditVenueModal }) {
-  // Sort venue bookings by date
+export default function VenueEditCard({ venue, handleOpen }) {
   const sortedBookings = venue.bookings.sort((a, b) => {
     return new Date(a.date) - new Date(b.date);
   });
 
-  // Format date
   const formatDate = (date) => {
     let formatDate = new Date(date).toLocaleDateString('en-UK', {
       year: '2-digit',
@@ -99,7 +97,8 @@ export default function VenueEditCard({ venue, openEditVenueModal }) {
         )}
       </Box>
       <StyledIconButton
-        onClick={openEditVenueModal}
+        id={venue.id}
+        onClick={handleOpen}
         aria-label='edit'
         size='small'
         sx={{

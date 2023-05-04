@@ -19,7 +19,7 @@ const StyledTitle = styled(Typography)(({ theme, alphaValue }) => ({
 }));
 
 const StyledCard = styled(Box)(({ theme }) => ({
-  height: 420,
+  height: 390,
   borderRadius: theme.spacing(0.5),
   position: 'relative',
   boxShadow: '0 0 10px 1px rgba(0,0,0,0.1)',

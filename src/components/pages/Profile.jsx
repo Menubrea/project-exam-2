@@ -1,6 +1,7 @@
 import { Box, Container, Typography, styled } from '@mui/joy';
 import { useState, useEffect } from 'react';
 import { ProfileBookings, ProfileMeta, ProfileVenues } from '../profileData';
+import { EditVenueModal } from '../modals';
 
 const profileUrl = 'https://api.noroff.dev/api/v1/holidaze';
 const action = '/profiles/';
@@ -13,6 +14,26 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [profileVenues, setProfileVenues] = useState([]);
+  const [venueById, setVenueById] = useState({});
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = (e) => {
+    const button = e.target.closest('button[id]');
+    const buttonId = button && button.getAttribute('id');
+    const venueId = e.target.id;
+    const venue = profileVenues.find(
+      (venue) => venue.id === venueId || venue.id === buttonId
+    );
+
+    if (venue) {
+      setOpen(true);
+      setVenueById(venue);
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     const storedProfile = localStorage.getItem('profile');
@@ -91,7 +112,9 @@ export default function Profile() {
       <Box component={'main'}>
         <ProfileMeta profile={profile} />
 
-        {profile.venueManager && <ProfileVenues venues={profileVenues} />}
+        {profile.venueManager && (
+          <ProfileVenues venues={profileVenues} handleOpen={handleOpen} />
+        )}
 
         <Container sx={{ marginTop: 2 }}>
           <Typography level='h6' component={'h2'}>
@@ -99,6 +122,11 @@ export default function Profile() {
           </Typography>
           <ProfileBookings profile={profile} />
         </Container>
+        <EditVenueModal
+          venue={venueById}
+          open={open}
+          handleClose={handleClose}
+        />
       </Box>
     );
   }

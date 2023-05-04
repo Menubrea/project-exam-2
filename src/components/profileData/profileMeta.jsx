@@ -34,7 +34,7 @@ export default function ProfileMeta({ profile }) {
     setAvatar(newAvatar);
   };
 
-  const onSubmit = async (data) => {
+  const submitAvatar = async (data) => {
     if (showInput) {
       const response = await fetch(
         `https://api.noroff.dev/api/v1/holidaze/profiles/${profile.name}/media`,
@@ -81,7 +81,7 @@ export default function ProfileMeta({ profile }) {
           />
           <Box
             component={'form'}
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(submitAvatar)}
             sx={{
               position: 'absolute',
               bottom: '35px',

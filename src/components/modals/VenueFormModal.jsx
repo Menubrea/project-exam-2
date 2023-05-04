@@ -1,4 +1,4 @@
-import { Modal, ModalClose, ModalDialog, Box, Typography } from '@mui/joy';
+import { Modal, ModalClose, ModalDialog } from '@mui/joy';
 import { CreateVenue } from '../forms';
 
 export default function VenueFormModal({ handleClose, open }) {

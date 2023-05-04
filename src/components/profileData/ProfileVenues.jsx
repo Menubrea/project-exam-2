@@ -24,7 +24,7 @@ const VenueWrapper = styled(Box)(({ theme }) => ({
       : `1px solid ${theme.palette.primary[700]}`,
 }));
 
-export default function ProfileVenues({ venues }) {
+export default function ProfileVenues({ venues, handleOpen }) {
   return (
     <VenueWrapper>
       <Container component={'section'}>
@@ -40,7 +40,13 @@ export default function ProfileVenues({ venues }) {
       </Container>
       <VenueContainer>
         {venues &&
-          venues.map((venue) => <VenueEditCard key={venue.id} venue={venue} />)}
+          venues.map((venue) => (
+            <VenueEditCard
+              key={venue.id}
+              venue={venue}
+              handleOpen={handleOpen}
+            />
+          ))}
       </VenueContainer>
     </VenueWrapper>
   );
