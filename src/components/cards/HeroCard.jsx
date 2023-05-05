@@ -79,7 +79,10 @@ export default function HeroCard({ venue }) {
               }}>
               {venue.name}
             </Typography>
-            <Typography level='h6' component={'p'} sx={{ overflow: 'hidden' }}>
+            <Typography
+              level='h6'
+              component={'p'}
+              sx={{ overflow: 'hidden', display: { xs: 'none', sm: 'block' } }}>
               {venue.description.slice(0, 450).concat('...')}
             </Typography>
           </Box>

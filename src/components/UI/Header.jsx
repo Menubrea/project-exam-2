@@ -11,7 +11,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   transform: 'translateX(-50%)',
 }));
 
-export function Header() {
+export function Header({ venues }) {
   return (
     <StyledBox>
       <Container
@@ -25,7 +25,7 @@ export function Header() {
         <Logo />
         <Box sx={{ display: 'flex', gap: 1 }}>
           <ChangeTheme />
-          <Search />
+          <Search venues={venues} />
           <MainMenu />
         </Box>
       </Container>

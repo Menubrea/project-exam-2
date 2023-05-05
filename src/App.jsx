@@ -34,7 +34,7 @@ function App() {
       <CssVarsProvider defaultMode='system' theme={theme}>
         <CssBaseline />
         <Routes>
-          <Route path='/' element={<Layout />}>
+          <Route path='/' element={<Layout venues={data} />}>
             <Route
               index
               element={<Home data={data} error={error} loading={loading} />}
