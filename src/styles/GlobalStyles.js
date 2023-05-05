@@ -20,7 +20,7 @@ export const StyledDivider = styled(Box)(({ theme }) => ({
 
 export const MainThemeButton = styled(Button)(({ theme }) => ({
   color: theme.palette.common.white,
-  backgroundColor: theme.palette.primary[700],
+  backgroundColor: theme.palette.primary[600],
   border:
     theme.palette.mode === 'dark'
       ? `1px solid ${theme.palette.common.white}`
@@ -29,10 +29,16 @@ export const MainThemeButton = styled(Button)(({ theme }) => ({
 }));
 
 export const MainThemeInput = styled(Input)(({ theme }) => ({
-  color:
-    theme.palette.mode === 'dark'
-      ? theme.palette.primary[900]
-      : theme.palette.primary[900],
+  color: theme.palette.primary[900],
+
+  ':placeholder': {
+    color: theme.palette.primary[900],
+  },
+
+  ':focus': {
+    outline: `1px solid ${theme.palette.warning[900]}`,
+  },
+
   backgroundColor:
     theme.palette.mode === 'dark'
       ? theme.palette.neutral[100]
@@ -67,23 +73,11 @@ export const ModalSheet = styled(Sheet)(({ theme }) => ({
       : `1px solid ${theme.palette.primary[700]}`,
 }));
 
-export const MainGrid = styled(Container)`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1em;
-  max-width: 100%;
-  margin: 0 auto 2em;
-  min-height: 50vh;
-
-  @media only screen and (max-width: 1200px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media only screen and (max-width: 870px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media only screen and (max-width: 600px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
-`;
+export const MainGrid = styled(Box)(({ theme }) => ({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+  gap: theme.spacing(4, 2),
+  maxWidth: '100%',
+  margin: '0 auto 2em',
+  minHeight: '50vh',
+}));

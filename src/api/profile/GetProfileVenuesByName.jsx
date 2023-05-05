@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
-export function useApi(url, options) {
-  const [data, setData] = useState([]);
+export default function fetchProfile(url, options) {
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [profileData, setProfileData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -12,19 +12,19 @@ export function useApi(url, options) {
         setError(false);
         const res = await fetch(url, options);
         const json = await res.json();
-        setData(json);
-
+        setProfileData(json);
         setLoading(false);
-      } catch (error) {
+      } catch (err) {
         setError(true);
+        console.log(err);
       } finally {
         setLoading(false);
       }
     };
     fetchData();
-  }, [url]);
+  }, [url, options]);
 
-  if (data) {
-    return { data, error, loading };
+  if (profileData) {
+    return { loading, error, profileData };
   }
 }

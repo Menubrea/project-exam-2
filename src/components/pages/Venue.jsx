@@ -5,6 +5,7 @@ import { BookingForm } from '../forms';
 import { LocationMeta } from '../venueData';
 import { ImageModal } from '../modals';
 import { MainThemeButton } from '../../styles/GlobalStyles';
+import { AuthContainer } from '../UI/UI_components';
 
 const StyledMainGrid = styled(Container)(() => ({
   display: 'grid',
@@ -19,14 +20,20 @@ const VenueDetails = styled(Box)(({ theme }) => ({
   padding: theme.spacing(4),
 }));
 
-export default function Venue({ venue }) {
-  const { id } = useParams(); // Get ID from URL
-  const [venueById, setVenueById] = useState(null); // Venue by ID
-  const [open, setOpen] = useState(false); // Modal State
+export default function Venue({ venue, loading, error }) {
+  const { id } = useParams();
+  const [venueById, setVenueById] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [profile, setProfile] = useState({ name: '' });
+  const handleClose = () => setOpen(false);
 
-  const handleClose = () => setOpen(false); // Close modal.
+  if (!venue) return null;
 
-  if (!venue) return null; // If no venue, return null.
+  const handleOpen = () => {
+    if (window.innerWidth > 600) {
+      setOpen(true);
+    }
+  };
 
   useEffect(() => {
     venue.filter((filteredVenue) =>
@@ -34,55 +41,104 @@ export default function Venue({ venue }) {
     );
   }, [venue, id]);
 
-  return (
-    <StyledMainGrid
-      maxWidth='lg'
-      component={'main'}
-      sx={{ padding: { xs: 0, md: 0 }, paddingTop: { sm: 0, md: 12 } }}>
-      <Box
-        sx={{
-          gridColumn: { xs: '-1 / -1', md: ' 1 / 8' },
-          position: 'relative',
-        }}>
-        <Box
-          component={'img'}
-          src={venueById && venueById.media[0]}
-          sx={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-          }}
-          onClick={() => setOpen(true)}
-        />
+  useEffect(() => {
+    const storedProfile = localStorage.getItem('profile');
+    if (storedProfile) {
+      setProfile(JSON.parse(storedProfile));
+    }
+  }, []);
 
-        {venueById && venueById.media.length > 1 && (
-          <MainThemeButton
-            onClick={() => setOpen(true)}
-            sx={{ position: 'absolute', top: 20, right: 20 }}>
-            View Gallery of all {venueById.media.length} images
-          </MainThemeButton>
-        )}
-        <ImageModal venue={venueById} open={open} handleClose={handleClose} />
-      </Box>
-      <VenueDetails
-        sx={{
-          borderRadius: { xs: 0, sm: 0, md: '.5rem 0 0 .5rem' },
-          gridColumn: { xs: '-1 / -1', md: '8 / 13' },
-        }}>
-        <Typography
-          level='h2'
-          component={'h1'}
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const newProfile = localStorage.getItem('profile');
+      setProfile(JSON.parse(newProfile));
+      if (!newProfile) {
+        setProfile({ name: '' });
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+    document.addEventListener('logout', handleStorageChange);
+    document.addEventListener('login', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      document.removeEventListener('logout', handleStorageChange);
+      document.removeEventListener('login', handleStorageChange);
+    };
+  }, [localStorage]);
+
+  if (loading) return <Typography>Loading...</Typography>;
+  if (error) return <Typography>Error: {error.message}</Typography>;
+
+  if (venueById) {
+    return (
+      <StyledMainGrid
+        maxWidth='lg'
+        component={'main'}
+        sx={{ padding: { xs: 0, md: 0 }, paddingTop: { sm: 0, md: 12 } }}>
+        <Box
           sx={{
-            fontFamily: 'futura-PT-condensed',
-            fontWeight: 700,
-            textTransform: 'uppercase',
+            gridColumn: { xs: '-1 / -1', md: ' 1 / 8' },
+            position: 'relative',
           }}>
-          {venueById && venueById.name}
-        </Typography>
-        <Typography>{venueById && venueById.description}</Typography>
-        {venueById && <LocationMeta location={venueById.location} />}
-        <BookingForm venue={venueById} />
-      </VenueDetails>
-    </StyledMainGrid>
-  );
+          <Box
+            component={'img'}
+            src={venueById && venueById.media[0]}
+            sx={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+            onClick={handleOpen}
+          />
+
+          {venueById && venueById.media.length > 1 && (
+            <MainThemeButton
+              onClick={handleOpen}
+              sx={{
+                position: 'absolute',
+                bottom: 20,
+                right: 20,
+                display: { xs: 'none', sm: 'block' },
+              }}>
+              View Gallery of all {venueById.media.length} images
+            </MainThemeButton>
+          )}
+          <ImageModal venue={venueById} open={open} handleClose={handleClose} />
+        </Box>
+        <VenueDetails
+          sx={{
+            borderRadius: { xs: 0, sm: 0, md: '.5rem 0 0 .5rem' },
+            gridColumn: { xs: '-1 / -1', md: '8 / 13' },
+          }}>
+          <Typography
+            level='h6'
+            component={'p'}
+            sx={{
+              fontFamily: 'futura-pt-condensed, sans-serif',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              lineHeight: 0.5,
+            }}>
+            Introducing
+          </Typography>
+          <Typography
+            level='h2'
+            component={'h1'}
+            sx={{
+              fontFamily: 'amatic-sc, sans-serif',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+            }}>
+            {venueById && venueById.name}
+          </Typography>
+          <Typography>{venueById && venueById.description}</Typography>
+          {venueById && <LocationMeta location={venueById.location} />}
+          {venueById &&
+            profile?.name !== venueById?.owner.name &&
+            profile.name !== '' && <BookingForm venue={venueById} />}
+          {venueById && profile?.name === '' && <AuthContainer />}
+        </VenueDetails>
+      </StyledMainGrid>
+    );
+  }
 }

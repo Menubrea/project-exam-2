@@ -5,10 +5,21 @@ import {
   Box,
   ModalDialog,
   Typography,
+  styled,
 } from '@mui/joy';
 import { useState } from 'react';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+
+const StyledModal = styled(ModalDialog)(({ theme }) => ({
+  borderRadius: theme.spacing(1),
+  backgroundColor: theme.palette.neutral[50],
+  padding: theme.spacing(2),
+
+  p: {
+    color: theme.palette.primary[700],
+  },
+}));
 
 export default function ImageModal({ venue, open, handleClose }) {
   const [count, setCount] = useState(0);
@@ -16,27 +27,23 @@ export default function ImageModal({ venue, open, handleClose }) {
   if (!venue) return null; // If no venue, return null.
 
   const handleNext = () => {
-    // handleNext Image
     setCount((prevCount) => prevCount + 1);
     count === venue.media.length - 1 && setCount(0);
     return count;
   };
 
   const handlePrev = () => {
-    // handlePrevious image
     setCount((prevCount) => prevCount - 1);
     count === 0 && setCount(venue.media.length - 1);
     return count;
   };
 
   return (
-    // Render code for Image Modal
     <Modal open={open} onClose={handleClose}>
-      <ModalDialog
+      <StyledModal
         aria-labelledby='modal-title'
         aria-describedby='modal-description'
-        size='md'
-        sx={{ border: '1px solid white' }}>
+        size='md'>
         <ModalClose
           variant='solid'
           color='primary'
@@ -87,6 +94,7 @@ export default function ImageModal({ venue, open, handleClose }) {
               objectFit: 'cover',
               borderRadius: '.2rem',
             }}
+            onClick={handleNext}
             src={venue.media[count]}
             alt={`${venue.name} media`}
           />
@@ -98,7 +106,7 @@ export default function ImageModal({ venue, open, handleClose }) {
             {count + 1} out of {venue.media.length}
           </Typography>
         </Box>
-      </ModalDialog>
+      </StyledModal>
     </Modal>
   );
 }

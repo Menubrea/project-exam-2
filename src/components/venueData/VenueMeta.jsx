@@ -9,14 +9,9 @@ const VenueMetaStyle = styled(Box)(({ theme, ...props }) => ({
   position: props.position || 'absolute',
   top: 10,
   left: 10,
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.primary[500]
-      : theme.palette.neutral[50],
-  border:
-    theme.palette.mode === 'dark'
-      ? props.border || `1px solid ${theme.palette.common.white}`
-      : props.border || `1px solid ${theme.palette.primary[700]}`,
+  backgroundColor: theme.palette.primary[500],
+  color: theme.palette.common.white,
+  border: props.border || `1px solid ${theme.palette.common.white}`,
   borderRadius: props.borderRadius || 2,
   display: 'flex',
   flexDirection: 'column',
@@ -36,10 +31,7 @@ const StyledIconBox = styled(Box)(({ theme }) => ({
   },
   ':first-of-type': {
     paddingTop: theme.spacing(1.5),
-    borderBottom:
-      theme.palette.mode === 'dark'
-        ? `1px solid ${theme.palette.common.white}`
-        : `1px solid ${theme.palette.primary[700]}`,
+    borderBottom: `1px solid ${theme.palette.common.white}`,
   },
   ':nth-of-type(2)': {
     paddingTop: theme.spacing(1.5),
