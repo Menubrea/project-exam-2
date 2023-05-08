@@ -4,7 +4,7 @@ import { Modal, ModalClose, ModalDialog } from '@mui/joy';
 export default function EditVenueModal({ handleClose, open, venue }) {
   return (
     <Modal open={open} onClose={handleClose}>
-      <ModalDialog size='lg' sx={{ border: '1px solid white' }}>
+      <ModalDialog size='lg' sx={{ border: '1px solid white', padding: 0 }}>
         <ModalClose
           variant='solid'
           color='primary'

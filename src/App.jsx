@@ -3,7 +3,7 @@ import { CssVarsProvider } from '@mui/joy/styles';
 import { theme } from './theme';
 import { Routes, Route } from 'react-router-dom';
 import { Layout } from './components/UI';
-import { Home, Venue, Profile } from './components/pages/';
+import { Home, Venue, Profile, Venues } from './components/pages/';
 import { useApi } from './api/useApi';
 import { HandleStorageListener } from './handlers';
 import { useEffect, useState } from 'react';
@@ -29,6 +29,12 @@ function App() {
   if (error) return <div>Error</div>;
   if (loading) return <div>Loading...</div>;
 
+  // const filteredVenues = data.filter((venue) => {
+  //   if (venue.location.country === 'Norway') {
+  //     return true;
+  //   }
+  // });
+
   if (data) {
     return (
       <CssVarsProvider defaultMode='system' theme={theme}>
@@ -44,6 +50,7 @@ function App() {
               path='/venue/:id'
               element={<Venue venue={data} loading={loading} error={error} />}
             />
+            <Route path='/venues' element={<Venues venues={data} />} />
           </Route>
         </Routes>
       </CssVarsProvider>

@@ -3,13 +3,14 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 
-import { Box, Typography, Checkbox, styled, Input } from '@mui/joy';
+import { Box, Typography, Checkbox, styled, Input, Textarea } from '@mui/joy';
 import { MainThemeButton, MainThemeInput } from '../../styles/GlobalStyles';
 
 const GridContainer = styled(Box)(({ theme }) => ({
   display: 'grid',
   gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
   gap: theme.spacing(2),
+  padding: theme.spacing(2),
 }));
 
 const EditVenueSchema = yup.object({
@@ -103,20 +104,15 @@ export default function EditVenue({ venue }) {
   };
   return (
     <Box component={'form'} onSubmit={handleSubmit(submitEdit)}>
-      <GridContainer>
+      <GridContainer sx={{ borderBottom: '1px solid white' }}>
         <Box>
           <Typography htmlFor='venueName'>Name</Typography>
-          <MainThemeInput
-            size='sm'
-            id='venueName'
-            type='text'
-            {...register('name')}
-          />
+          <Input size='sm' id='venueName' type='text' {...register('name')} />
           <Typography level='body3'>{errors.name?.message}</Typography>
         </Box>
         <Box>
           <Typography htmlFor='venuePrice'>Price</Typography>
-          <MainThemeInput
+          <Input
             size='sm'
             id='venuePrice'
             type='number'
@@ -128,7 +124,7 @@ export default function EditVenue({ venue }) {
 
         <Box>
           <Typography htmlFor='venueMaxGuests'>Max Guests</Typography>
-          <MainThemeInput
+          <Input
             size='sm'
             id='venueMaxGuests'
             type='number'
@@ -142,18 +138,11 @@ export default function EditVenue({ venue }) {
       <Box
         sx={{
           padding: 2,
-          border: '1px solid white',
-          marginY: 2,
-          borderRadius: 3,
+          borderBottom: '1px solid white',
         }}>
         <Box>
           <Typography htmlFor='venueMedia'>Media</Typography>
-          <MainThemeInput
-            size='sm'
-            id='venueMedia'
-            type='text'
-            {...register('media')}
-          />
+          <Input size='sm' id='venueMedia' type='text' {...register('media')} />
           <Typography level='body3'>{errors.media?.message}</Typography>
         </Box>
         <Box sx={{ margin: '.5rem auto', width: 'fit-content' }}>
@@ -173,7 +162,7 @@ export default function EditVenue({ venue }) {
                 Image(s) {inputId + 1}
               </Typography>
               <Box sx={{ display: 'flex', gap: 0.5 }}>
-                <MainThemeInput
+                <Input
                   size='sm'
                   sx={{ width: '100%' }}
                   id={`venueMedia${inputId}`}
@@ -191,36 +180,52 @@ export default function EditVenue({ venue }) {
           ))}
         </Box>
       </Box>
-      <Box>
+      <Box sx={{ padding: 2, borderBottom: '1px solid white' }}>
         <Typography htmlFor='venueDescription'>Description</Typography>
-        <MainThemeInput
+        <Textarea
+          minRows={2}
           id='venueDescription'
           size='lg'
           {...register('description')}
         />
       </Box>
-      <GridContainer
-        sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
-        <Checkbox variant='outlined' label='wifi' {...register('meta.wifi')} />
-        <Checkbox
-          variant='outlined'
-          label='parking'
-          {...register('meta.parking')}
-        />
-        <Checkbox
-          variant='outlined'
-          label='breakfast'
-          {...register('meta.breakfast')}
-        />
-        <Checkbox variant='outlined' label='pets' {...register('meta.pets')} />
-      </GridContainer>
+      <Box sx={{ padding: 2, borderBottom: '1px solid white' }}>
+        <Typography htmlFor='venueMeta'>
+          Does your location have access to:
+        </Typography>
+        <GridContainer
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}>
+          <Checkbox
+            variant='outlined'
+            label='wifi'
+            {...register('meta.wifi')}
+          />
+          <Checkbox
+            variant='outlined'
+            label='parking'
+            {...register('meta.parking')}
+          />
+          <Checkbox
+            variant='outlined'
+            label='breakfast'
+            {...register('meta.breakfast')}
+          />
+          <Checkbox
+            variant='outlined'
+            label='pets'
+            {...register('meta.pets')}
+          />
+        </GridContainer>
+      </Box>
       <Box
         sx={{
           padding: 2,
-          border: '1px solid white',
           display: 'flex',
           gap: 1,
-          marginTop: 2,
+          borderBottom: '1px solid white',
         }}>
         <Box>
           <Typography htmlFor='venueAddress'>Address</Typography>

@@ -1,4 +1,6 @@
-import { useColorScheme, Button } from '@mui/joy';
+import { useColorScheme, Button, IconButton } from '@mui/joy';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 // Component for changing the theme of the app
 export default function ChangeTheme() {
@@ -9,13 +11,12 @@ export default function ChangeTheme() {
   };
 
   return (
-    <Button
-      fullWidth
+    <IconButton
       variant='contained'
       size='sm'
       color='primary'
       onClick={handleThemeChange}>
-      {mode === 'light' ? 'Dark' : 'Light'} Theme
-    </Button>
+      {mode === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
+    </IconButton>
   );
 }

@@ -5,26 +5,35 @@ export function useApi(url, options) {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
+  const fetchData = async () => {
+    let allData = [];
+    let currentOffset = 0;
+    let urlWithOffset = url;
+    try {
+      while (urlWithOffset) {
         setLoading(true);
         setError(false);
-        const res = await fetch(url, options);
+        const res = await fetch(
+          `${urlWithOffset}&offset=${currentOffset}`,
+          options
+        );
         const json = await res.json();
-        setData(json);
-
-        setLoading(false);
-      } catch (error) {
-        setError(true);
-      } finally {
-        setLoading(false);
+        allData = allData.concat(json);
+        currentOffset += json.length;
+        urlWithOffset = json.length > 0 ? url : null;
       }
-    };
+      setData(allData);
+    } catch (error) {
+      console.log(error);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, [url]);
 
-  if (data) {
-    return { data, error, loading };
-  }
+  return { data, error, loading };
 }

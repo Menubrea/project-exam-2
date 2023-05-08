@@ -116,12 +116,14 @@ export default function Profile() {
           <ProfileVenues venues={profileVenues} handleOpen={handleOpen} />
         )}
 
-        <Container sx={{ marginTop: 2 }}>
-          <Typography level='h6' component={'h2'}>
-            Upcoming Bookings:
-          </Typography>
-          <ProfileBookings profile={profile} />
-        </Container>
+        {profile.bookings && (
+          <Container sx={{ marginTop: 2 }}>
+            <Typography level='h6' component={'h2'}>
+              Upcoming Bookings:
+            </Typography>
+            <ProfileBookings profile={profile} />
+          </Container>
+        )}
         <EditVenueModal
           venue={venueById}
           open={open}

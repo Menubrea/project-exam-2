@@ -70,7 +70,7 @@ export default function MainMenu() {
     <>
       <MainThemeButton
         id='login-button'
-        size='md'
+        size='sm'
         onClick={handleMenu}
         endDecorator={
           isLoggedIn && (
