@@ -1,6 +1,6 @@
 import { Box, Typography, styled } from '@mui/joy';
 import { alpha } from '@mui/system';
-import { VenueMeta } from '../venueData';
+import { VenueMeta, VenuePrice } from '../venueData';
 import { LinkWrapper } from '../../styles/GlobalStyles';
 
 const StyledTitle = styled(Typography)(({ theme, alphaValue }) => ({
@@ -33,20 +33,6 @@ const StyledCard = styled(Box)(({ theme }) => ({
   },
 }));
 
-const CardPrice = styled(Typography)(({ theme }) => ({
-  fontFamily: 'futura-pt-condensed, sans-serif',
-  position: 'absolute',
-  top: 10,
-  right: 10,
-  fontWeight: 700,
-  padding: theme.spacing(1),
-  width: 'fit-content',
-  backdropFilter: 'blur(10px)',
-  background: `${theme.palette.neutral[100]}`,
-  color: theme.palette.common.black,
-  borderRadius: theme.spacing(0.5),
-}));
-
 const altImage =
   'https://images.unsplash.com/photo-1575403071235-5dcd06cbf169?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80';
 
@@ -64,9 +50,7 @@ export default function VenueCard({ venue }) {
           src={venue.media ? venue.media[0] : altImage}
           onError={(e) => (e.target.src = altImage)}
         />
-        <CardPrice level='body1' component='p'>
-          Per night: {venue.price},-
-        </CardPrice>
+        <VenuePrice venue={venue} />
         <StyledTitle level='h5' component='h2'>
           {venue.name}
         </StyledTitle>

@@ -7,6 +7,7 @@ const HeroContainer = styled(Box)(({ theme }) => ({
   height: 'min(70vh, 1000px)',
   position: 'relative',
   overflow: 'hidden',
+  top: 0,
 
   ':before, :after': {
     content: '""',
@@ -46,10 +47,10 @@ export default function HeroCard({ venue }) {
         component={'img'}
         src={venue.media && venue.media[0]}
         alt={venue.name}
-        sx={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5 }}
+        sx={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7 }}
       />
       <HeroBody>
-        <Box sx={{ maxWidth: 700, display: 'flex' }}>
+        <Box sx={{ display: 'flex' }}>
           <VenueMeta
             position='static'
             borderRadius='100px'
@@ -69,11 +70,12 @@ export default function HeroCard({ venue }) {
             </Typography>
             <Typography
               level='h1'
-              component={'h2'}
+              component={'h1'}
               sx={{
                 fontFamily: 'amatic-sc',
                 fontWeight: 700,
                 textTransform: 'uppercase',
+                fontSize: 'clamp(2rem, 5vw, 3rem)',
                 lineHeight: 1,
                 marginBottom: 1,
               }}>
@@ -85,11 +87,14 @@ export default function HeroCard({ venue }) {
               sx={{ overflow: 'hidden', display: { xs: 'none', sm: 'block' } }}>
               {venue.description.slice(0, 450).concat('...')}
             </Typography>
+            <Box sx={{ margin: '0 0 0 auto', width: 'fit-content' }}>
+              <LinkWrapper to={`/venue/${venue.id}`}>
+                {' '}
+                <MainThemeButton>Read More</MainThemeButton>
+              </LinkWrapper>
+            </Box>
           </Box>
         </Box>
-        <MainThemeButton>
-          <LinkWrapper to={`/venue/${venue.id}`}>Read More</LinkWrapper>
-        </MainThemeButton>
       </HeroBody>
     </HeroContainer>
   );

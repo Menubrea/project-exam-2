@@ -233,7 +233,6 @@ export default function EditVenue({ venue }) {
             id='venueAddress'
             type='text'
             {...register('location.address')}
-            disabled
             size='sm'
           />
         </Box>
@@ -243,7 +242,6 @@ export default function EditVenue({ venue }) {
             id='venueCity'
             type='text'
             {...register('location.city')}
-            disabled
             size='sm'
           />
         </Box>
