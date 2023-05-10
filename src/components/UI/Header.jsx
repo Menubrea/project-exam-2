@@ -1,32 +1,35 @@
-import { Logo, Search } from './UI_components';
+import { Logo } from './UI_components';
 import { Container, Box, styled } from '@mui/joy';
 import { MainMenu, ChangeTheme } from './UI_components';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   width: '100%',
-  position: 'absolute',
+  position: 'fixed',
   zIndex: 100,
   left: '50%',
   transform: 'translateX(-50%)',
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? theme.palette.primary[500]
+      : theme.palette.neutral[100],
+  boxShadow: '0 0 10px 5px rgba(0, 0, 0, .2)',
+  borderBottom:
+    theme.palette.mode === 'dark'
+      ? `4px solid ${theme.palette.primary[700]}`
+      : `4px solid ${theme.palette.neutral[200]}`,
 }));
 
-export function Header({ venues }) {
+export function Header() {
   return (
     <StyledBox component={'header'}>
       <Container
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          paddingY: { xs: 0, sm: 1 },
-          paddingX: { xs: 1, sm: 2 },
+          paddingX: { xs: 2, md: 1, lg: 0 },
           alignItems: 'center',
         }}>
-        <Box>
-          <Logo />
-        </Box>
-        <Box>
-          <Search venues={venues} />
-        </Box>
+        <Logo />
         <Box sx={{ display: 'flex', gap: 1 }}>
           <ChangeTheme />
 

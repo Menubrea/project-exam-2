@@ -3,7 +3,7 @@ import { CssVarsProvider } from '@mui/joy/styles';
 import { theme } from './theme';
 import { Routes, Route } from 'react-router-dom';
 import { Layout } from './components/UI';
-import { Home, Venue, Profile, Venues } from './components/pages/';
+import { Home, Venue, Profile } from './components/pages/';
 import { useApi } from './api/useApi';
 
 const venueUrl = 'https://api.noroff.dev/api/v1/holidaze';
@@ -41,10 +41,6 @@ function App() {
               element={
                 <Venue venue={filteredVenues} loading={loading} error={error} />
               }
-            />
-            <Route
-              path='/venues'
-              element={<Venues venues={filteredVenues} />}
             />
           </Route>
         </Routes>

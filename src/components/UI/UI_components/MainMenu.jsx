@@ -68,20 +68,7 @@ export default function MainMenu() {
 
   return (
     <>
-      <MainThemeButton
-        id='login-button'
-        size='sm'
-        onClick={handleMenu}
-        endDecorator={
-          isLoggedIn && (
-            <Avatar
-              key={profile?.id}
-              size='sm'
-              sx={{ height: 25, width: 25 }}
-              src={profile?.avatar}
-            />
-          )
-        }>
+      <MainThemeButton id='login-button' size='sm' onClick={handleMenu}>
         {!isLoggedIn ? 'Login' : profile?.name}
       </MainThemeButton>
       <LoggedInMenu

@@ -9,44 +9,69 @@ export const LinkWrapper = styled(Link)(() => ({
 export const StyledDivider = styled(Box)(({ theme }) => ({
   backgroundColor:
     theme.palette.mode === 'dark'
-      ? theme.palette.primary[400]
-      : theme.palette.neutral[300],
+      ? theme.palette.primary[300]
+      : theme.palette.primary[700],
   width: 'max(30vw, 30%)',
   minWidth: '100px',
   height: '5px',
   borderRadius: '100vh',
-  margin: theme.spacing(2, 'auto'),
+  margin: theme.spacing(0, 'auto', 2),
 }));
 
 export const MainThemeButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.common.white,
-  backgroundColor: theme.palette.primary[600],
+  color:
+    theme.palette.mode === 'dark'
+      ? theme.palette.primary[900]
+      : theme.palette.common.white,
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? theme.palette.common.white
+      : theme.palette.primary[600],
   border:
     theme.palette.mode === 'dark'
       ? `1px solid ${theme.palette.common.white}`
       : `1px solid ${theme.palette.primary[700]}`,
   borderRadius: 3,
+
+  ':hover': {
+    transition: 'all 1s ease-in-out',
+    borderRadius: '100vh',
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? theme.palette.common.white
+        : theme.palette.primary[700],
+    color:
+      theme.palette.mode === 'dark'
+        ? theme.palette.primary[700]
+        : theme.palette.common.white,
+  },
 }));
 
 export const MainThemeInput = styled(Input)(({ theme }) => ({
   color: theme.palette.primary[900],
 
-  ':placeholder': {
-    color: theme.palette.primary[900],
+  ':hover': {
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? theme.palette.primary[800]
+        : theme.palette.neutral[100],
+    color:
+      theme.palette.mode === 'dark'
+        ? theme.palette.common.white
+        : theme.palette.primary[900],
   },
 
   ':focus': {
-    outline: `1px solid ${theme.palette.warning[900]}`,
+    border:
+      theme.palette.mode === 'dark'
+        ? `1px dashed ${theme.palette.common.white}`
+        : `1px solid ${theme.palette.primary[700]}`,
   },
 
   backgroundColor:
     theme.palette.mode === 'dark'
       ? theme.palette.neutral[100]
       : theme.palette.neutral[50],
-  border:
-    theme.palette.mode === 'dark'
-      ? `1px solid ${theme.palette.common.white}`
-      : `1px solid ${theme.palette.primary[700]}`,
   borderRadius: 3,
   ':placeholder': {
     color:
