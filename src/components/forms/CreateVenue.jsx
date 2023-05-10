@@ -26,6 +26,8 @@ const CreateVenueSchema = yup.object({
     city: yup.string().trim(),
     country: yup.string().trim(),
     continent: yup.string().trim(),
+    lat: yup.number(),
+    lng: yup.number(),
   }),
 });
 
@@ -224,6 +226,22 @@ export default function CreateVenue() {
             id='venueContinent'
             type='text'
             {...register('location.continent')}
+          />
+        </Box>
+        <Box>
+          <Typography htmlFor='venueLat'>Latitude</Typography>
+          <MainThemeInput
+            id='venueLat'
+            type='coordinate'
+            {...register('location.lat')}
+          />
+        </Box>
+        <Box>
+          <Typography htmlFor='venueLng'>Longitude</Typography>
+          <MainThemeInput
+            id='venueLng'
+            type='coordinate'
+            {...register('location.lng')}
           />
         </Box>
       </Box>

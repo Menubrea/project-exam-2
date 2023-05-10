@@ -1,85 +1,82 @@
-import { LinkWrapper, MainThemeInput } from '../../../styles/GlobalStyles';
-import { Box, Typography, Container, Button } from '@mui/joy';
-import { useState } from 'react';
+import { MainThemeButton } from '../../../styles/GlobalStyles';
+import { useEffect, useState } from 'react';
+import { SearchModal } from '../../modals';
+import { Box, styled } from '@mui/joy';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  position: 'fixed',
+  top: theme.spacing(3.5),
+  left: '50%',
+  transform: 'translateX(-50%)',
+  borderRadius: '5px',
+  width: 'fit-content',
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? theme.palette.primary[700]
+      : theme.palette.neutral[200],
+  padding: theme.spacing(0.5),
+  zIndex: '100',
+
+  ':hover': {
+    transition: 'all 1s ease-in-out',
+    borderRadius: '100vh',
+    '& button': {
+      transition: 'all 1s ease-in-out',
+      borderRadius: '100vh',
+    },
+  },
+}));
 
 export default function Search({ venues }) {
   const [search, setSearch] = useState('');
+  const [filtered, setFiltered] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  useEffect(() => {
+    setAnchorEl(document.getElementById('search-input'));
+  }, [open]);
+
+  useEffect(() => {
+    if (anchorEl) {
+      anchorEl.focus();
+    }
+  }, [anchorEl]);
 
   const handleChange = (e) => {
     setSearch(e.target.value);
   };
 
+  const handleOpenSearch = () => {
+    open ? setOpen(false) : setOpen(true);
+  };
+
   const handleClose = () => {
-    console.log('close');
+    setOpen(false);
     setSearch('');
   };
 
-  const filteredVenues = venues.filter((venue) => {
-    if (
-      venue.name.toLowerCase().startsWith(search.toLowerCase()) &&
-      search.length > 0
-    ) {
-      return true;
-    }
-    return false;
-  });
-
   return (
-    <>
-      <MainThemeInput
-        onChange={handleChange}
-        size='sm'
-        placeholder={'Search'}
-        sx={{
-          paddingX: 1,
-          minWidth: '200px',
-          maxWidth: '350px',
-        }}
+    <StyledBox>
+      <Box sx={{ width: 'fit-content', margin: '0 auto' }}>
+        <MainThemeButton
+          startDecorator={<TravelExploreIcon />}
+          size='sm'
+          onClick={handleOpenSearch}>
+          {open ? 'Close' : 'find your perfect vacation'}
+        </MainThemeButton>
+      </Box>
+
+      <SearchModal
+        venues={venues}
+        handleChange={handleChange}
+        handleClose={handleClose}
+        search={search}
+        open={open}
+        setFiltered={setFiltered}
+        filtered={filtered}
       />
-      {search.length > 0 && (
-        <Box
-          sx={{
-            position: 'absolute',
-            width: '100%',
-            backgroundColor: '#576a6b',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            top: '4.5em',
-            maxHeight: '500px',
-            borderRadius: '5px',
-            boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.5)',
-            overflowY: 'auto',
-            width: 'clamp(200px, 100%, 1160px)',
-          }}>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              padding: '1rem',
-              borderBottom: '1px solid white',
-            }}>
-            <Typography>Searching: {search}</Typography>{' '}
-            <Typography>Total: {filteredVenues.length}</Typography>
-          </Box>
-          <Box sx={{ padding: '1em' }}>
-            {filteredVenues.length > 0 ? (
-              filteredVenues.map((venue) => (
-                <LinkWrapper
-                  key={venue.id}
-                  to={`/venue/${venue.id}`}
-                  onClick={handleClose}>
-                  <Box>{venue.name}</Box>
-                </LinkWrapper>
-              ))
-            ) : (
-              <Box sx={{ textAlign: 'center' }}>No Results found.</Box>
-            )}
-          </Box>
-          <Button sx={{ borderRadius: 0 }} fullWidth onClick={handleClose}>
-            Close
-          </Button>
-        </Box>
-      )}
-    </>
+    </StyledBox>
   );
 }

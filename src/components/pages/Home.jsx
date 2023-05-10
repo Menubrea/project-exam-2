@@ -8,7 +8,7 @@ export default function Home({ data, error, loading }) {
   if (error) return <div>Error</div>;
 
   const promotedVenue = data.filter(
-    (venue) => venue.name === 'Lakeside Mountain Lodge'
+    (venue) => venue.name === `Nature Lover's Paradise`
   );
 
   if (data) {
