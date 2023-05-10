@@ -9,6 +9,7 @@ const bookingUrl = 'https://api.noroff.dev/api/v1/holidaze/bookings';
 
 export default function BookingForm({ venue }) {
   const [errorMessage, setErrorMessage] = useState('');
+  const [startDate, setStartDate] = useState(new Date());
   const token = localStorage.getItem('token');
   const BookingSchema = useMemo(() =>
     yup.object({
@@ -68,6 +69,7 @@ export default function BookingForm({ venue }) {
             {...register('dateFrom')}
           />
         </Box>
+
         <Box sx={{ width: '100%' }}>
           <Typography level='body1' component={'label'} htmlFor='dateTo'>
             To
