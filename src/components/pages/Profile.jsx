@@ -112,11 +112,11 @@ export default function Profile() {
       <Box component={'main'}>
         <ProfileMeta profile={profile} />
 
-        {profile.venueManager && (
+        {profile.venueManager && profileVenues.length > 0 && (
           <ProfileVenues venues={profileVenues} handleOpen={handleOpen} />
         )}
 
-        {profile.bookings && (
+        {profile.bookings && profile.bookings.length > 0 && (
           <Container sx={{ marginTop: 2 }}>
             <Typography level='h6' component={'h2'}>
               Upcoming Bookings:

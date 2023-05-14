@@ -32,6 +32,26 @@ export default function BookingForm({ venue }) {
   const [price, setPrice] = useState(venue.price);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [bookedDates, setBookedDates] = useState([]);
+
+  useEffect(() => {
+    if (venue.bookings) {
+      const unavailableDates = venue.bookings
+        .map((booking) => {
+          let from = new Date(booking.dateFrom);
+          let to = new Date(booking.dateTo);
+          let dates = [];
+          while (from <= to) {
+            dates.push(new Date(from));
+            from.setDate(from.getDate() + 1);
+          }
+          return dates;
+        })
+        .flat()
+        .map((date) => new Date(date));
+      setBookedDates(unavailableDates);
+    }
+  }, [venue.bookings]);
 
   const BookingSchema = useMemo(() =>
     yup.object({
@@ -76,6 +96,14 @@ export default function BookingForm({ venue }) {
           setErrorMessage(`Booking for ${venue.name} was successful`);
           ResetSelection();
           setLoading(false);
+          const result = await res.json();
+          setBookedDates(
+            [
+              ...bookedDates,
+              new Date(result.dateFrom),
+              new Date(result.dateTo),
+            ].sort((a, b) => a.getTime() - b.getTime())
+          );
           break;
         default:
           console.log('error');
@@ -89,25 +117,11 @@ export default function BookingForm({ venue }) {
     }
   };
 
-  const unavailableDates = venue.bookings
-    .map((booking) => {
-      let from = new Date(booking.dateFrom);
-      let to = new Date(booking.dateTo);
-      let dates = [];
-      while (from <= to) {
-        dates.push(new Date(from));
-        from.setDate(from.getDate() + 1);
-      }
-      return dates;
-    })
-    .flat()
-    .map((date) => new Date(date));
-
   const handleDateRangeChange = (dates) => {
     if (dates.length === 2) {
       const [newStart, newEnd] = dates;
 
-      if (unavailableDates.some((d) => d >= newStart && d <= newEnd)) {
+      if (bookedDates.some((d) => d >= newStart && d <= newEnd)) {
         setDateError('One or more dates in the selected range are unavailable');
         setPrice('Unavailable');
         return;
@@ -178,7 +192,7 @@ export default function BookingForm({ venue }) {
           startDate={startDate}
           endDate={endDate}
           minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
-          excludeDates={unavailableDates}
+          excludeDates={bookedDates}
           selectsRange
           preventEqualDates={true}
           inline>

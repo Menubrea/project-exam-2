@@ -28,13 +28,7 @@ export default function ProfileVenues({ venues, handleOpen }) {
   return (
     <VenueWrapper>
       <Container component={'section'}>
-        <Typography
-          level='h5'
-          component={'h2'}
-          sx={{
-            fontFamily: 'futura-PT-condensed',
-            textTransform: 'uppercase',
-          }}>
+        <Typography level='h6' component={'h2'}>
           Manage Venues:
         </Typography>
       </Container>

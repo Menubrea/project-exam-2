@@ -34,7 +34,13 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
 }));
 
 export default function VenueEditCard({ venue, handleOpen }) {
-  const sortedBookings = venue.bookings.sort((a, b) => {
+  const filteredBookings = venue.bookings.filter((booking) => {
+    const bookingDate = new Date(booking.dateFrom);
+    const date = new Date();
+    return bookingDate >= date;
+  });
+
+  const sortedBookings = filteredBookings.sort((a, b) => {
     return new Date(a.date) - new Date(b.date);
   });
 
@@ -58,21 +64,23 @@ export default function VenueEditCard({ venue, handleOpen }) {
             width: '100%',
             height: '100%',
             maxWidth: '100px',
+            maxHeight: '65px',
             objectFit: 'cover',
+            borderRadius: 3,
           }}
         />
       )}
       <Box sx={{ width: '100%' }}>
         <Typography
-          level='h5'
+          level='h6'
           component={'h3'}
           sx={{
-            fontFamily: 'amatic-sc, sans-serif',
+            fontFamily: 'futura-pt-condensed, sans-serif',
             fontWeight: 700,
             textTransform: 'uppercase',
             lineHeight: 1,
           }}>
-          {venue.name}
+          {venue.name.slice(0, 25)}...
         </Typography>
         <Typography level='body1' component={'p'}>
           Upcoming booking(s): {venue.bookings.length}
