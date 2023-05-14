@@ -1,27 +1,32 @@
 import { Box, Typography, styled } from '@mui/joy';
 
 const LocationContainer = styled(Box)(({ theme }) => ({
-  marginTop: theme.spacing(2),
-  padding: theme.spacing(2),
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.primary[500]
-      : theme.palette.neutral[200],
-  borderRadius: '.2rem',
+  padding: theme.spacing(0.5, 0),
+  margin: theme.spacing(1, 0),
+  // backgroundColor:
+  //   theme.palette.mode === 'dark'
+  //     ? theme.palette.primary[500]
+  //     : theme.palette.neutral[200],
+  // borderRadius: '.2rem',
   display: 'flex',
   gap: theme.spacing(1),
-  justifyContent: 'space-evenly',
   alignItems: 'center',
-  flexWrap: 'wrap',
+  borderBlock:
+    theme.palette.mode === 'dark'
+      ? `1px solid ${theme.palette.primary[400]}`
+      : `1px solid ${theme.palette.neutral[400]}`,
 }));
 
 export default function LocationMeta({ location }) {
   return (
     <LocationContainer>
-      <Typography level='body1'>Address: {location.address}</Typography>
-      <Typography level='body1'>City: {location.city}</Typography>
-      <Typography level='body1'>Country: {location.country}</Typography>
-      <Typography level='body1'>Continent: {location.continent}</Typography>
+      <Typography sx={{ fontSize: '0.8rem' }}>{location.address}, </Typography>
+      <Typography level='body1' sx={{ fontSize: '0.8rem' }}>
+        {location.city},
+      </Typography>
+      <Typography level='body1' sx={{ fontSize: '0.8rem' }}>
+        {location.country}
+      </Typography>
     </LocationContainer>
   );
 }
