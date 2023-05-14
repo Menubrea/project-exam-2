@@ -17,7 +17,7 @@ export default function ProfileBookings({ profile }) {
     if (Array.isArray(profile.bookings)) {
       const profileBookings = profile.bookings.filter((booking) => {
         const bookingDate = new Date(booking.dateFrom);
-        return bookingDate > date;
+        return bookingDate >= date;
       });
       // Sort from earliest to latest
       profileBookings.sort(

@@ -25,7 +25,6 @@ export default function Venue({ venue, loading, error }) {
   const [venueById, setVenueById] = useState(null);
   const [open, setOpen] = useState(false);
   const [profile, setProfile] = useState({ name: '' });
-  const handleClose = () => setOpen(false);
 
   if (!venue) return null;
 
@@ -34,6 +33,8 @@ export default function Venue({ venue, loading, error }) {
       setOpen(true);
     }
   };
+
+  const handleClose = () => setOpen(false);
 
   useEffect(() => {
     venue.filter((filteredVenue) =>
