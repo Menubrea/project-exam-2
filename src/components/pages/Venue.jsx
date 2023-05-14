@@ -74,7 +74,11 @@ export default function Venue({ venue, loading, error }) {
       <StyledMainGrid
         maxWidth='lg'
         component={'main'}
-        sx={{ padding: { xs: 0, md: 0 }, paddingTop: { sm: 0, md: 12 } }}>
+        sx={{
+          paddingX: { xs: 0, md: 2 },
+          paddingTop: { sm: 0, md: 12 },
+          gap: { xs: 0, sm: 0, md: 2 },
+        }}>
         <Box
           sx={{
             gridColumn: { xs: '-1 / -1', md: ' 1 / 8' },
@@ -86,7 +90,10 @@ export default function Venue({ venue, loading, error }) {
             sx={{
               width: '100%',
               height: '100%',
+              maxHeight: 'max(550px, 50vh)',
+
               objectFit: 'cover',
+              borderRadius: { xs: 0, sm: 0, md: '.5rem' },
             }}
             onClick={handleOpen}
           />
@@ -96,7 +103,7 @@ export default function Venue({ venue, loading, error }) {
               onClick={handleOpen}
               sx={{
                 position: 'absolute',
-                bottom: 20,
+                top: { xs: 60, sm: 60, md: 20 },
                 right: 20,
                 display: { xs: 'none', sm: 'block' },
               }}>
@@ -105,9 +112,10 @@ export default function Venue({ venue, loading, error }) {
           )}
           <ImageModal venue={venueById} open={open} handleClose={handleClose} />
         </Box>
+
         <VenueDetails
           sx={{
-            borderRadius: { xs: 0, sm: 0, md: '.5rem 0 0 .5rem' },
+            borderRadius: { xs: 0, sm: 0, md: '.5rem' },
             gridColumn: { xs: '-1 / -1', md: '8 / 13' },
           }}>
           <Typography
@@ -131,8 +139,9 @@ export default function Venue({ venue, loading, error }) {
             }}>
             {venueById && venueById.name}
           </Typography>
-          <Typography>{venueById && venueById.description}</Typography>
           {venueById && <LocationMeta location={venueById.location} />}
+          <Typography>{venueById && venueById.description}</Typography>
+
           {venueById &&
             profile?.name !== venueById?.owner.name &&
             profile.name !== '' && <BookingForm venue={venueById} />}
