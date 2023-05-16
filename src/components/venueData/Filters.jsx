@@ -86,12 +86,11 @@ export default function Filters({ venues, setFiltered, search, filtered }) {
           <Slider
             variant='solid'
             color='primary'
-            size='sm'
+            size='md'
             value={value}
             onChange={handleChange}
             getAriaValueText={valueText}
             valueLabelDisplay='on'
-            x
             step={100}
             marks={[
               { value: lowestPrice, label: `${lowestPrice},-` },

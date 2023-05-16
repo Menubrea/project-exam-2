@@ -1,7 +1,12 @@
-import { Box, Container, Typography, styled } from '@mui/joy';
+import { Box, Container, Typography, Button } from '@mui/joy';
 import { useState, useEffect } from 'react';
-import { ProfileBookings, ProfileMeta, ProfileVenues } from '../profileData';
-import { EditVenueModal } from '../modals';
+import {
+  ProfileBookings,
+  ProfileMeta,
+  ProfileVenueBookings,
+  ProfileVenues,
+} from '../profileData';
+import Loading from '../Loading';
 
 const profileUrl = 'https://api.noroff.dev/api/v1/holidaze';
 const action = '/profiles/';
@@ -14,11 +19,29 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [profileVenues, setProfileVenues] = useState([]);
-  const [venueById, setVenueById] = useState({});
-  const [open, setOpen] = useState(false);
+  const [selectedVenue, setSelectedVenue] = useState(null);
+  const [slideIn, setSlideIn] = useState(false);
 
-  const handleOpen = (e) => {
-    const button = e.target.closest('button[id]');
+  useEffect(() => {
+    const container = document.getElementById('bookingsContainer');
+    const overlay = document.getElementById('overlay');
+    if (container && overlay) {
+      container.style.transform = 'translateX(0)';
+      container.style.transition = 'transform 0.5s ease-in-out';
+      overlay.style.transform = 'translateX(0)';
+    }
+
+    return () => {
+      container && (container.style.transform = null);
+      container && (container.style.transition = null);
+      overlay && (overlay.style.transform = null);
+      overlay && (overlay.style.transition = null);
+      setSlideIn(false);
+    };
+  }, [selectedVenue, slideIn]);
+
+  const handleBookingsSlideIn = (e) => {
+    const button = e.target.closest('div[id]');
     const buttonId = button && button.getAttribute('id');
     const venueId = e.target.id;
     const venue = profileVenues.find(
@@ -26,13 +49,9 @@ export default function Profile() {
     );
 
     if (venue) {
-      setOpen(true);
-      setVenueById(venue);
+      setSelectedVenue(venue);
+      setSlideIn(true);
     }
-  };
-
-  const handleClose = () => {
-    setOpen(false);
   };
 
   useEffect(() => {
@@ -99,12 +118,7 @@ export default function Profile() {
     }
   }, [token]);
 
-  if (loading)
-    return (
-      <Box sx={{ height: '100vh', width: '100vw', backgroundColor: 'red' }}>
-        Loading...
-      </Box>
-    );
+  if (loading) return <div>Loading...</div>;
   if (error) return <p>Something went wrong, please try again</p>;
 
   if (profile) {
@@ -112,8 +126,13 @@ export default function Profile() {
       <Box component={'main'}>
         <ProfileMeta profile={profile} />
 
+        <ProfileVenueBookings profile={profile} venue={selectedVenue} />
+
         {profile.venueManager && profileVenues.length > 0 && (
-          <ProfileVenues venues={profileVenues} handleOpen={handleOpen} />
+          <ProfileVenues
+            venues={profileVenues}
+            handleBookingsSlideIn={handleBookingsSlideIn}
+          />
         )}
 
         {profile.bookings && profile.bookings.length > 0 && (
@@ -124,11 +143,6 @@ export default function Profile() {
             <ProfileBookings profile={profile} />
           </Container>
         )}
-        <EditVenueModal
-          venue={venueById}
-          open={open}
-          handleClose={handleClose}
-        />
       </Box>
     );
   }

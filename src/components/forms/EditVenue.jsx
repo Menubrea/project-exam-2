@@ -3,8 +3,12 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 
-import { Box, Typography, Checkbox, styled, Input, Textarea } from '@mui/joy';
-import { MainThemeButton, MainThemeInput } from '../../styles/GlobalStyles';
+import { Box, Typography, Checkbox, styled } from '@mui/joy';
+import {
+  MainThemeButton,
+  MainThemeInput,
+  MainThemeTextArea,
+} from '../../styles/GlobalStyles';
 
 const GridContainer = styled(Box)(({ theme }) => ({
   display: 'grid',
@@ -37,15 +41,19 @@ const EditVenueSchema = yup.object({
 });
 
 export default function EditVenue({ venue }) {
-  console.log(venue);
-  const [mediaInputs, setMediaInputs] = useState([]);
+  const [mediaMainThemeInputs, setMediaMainThemeInputs] = useState([]);
 
   const handleAddMedia = () => {
-    setMediaInputs([...mediaInputs, mediaInputs.length]);
+    setMediaMainThemeInputs([
+      ...mediaMainThemeInputs,
+      mediaMainThemeInputs.length,
+    ]);
   };
 
   const handleRemoveMedia = (index) => {
-    setMediaInputs(mediaInputs.filter((item) => item !== index));
+    setMediaMainThemeInputs(
+      mediaMainThemeInputs.filter((item) => item !== index)
+    );
   };
 
   const {
@@ -78,7 +86,7 @@ export default function EditVenue({ venue }) {
   const submitEdit = async (data) => {
     data.media = [data.media];
     // Push all entries of media to data.media
-    mediaInputs.forEach((index) => {
+    mediaMainThemeInputs.forEach((index) => {
       data.media.push(data[`media${index}`]);
     });
 
@@ -103,16 +111,37 @@ export default function EditVenue({ venue }) {
     }
   };
   return (
-    <Box component={'form'} onSubmit={handleSubmit(submitEdit)}>
-      <GridContainer sx={{ borderBottom: '1px solid white' }}>
+    <Box
+      component={'form'}
+      onSubmit={handleSubmit(submitEdit)}
+      sx={{
+        border: (theme) =>
+          theme.palette.mode === 'dark'
+            ? `1px solid ${theme.palette.common.white}`
+            : `1px solid ${theme.palette.primary[900]}`,
+        marginY: 1,
+        borderRadius: 3,
+      }}>
+      <GridContainer
+        sx={{
+          borderBottom: (theme) =>
+            theme.palette.mode === 'dark'
+              ? `1px solid ${theme.palette.common.white}`
+              : `1px solid ${theme.palette.primary[900]}`,
+        }}>
         <Box>
           <Typography htmlFor='venueName'>Name</Typography>
-          <Input size='sm' id='venueName' type='text' {...register('name')} />
+          <MainThemeInput
+            size='sm'
+            id='venueName'
+            type='text'
+            {...register('name')}
+          />
           <Typography level='body3'>{errors.name?.message}</Typography>
         </Box>
         <Box>
           <Typography htmlFor='venuePrice'>Price</Typography>
-          <Input
+          <MainThemeInput
             size='sm'
             id='venuePrice'
             type='number'
@@ -124,7 +153,7 @@ export default function EditVenue({ venue }) {
 
         <Box>
           <Typography htmlFor='venueMaxGuests'>Max Guests</Typography>
-          <Input
+          <MainThemeInput
             size='sm'
             id='venueMaxGuests'
             type='number'
@@ -138,11 +167,19 @@ export default function EditVenue({ venue }) {
       <Box
         sx={{
           padding: 2,
-          borderBottom: '1px solid white',
+          borderBottom: (theme) =>
+            theme.palette.mode === 'dark'
+              ? `1px solid ${theme.palette.common.white}`
+              : `1px solid ${theme.palette.primary[900]}`,
         }}>
         <Box>
           <Typography htmlFor='venueMedia'>Media</Typography>
-          <Input size='sm' id='venueMedia' type='text' {...register('media')} />
+          <MainThemeInput
+            size='sm'
+            id='venueMedia'
+            type='text'
+            {...register('media')}
+          />
           <Typography level='body3'>{errors.media?.message}</Typography>
         </Box>
         <Box sx={{ margin: '.5rem auto', width: 'fit-content' }}>
@@ -156,13 +193,13 @@ export default function EditVenue({ venue }) {
             gridTemplateColumns: 'repeat(2, 1fr)',
             gap: 1,
           }}>
-          {mediaInputs.map((inputId) => (
+          {mediaMainThemeInputs.map((inputId) => (
             <Box key={inputId}>
               <Typography htmlFor={`venueMedia${inputId}`}>
                 Image(s) {inputId + 1}
               </Typography>
               <Box sx={{ display: 'flex', gap: 0.5 }}>
-                <Input
+                <MainThemeInput
                   size='sm'
                   sx={{ width: '100%' }}
                   id={`venueMedia${inputId}`}
@@ -180,94 +217,48 @@ export default function EditVenue({ venue }) {
           ))}
         </Box>
       </Box>
-      <Box sx={{ padding: 2, borderBottom: '1px solid white' }}>
+      <Box
+        sx={{
+          padding: 2,
+          borderBottom: (theme) =>
+            theme.palette.mode === 'dark'
+              ? `1px solid ${theme.palette.common.white}`
+              : `1px solid ${theme.palette.primary[900]}`,
+        }}>
         <Typography htmlFor='venueDescription'>Description</Typography>
-        <Textarea
+        <MainThemeTextArea
           minRows={2}
           id='venueDescription'
           size='lg'
           {...register('description')}
         />
       </Box>
-      <Box sx={{ padding: 2, borderBottom: '1px solid white' }}>
-        <Typography htmlFor='venueMeta'>
-          Does your location have access to:
-        </Typography>
+      <Box sx={{ padding: 2 }}>
+        <Typography htmlFor='venueMeta'>Change access to:</Typography>
         <GridContainer
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
           }}>
+          <Checkbox variant='solid' label='wifi' {...register('meta.wifi')} />
           <Checkbox
-            variant='outlined'
-            label='wifi'
-            {...register('meta.wifi')}
-          />
-          <Checkbox
-            variant='outlined'
+            variant='solid'
             label='parking'
             {...register('meta.parking')}
           />
           <Checkbox
-            variant='outlined'
+            variant='solid'
             label='breakfast'
             {...register('meta.breakfast')}
           />
-          <Checkbox
-            variant='outlined'
-            label='pets'
-            {...register('meta.pets')}
-          />
+          <Checkbox variant='solid' label='pets' {...register('meta.pets')} />
         </GridContainer>
       </Box>
-      <Box
-        sx={{
-          padding: 2,
-          display: 'flex',
-          gap: 1,
-          borderBottom: '1px solid white',
-        }}>
-        <Box>
-          <Typography htmlFor='venueAddress'>Address</Typography>
-          <MainThemeInput
-            id='venueAddress'
-            type='text'
-            {...register('location.address')}
-            size='sm'
-          />
-        </Box>
-        <Box>
-          <Typography htmlFor='venueCity'>City</Typography>
-          <MainThemeInput
-            id='venueCity'
-            type='text'
-            {...register('location.city')}
-            size='sm'
-          />
-        </Box>
-        <Box>
-          <Typography htmlFor='venueCountry'>Country</Typography>
-          <MainThemeInput
-            id='venueCountry'
-            type='text'
-            {...register('location.country')}
-            disabled
-            size='sm'
-          />
-        </Box>
-        <Box>
-          <Typography htmlFor='venueContinent'>Continent</Typography>
-          <MainThemeInput
-            id='venueContinent'
-            type='text'
-            {...register('location.continent')}
-            disabled
-            size='sm'
-          />
-        </Box>
-      </Box>
-      <Box sx={{ margin: '.5em auto', width: 'fit-content' }}>
-        <MainThemeButton type='submit'>Update Venue</MainThemeButton>
+
+      <Box margin={'1rem'}>
+        <MainThemeButton fullWidth type='submit'>
+          Update Venue
+        </MainThemeButton>
       </Box>
     </Box>
   );

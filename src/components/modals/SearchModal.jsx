@@ -2,6 +2,7 @@ import { Modal, ModalDialog, ModalClose, styled, Box, Input } from '@mui/joy';
 import { MainThemeInput } from '../../styles/GlobalStyles';
 import { Filters } from '../venueData';
 import { SearchCard } from '../cards';
+import SearchIcon from '@mui/icons-material/Search';
 
 const StyledGrid = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -31,6 +32,8 @@ export default function SearchModal({
   return (
     <Modal open={open}>
       <StyledModalDialog
+        layout='center'
+        variant='outlined'
         sx={{ width: '100%', height: '100%', padding: { xs: 0.5, sm: 2 } }}>
         <Box
           sx={{
@@ -42,7 +45,8 @@ export default function SearchModal({
             borderRadius: '100px',
           }}>
           <Input
-            variant='solid'
+            variant='outlined'
+            endDecorator={<SearchIcon />}
             id='search-input'
             onChange={handleChange}
             size='lg'
@@ -74,9 +78,6 @@ export default function SearchModal({
           variant='solid'
           color='primary'
           sx={{
-            top: -10,
-            right: -10,
-            borderRadius: '100%',
             border: '1px solid #fff',
           }}
           onClick={handleClose}

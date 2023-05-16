@@ -1,5 +1,5 @@
-import { Box, Typography, styled, IconButton } from '@mui/joy';
-import EditIcon from '@mui/icons-material/Edit';
+import { Box, Typography, styled } from '@mui/joy';
+import { useState, useEffect } from 'react';
 
 const StyledVenueCard = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -11,34 +11,30 @@ const StyledVenueCard = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1),
   borderRadius: theme.spacing(0.5),
   position: 'relative',
-}));
 
-const StyledIconButton = styled(IconButton)(({ theme }) => ({
-  position: 'absolute',
-  right: -10,
-  top: -10,
-  height: 25,
-  width: 25,
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.primary[800]
-      : theme.palette.primary[500],
-  color: theme.palette.neutral[50],
-
-  ':hover': {
+  '&:hover': {
+    cursor: 'pointer',
     backgroundColor:
       theme.palette.mode === 'dark'
-        ? theme.palette.primary[900]
-        : theme.palette.primary[700],
+        ? theme.palette.primary[500]
+        : theme.palette.neutral[200],
   },
 }));
 
-export default function VenueEditCard({ venue, handleOpen }) {
-  const filteredBookings = venue.bookings.filter((booking) => {
-    const bookingDate = new Date(booking.dateFrom);
-    const date = new Date();
-    return bookingDate >= date;
-  });
+export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
+  const [filteredBookings, setFilteredBookings] = useState([]);
+
+  useEffect(() => {
+    if (venue) {
+      const filtered = venue.bookings.filter((booking) => {
+        const bookingDate = new Date(booking.dateFrom);
+        const date = new Date();
+        return bookingDate >= date;
+      });
+
+      setFilteredBookings(filtered);
+    }
+  }, []);
 
   const sortedBookings = filteredBookings.sort((a, b) => {
     return new Date(a.date) - new Date(b.date);
@@ -54,7 +50,10 @@ export default function VenueEditCard({ venue, handleOpen }) {
   };
 
   return (
-    <StyledVenueCard sx={{ display: 'flex', gap: 1 }}>
+    <StyledVenueCard
+      id={venue.id}
+      sx={{ display: 'flex', gap: 1 }}
+      onClick={handleBookingsSlideIn}>
       {venue && (
         <Box
           component={'img'}
@@ -72,7 +71,7 @@ export default function VenueEditCard({ venue, handleOpen }) {
       )}
       <Box sx={{ width: '100%' }}>
         <Typography
-          level='h6'
+          level='body1'
           component={'h3'}
           sx={{
             fontFamily: 'futura-pt-condensed, sans-serif',
@@ -80,44 +79,32 @@ export default function VenueEditCard({ venue, handleOpen }) {
             textTransform: 'uppercase',
             lineHeight: 1,
           }}>
-          {venue.name.slice(0, 25)}...
+          {venue.name}
         </Typography>
         <Typography level='body1' component={'p'}>
           Upcoming booking(s): {venue.bookings.length}
         </Typography>
-        {venue.bookings.length > 0 && (
-          <Typography
-            component={'p'}
-            sx={{
-              fontFamily: 'futura-PT-condensed',
-              textTransform: 'uppercase',
-              fontSize: '.9rem',
-              backgroundColor: 'rgba(0,0,0,.1)',
-              padding: 0.1,
-              paddingX: 2,
-              textAlign: 'center',
-              borderRadius: 3,
-            }}>
-            {formatDate(sortedBookings[0].dateFrom)} -{' '}
-            {formatDate(sortedBookings[0].dateTo)}, guest(s):{' '}
-            {sortedBookings[0].guests}
-          </Typography>
-        )}
+        {venue.bookings &&
+          venue.bookings.length > 0 &&
+          sortedBookings.length > 0 && (
+            <Typography
+              component={'p'}
+              sx={{
+                fontFamily: 'futura-PT-condensed',
+                textTransform: 'uppercase',
+                fontSize: '.9rem',
+                backgroundColor: 'rgba(0,0,0,.1)',
+                padding: 0.1,
+                paddingX: 2,
+                textAlign: 'center',
+                borderRadius: 3,
+              }}>
+              {formatDate(sortedBookings[0].dateFrom)} -{' '}
+              {formatDate(sortedBookings[0].dateTo)}, guest(s):{' '}
+              {sortedBookings[0].guests}
+            </Typography>
+          )}
       </Box>
-      <StyledIconButton
-        id={venue.id}
-        onClick={handleOpen}
-        aria-label='edit'
-        size='small'
-        sx={{
-          position: 'absolute',
-          right: -5,
-          top: -5,
-          height: 30,
-          width: 30,
-        }}>
-        <EditIcon fontSize='sm' />
-      </StyledIconButton>
     </StyledVenueCard>
   );
 }

@@ -1,9 +1,11 @@
 import { Box, Container } from '@mui/joy';
 import { HeroCard, VenueCard } from '../cards';
 import { MainGrid, StyledDivider } from '../../styles/GlobalStyles';
+import Loading from '../Loading';
 
 export default function Home({ data, error, loading }) {
-  if (!data || data.length === 0) return <div>Loading...</div>;
+  if (!data || data.length === 0 || loading)
+    return <Loading>Loading...</Loading>;
 
   if (error) return <div>Error</div>;
 
