@@ -14,10 +14,14 @@ const StyledVenueCard = styled(Box)(({ theme }) => ({
 
   '&:hover': {
     cursor: 'pointer',
-    backgroundColor:
+    background:
       theme.palette.mode === 'dark'
-        ? theme.palette.primary[600]
-        : theme.palette.neutral[200],
+        ? `linear-gradient(-125deg, ${theme.palette.primary[500]} 0%, ${theme.palette.primary[800]} 100%)`
+        : `linear-gradient(-125deg, ${theme.palette.neutral[50]} 0%, ${theme.palette.neutral[500]} 100%)`,
+    outline:
+      theme.palette.mode === 'dark'
+        ? `1px solid ${theme.palette.common.white}`
+        : `1px solid ${theme.palette.primary[900]}`,
   },
 }));
 
@@ -79,7 +83,9 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
             textTransform: 'uppercase',
             lineHeight: 1,
           }}>
-          {venue.name}
+          {venue.name.length > 22
+            ? venue.name.slice(0, 22) + '...'
+            : venue.name}
         </Typography>
         <Typography level='body1' component={'p'}>
           Upcoming booking(s): {venue.bookings.length}
