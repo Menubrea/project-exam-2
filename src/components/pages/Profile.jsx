@@ -21,6 +21,7 @@ export default function Profile() {
   const [profileVenues, setProfileVenues] = useState([]);
   const [selectedVenue, setSelectedVenue] = useState(null);
   const [slideIn, setSlideIn] = useState(false);
+  const [createVenue, setCreateVenue] = useState(false);
 
   useEffect(() => {
     const container = document.getElementById('bookingsContainer');
@@ -40,6 +41,21 @@ export default function Profile() {
     };
   }, [selectedVenue, slideIn]);
 
+  useEffect(() => {
+    const storedProfile = localStorage.getItem('profile');
+    const storedToken = localStorage.getItem('token');
+
+    if (storedProfile && storedToken) {
+      setProfile(JSON.parse(storedProfile));
+      setToken(JSON.parse(storedToken));
+    }
+  }, []);
+
+  const handleCreateSlide = () => {
+    setSlideIn(true);
+    setCreateVenue(true);
+  };
+
   const handleBookingsSlideIn = (e) => {
     const button = e.target.closest('div[id]');
     const buttonId = button && button.getAttribute('id');
@@ -53,16 +69,6 @@ export default function Profile() {
       setSlideIn(true);
     }
   };
-
-  useEffect(() => {
-    const storedProfile = localStorage.getItem('profile');
-    const storedToken = localStorage.getItem('token');
-
-    if (storedProfile && storedToken) {
-      setProfile(JSON.parse(storedProfile));
-      setToken(JSON.parse(storedToken));
-    }
-  }, []);
 
   useEffect(() => {
     if (token && profile.name) {
@@ -124,12 +130,14 @@ export default function Profile() {
   if (profile) {
     return (
       <Box component={'main'}>
-        <ProfileMeta profile={profile} />
+        <ProfileMeta profile={profile} handleCreateSlide={handleCreateSlide} />
 
         <ProfileVenueBookings
           profile={profile}
           venue={selectedVenue}
           token={token}
+          setCreateVenue={setCreateVenue}
+          createVenue={createVenue}
         />
 
         {profile.venueManager && profileVenues.length > 0 && (

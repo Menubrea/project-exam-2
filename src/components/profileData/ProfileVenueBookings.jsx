@@ -7,7 +7,7 @@ import {
   TabList,
   Typography,
 } from '@mui/joy';
-import { DeleteBooking, EditVenue } from '../forms';
+import { CreateVenue, DeleteBooking, EditVenue } from '../forms';
 import { MainThemeButton } from '../../styles/GlobalStyles';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -40,66 +40,107 @@ const Overlay = styled(Box)(({ theme }) => ({
   transform: 'translateX(-100%)',
 }));
 
-export default function ProfileVenueBookings({ profile, venue, token }) {
+export default function ProfileVenueBookings({
+  profile,
+  venue,
+  token,
+  setCreateVenue,
+  createVenue,
+}) {
   const handleCloseSlideOut = () => {
     const bookingsContainer = document.getElementById('bookingsContainer');
     const overlay = document.getElementById('overlay');
     overlay.style.transform = 'translateX(-100%)';
     bookingsContainer.style.transform = 'translateX(-100%)';
     bookingsContainer.style.transition = 'transform 0.5s ease-in-out';
+
+    setTimeout(() => {
+      setCreateVenue(false);
+    }, 500);
   };
 
-  if (venue) {
-    return (
-      <>
-        <BookingsContainer
-          sx={{ width: { xs: '100vw', md: '50vw' } }}
-          id='bookingsContainer'>
-          <Box
-            sx={{
-              marginBottom: 1,
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: 0.5,
-              borderRadius: 3,
-              border: (theme) =>
-                theme.palette.mode === 'dark'
-                  ? `1px solid ${theme.palette.common.white}`
-                  : `1px solid ${theme.palette.primary[900]}`,
-            }}>
-            <Typography level='h6' component={'h2'} sx={{ paddingX: 1 }}>
-              Managing {venue.name}
-            </Typography>
-            <MainThemeButton
-              aria-label='close slideout menu'
-              variant='plain'
-              size='sm'
-              onClick={handleCloseSlideOut}>
-              <CloseIcon />
-            </MainThemeButton>
-          </Box>
-
-          <Tabs>
-            <TabList
+  return (
+    <>
+      <BookingsContainer
+        sx={{ width: { xs: '100vw', md: '50vw' } }}
+        id='bookingsContainer'>
+        {venue && createVenue === false && (
+          <Box>
+            <Box
               sx={{
-                backgroundColor: (theme) =>
+                marginBottom: 1,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: 0.5,
+                borderRadius: 3,
+                border: (theme) =>
                   theme.palette.mode === 'dark'
-                    ? ` ${theme.palette.primary[700]}`
-                    : ` ${theme.palette.neutral[200]}`,
+                    ? `1px solid ${theme.palette.common.white}`
+                    : `1px solid ${theme.palette.primary[900]}`,
               }}>
-              <Tab>Bookings</Tab>
-              <Tab>Edit</Tab>
-            </TabList>
-            <TabPanel value={0}>Test</TabPanel>
-            <TabPanel value={1}>
-              <EditVenue venue={venue} />
-              <DeleteBooking venue={venue} token={token} />
-            </TabPanel>
-          </Tabs>
-        </BookingsContainer>
-        <Overlay id='overlay' onClick={handleCloseSlideOut} />
-      </>
-    );
-  }
+              <Typography level='h6' component={'h2'} sx={{ paddingX: 1 }}>
+                Managing {venue.name}
+              </Typography>
+              <MainThemeButton
+                aria-label='close slideout menu'
+                variant='plain'
+                size='sm'
+                onClick={handleCloseSlideOut}>
+                <CloseIcon />
+              </MainThemeButton>
+            </Box>
+
+            <Tabs>
+              <TabList
+                sx={{
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === 'dark'
+                      ? ` ${theme.palette.primary[700]}`
+                      : ` ${theme.palette.neutral[200]}`,
+                }}>
+                <Tab>Bookings</Tab>
+                <Tab>Edit</Tab>
+              </TabList>
+              <TabPanel value={0}>Test</TabPanel>
+              <TabPanel value={1}>
+                <EditVenue venue={venue} />
+                <DeleteBooking venue={venue} token={token} />
+              </TabPanel>
+            </Tabs>
+          </Box>
+        )}
+        {createVenue && (
+          <Box>
+            <Box
+              sx={{
+                marginBottom: 1,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: 0.5,
+                borderRadius: 3,
+                border: (theme) =>
+                  theme.palette.mode === 'dark'
+                    ? `1px solid ${theme.palette.common.white}`
+                    : `1px solid ${theme.palette.primary[900]}`,
+              }}>
+              <Typography level='h6' component={'h2'} sx={{ paddingX: 1 }}>
+                Create Venue
+              </Typography>
+              <MainThemeButton
+                aria-label='close slideout menu'
+                variant='plain'
+                size='sm'
+                onClick={handleCloseSlideOut}>
+                <CloseIcon />
+              </MainThemeButton>
+            </Box>
+            <CreateVenue token={token} />
+          </Box>
+        )}
+      </BookingsContainer>
+      <Overlay id='overlay' onClick={handleCloseSlideOut} />
+    </>
+  );
 }

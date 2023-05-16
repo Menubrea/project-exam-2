@@ -1,12 +1,4 @@
-import {
-  Button,
-  Input,
-  Sheet,
-  styled,
-  Textarea,
-  Box,
-  Checkbox,
-} from '@mui/joy';
+import { Button, Input, Sheet, styled, Textarea, Box, Select } from '@mui/joy';
 import { Link } from 'react-router-dom';
 
 export const LinkWrapper = styled(Link)(() => ({
@@ -52,6 +44,39 @@ export const MainThemeButton = styled(Button)(({ theme }) => ({
       theme.palette.mode === 'dark'
         ? theme.palette.primary[700]
         : theme.palette.common.white,
+  },
+}));
+
+export const MainThemeSelect = styled(Select)(({ theme }) => ({
+  borderRadius: 3,
+
+  color:
+    theme.palette.mode === 'dark'
+      ? theme.palette.common.white
+      : theme.palette.primary[900],
+
+  ':hover, :focus, :focus-within': {
+    boxShadow:
+      theme.palette.mode === 'dark'
+        ? `inset 0 0 0 3px ${theme.palette.common.white}`
+        : `inset 0 0 0 3px ${theme.palette.primary[700]}`,
+  },
+
+  border:
+    theme.palette.mode === 'dark'
+      ? `1px solid ${theme.palette.common.white}`
+      : `1px solid ${theme.palette.primary[700]}`,
+
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? theme.palette.primary[500]
+      : theme.palette.neutral[50],
+
+  ':placeholder': {
+    color:
+      theme.palette.mode === 'dark'
+        ? theme.palette.common.white
+        : theme.palette.primary[900],
   },
 }));
 

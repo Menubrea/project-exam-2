@@ -1,7 +1,6 @@
 import { Box, Typography, styled, IconButton } from '@mui/joy';
 import { MainThemeButton, MainThemeInput } from '../../styles/GlobalStyles';
 import { useEffect, useState } from 'react';
-import { VenueFormModal } from '../modals';
 import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
 import CloseIcon from '@mui/icons-material/Close';
@@ -13,10 +12,9 @@ const EditMediaSchema = yup.object({
   avatar: yup.string().required().trim(),
 });
 
-export default function ProfileMeta({ profile }) {
+export default function ProfileMeta({ profile, handleCreateSlide }) {
   const [token, setToken] = useState('');
   const [showInput, setShowInput] = useState(false);
-  const [open, setOpen] = useState(false);
   const [avatar, setAvatar] = useState(profile.avatar || '');
 
   const {
@@ -61,7 +59,6 @@ export default function ProfileMeta({ profile }) {
     }
   }, []);
 
-  const handleClose = () => setOpen(false);
   const handleShowInput = () => setShowInput(true);
   const handleCloseInput = () => setShowInput(false);
 
@@ -162,17 +159,13 @@ export default function ProfileMeta({ profile }) {
           </Box>
           <Box sx={{ marginTop: 2, width: 'fit-content', margin: '1rem auto' }}>
             {profile.venueManager && (
-              <MainThemeButton onClick={() => setOpen(true)}>
+              <MainThemeButton onClick={handleCreateSlide}>
                 Create Venue
               </MainThemeButton>
             )}
           </Box>
         </Box>
       </FlexContainer>
-
-      {profile.venueManager && (
-        <VenueFormModal handleClose={handleClose} open={open} />
-      )}
     </ProfileContainer>
   );
 }

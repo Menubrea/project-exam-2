@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 
-import { Box, Typography, Checkbox, styled, Alert } from '@mui/joy';
+import { Box, Typography, Checkbox, styled } from '@mui/joy';
 import {
   MainThemeButton,
   MainThemeInput,
@@ -12,7 +12,6 @@ import {
 } from '../../styles/GlobalStyles';
 
 import CloseIcon from '@mui/icons-material/Close';
-import { set } from 'date-fns';
 
 export default function EditVenue({ venue }) {
   const [mediaArray, setMediaArray] = useState([]);
@@ -33,13 +32,14 @@ export default function EditVenue({ venue }) {
   const handleAddMedia = (e) => {
     setMediaArray([...mediaArray, inputValue]);
     const input = document.getElementById('addMedia');
-    console.log(input);
     input.value = '';
   };
 
   const handleRemoveMedia = (index) => {
     setMediaArray(mediaArray.filter((item, i) => i !== index));
   };
+
+  console.log(mediaArray);
 
   const editForm = useForm({
     resolver: yupResolver(EditVenueSchema),
@@ -124,14 +124,14 @@ export default function EditVenue({ venue }) {
         </Typography>
       </Box>
       <StyledDivider />
-      <GridContainer
+      <FlexContainer
         sx={{
           borderBottom: (theme) =>
             theme.palette.mode === 'dark'
               ? `1px solid ${theme.palette.common.white}`
               : `1px solid ${theme.palette.primary[900]}`,
         }}>
-        <Box>
+        <Box sx={{ width: '100%' }}>
           <Typography htmlFor='venueName'>Name</Typography>
           <MainThemeInput
             size='sm'
@@ -145,30 +145,44 @@ export default function EditVenue({ venue }) {
         <Box>
           <Typography htmlFor='venuePrice'>Price</Typography>
           <MainThemeInput
+            sx={{ maxWidth: '100px' }}
             size='sm'
             id='venuePrice'
             type='number'
             name='price'
-            min={'0'}
+            slotProps={{
+              input: {
+                inputMode: 'numeric',
+                pattern: '[0-9]*',
+                min: 1,
+              },
+            }}
             {...register('price')}
           />
           <Typography level='body3'>{errors.price?.message}</Typography>
         </Box>
 
         <Box>
-          <Typography htmlFor='venueMaxGuests'>Max Guests</Typography>
+          <Typography htmlFor='venueMaxGuests'>Guests</Typography>
           <MainThemeInput
+            sx={{ maxWidth: '100px' }}
             size='sm'
             id='venueMaxGuests'
             type='number'
             name='maxGuests'
-            min={'0'}
-            max={'100'}
+            slotProps={{
+              input: {
+                inputMode: 'numeric',
+                pattern: '[0-9]*',
+                min: 1,
+                max: 100,
+              },
+            }}
             {...register('maxGuests')}
           />
           <Typography level='body3'>{errors.maxGuests?.message}</Typography>
         </Box>
-      </GridContainer>
+      </FlexContainer>
       <Box
         sx={{
           padding: 2,
@@ -213,7 +227,7 @@ export default function EditVenue({ venue }) {
           ))}
         </Box>
         <Box marginTop={1}>
-          <Typography>Add additional images</Typography>
+          <Typography>Add images</Typography>
           <Box sx={{ display: 'flex', gap: 1 }}>
             <MainThemeInput
               id='addMedia'
@@ -321,11 +335,9 @@ export default function EditVenue({ venue }) {
   );
 }
 
-const GridContainer = styled(Box)(({ theme }) => ({
-  flex: 1,
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-  gap: theme.spacing(2),
+const FlexContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  gap: theme.spacing(1),
   padding: theme.spacing(2),
   backgroundColor:
     theme.palette.mode === 'dark'
