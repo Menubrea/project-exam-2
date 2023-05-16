@@ -89,7 +89,7 @@ export default function Profile() {
       };
       fetchProfile();
     }
-  }, [token]);
+  }, [token, profile.name]);
 
   useEffect(() => {
     if (token && profile.name) {
@@ -105,8 +105,8 @@ export default function Profile() {
               },
             }
           );
-          const result = await response.json();
-          setProfileVenues(result);
+          const myVenues = await response.json();
+          setProfileVenues(myVenues);
         } catch (error) {
           setError(true);
           console.log(error);
@@ -126,7 +126,11 @@ export default function Profile() {
       <Box component={'main'}>
         <ProfileMeta profile={profile} />
 
-        <ProfileVenueBookings profile={profile} venue={selectedVenue} />
+        <ProfileVenueBookings
+          profile={profile}
+          venue={selectedVenue}
+          token={token}
+        />
 
         {profile.venueManager && profileVenues.length > 0 && (
           <ProfileVenues

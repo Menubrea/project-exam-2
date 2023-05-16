@@ -16,7 +16,7 @@ const StyledVenueCard = styled(Box)(({ theme }) => ({
     cursor: 'pointer',
     backgroundColor:
       theme.palette.mode === 'dark'
-        ? theme.palette.primary[500]
+        ? theme.palette.primary[600]
         : theme.palette.neutral[200],
   },
 }));
@@ -100,8 +100,7 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
                 borderRadius: 3,
               }}>
               {formatDate(sortedBookings[0].dateFrom)} -{' '}
-              {formatDate(sortedBookings[0].dateTo)}, guest(s):{' '}
-              {sortedBookings[0].guests}
+              {formatDate(sortedBookings[0].dateTo)}
             </Typography>
           )}
       </Box>

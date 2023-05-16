@@ -7,7 +7,7 @@ import {
   TabList,
   Typography,
 } from '@mui/joy';
-import { EditVenue } from '../forms';
+import { DeleteBooking, EditVenue } from '../forms';
 import { MainThemeButton } from '../../styles/GlobalStyles';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -40,7 +40,7 @@ const Overlay = styled(Box)(({ theme }) => ({
   transform: 'translateX(-100%)',
 }));
 
-export default function ProfileVenueBookings({ profile, venue }) {
+export default function ProfileVenueBookings({ profile, venue, token }) {
   const handleCloseSlideOut = () => {
     const bookingsContainer = document.getElementById('bookingsContainer');
     const overlay = document.getElementById('overlay');
@@ -68,10 +68,11 @@ export default function ProfileVenueBookings({ profile, venue }) {
                   ? `1px solid ${theme.palette.common.white}`
                   : `1px solid ${theme.palette.primary[900]}`,
             }}>
-            <Typography level='h6' component={'p'} sx={{ paddingX: 1 }}>
+            <Typography level='h6' component={'h2'} sx={{ paddingX: 1 }}>
               Managing {venue.name}
             </Typography>
             <MainThemeButton
+              aria-label='close slideout menu'
               variant='plain'
               size='sm'
               onClick={handleCloseSlideOut}>
@@ -87,11 +88,13 @@ export default function ProfileVenueBookings({ profile, venue }) {
                     ? ` ${theme.palette.primary[700]}`
                     : ` ${theme.palette.neutral[200]}`,
               }}>
-              <Tab>Edit</Tab>
               <Tab>Bookings</Tab>
+              <Tab>Edit</Tab>
             </TabList>
-            <TabPanel>
+            <TabPanel value={0}>Test</TabPanel>
+            <TabPanel value={1}>
               <EditVenue venue={venue} />
+              <DeleteBooking venue={venue} token={token} />
             </TabPanel>
           </Tabs>
         </BookingsContainer>

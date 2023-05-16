@@ -1,6 +1,15 @@
 import { extendTheme } from '@mui/joy/styles';
 
 export const theme = extendTheme({
+  typography: {
+    body3: {
+      fontSize: '0.8rem',
+      fontWeight: 400,
+      lineHeight: '1rem',
+      letterSpacing: '0.03333em',
+      color: 'var(--joy-palette-text-primary)',
+    },
+  },
   fontFamily: {
     body: 'futura-PT, var(--joy-fontFamily-fallback)',
   },
@@ -33,6 +42,7 @@ export const theme = extendTheme({
         },
         text: {
           primary: 'var(--joy-palette-primary-800)',
+          body3: 'var(--joy-palette-primary-800)',
         },
         background: { body: 'var(--joy-palette-neutral-50)' },
       },
