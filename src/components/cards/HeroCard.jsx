@@ -1,6 +1,7 @@
 import { Box, Typography, styled, Container } from '@mui/joy';
 import { VenueMeta } from '../venueData';
 import { MainThemeButton, LinkWrapper } from '../../styles/GlobalStyles';
+import { altImage } from '../../constants/variables';
 
 // Styling for Hero section container.
 const HeroContainer = styled(Box)(({ theme }) => ({
@@ -45,8 +46,9 @@ export default function HeroCard({ venue }) {
     <HeroContainer>
       <Box
         component={'img'}
-        src={venue.media && venue.media[0]}
-        alt={venue.name}
+        src={venue.media && venue.media[0] ? venue.media[0] : altImage}
+        alt={venue && venue.name + ' media'}
+        onError={(e) => (e.target.src = altImage)}
         sx={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7 }}
       />
       <HeroBody>

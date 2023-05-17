@@ -46,6 +46,8 @@ export default function ProfileVenueBookings({
   token,
   setCreateVenue,
   createVenue,
+  setProfileVenues,
+  setFilteredVenues,
 }) {
   const handleCloseSlideOut = () => {
     const bookingsContainer = document.getElementById('bookingsContainer');
@@ -54,9 +56,11 @@ export default function ProfileVenueBookings({
     bookingsContainer.style.transform = 'translateX(-100%)';
     bookingsContainer.style.transition = 'transform 0.5s ease-in-out';
 
-    setTimeout(() => {
-      setCreateVenue(false);
-    }, 500);
+    if (createVenue) {
+      setTimeout(() => {
+        setCreateVenue(false);
+      }, 500);
+    }
   };
 
   return (
@@ -104,8 +108,19 @@ export default function ProfileVenueBookings({
               </TabList>
               <TabPanel value={0}>Test</TabPanel>
               <TabPanel value={1}>
-                <EditVenue venue={venue} />
-                <DeleteBooking venue={venue} token={token} />
+                <EditVenue
+                  venue={venue}
+                  setProfileVenues={setProfileVenues}
+                  handleCloseSlideOut={handleCloseSlideOut}
+                  setFilteredVenues={setFilteredVenues}
+                />
+                <DeleteBooking
+                  venue={venue}
+                  token={token}
+                  setFilteredVenues={setFilteredVenues}
+                  setProfileVenues={setProfileVenues}
+                  handleCloseSlideOut={handleCloseSlideOut}
+                />
               </TabPanel>
             </Tabs>
           </Box>
@@ -136,7 +151,12 @@ export default function ProfileVenueBookings({
                 <CloseIcon />
               </MainThemeButton>
             </Box>
-            <CreateVenue token={token} />
+            <CreateVenue
+              token={token}
+              handleCloseSlideOut={handleCloseSlideOut}
+              setProfileVenues={setProfileVenues}
+              setFilteredVenues={setFilteredVenues}
+            />
           </Box>
         )}
       </BookingsContainer>

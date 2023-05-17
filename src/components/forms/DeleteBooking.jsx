@@ -2,13 +2,18 @@ import { Box, Checkbox, Typography, Button } from '@mui/joy';
 import { MainThemeButton } from '../../styles/GlobalStyles';
 import { useState } from 'react';
 
-export default function DeleteBooking({ venue, token }) {
+export default function DeleteBooking({
+  venue,
+  token,
+  setProfileVenues,
+  handleCloseSlideOut,
+  setFilteredVenues,
+}) {
   const [confirm, setConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState('');
 
-  // set confirm to true when checkbox is checked and false when unchecked
   const handleConfirm = (e) => {
     setConfirm(e.target.checked);
   };
@@ -26,8 +31,14 @@ export default function DeleteBooking({ venue, token }) {
       const res = await fetch(url, options);
 
       if (res.ok) {
-        const result = await res.json();
-        setMessage(result.message);
+        setMessage(`${venue.name} has been deleted`);
+        setProfileVenues((prev) => prev.filter((v) => v.id !== venue.id));
+        setFilteredVenues((prev) => prev.filter((v) => v.id !== venue.id));
+        setConfirm(false);
+        setTimeout(() => {
+          setMessage('');
+          handleCloseSlideOut();
+        }, 1000);
       } else {
         setMessage('Something went wrong processing your request');
         throw new Error('Something went wrong');
@@ -60,6 +71,7 @@ export default function DeleteBooking({ venue, token }) {
       </Typography>
       <Box sx={{ width: 'fit-content', margin: '1em auto' }}>
         <Checkbox
+          checked={confirm}
           onChange={handleConfirm}
           label='Are you sure you wish to delete this venue?'
         />
@@ -76,21 +88,29 @@ export default function DeleteBooking({ venue, token }) {
           {message}
         </Typography>
       )}
-      {loading && <MainThemeButton loading />}
-      {confirm ? (
-        <MainThemeButton fullWidth onClick={handleDelete}>
-          Delete
+      {loading && (
+        <MainThemeButton fullWidth loading>
+          Processing
         </MainThemeButton>
-      ) : (
-        <Typography
-          textAlign={'center'}
-          sx={{
-            backgroundColor: 'rgba(0,0,0,.05)',
-            padding: 1,
-            borderRadius: 3,
-          }}>
-          Confirm before proceeding
-        </Typography>
+      )}
+      {!loading && (
+        <Box>
+          {confirm ? (
+            <MainThemeButton fullWidth onClick={handleDelete}>
+              Delete
+            </MainThemeButton>
+          ) : (
+            <Typography
+              textAlign={'center'}
+              sx={{
+                backgroundColor: 'rgba(0,0,0,.05)',
+                padding: 1,
+                borderRadius: 3,
+              }}>
+              Confirm before proceeding
+            </Typography>
+          )}
+        </Box>
       )}
     </Box>
   );

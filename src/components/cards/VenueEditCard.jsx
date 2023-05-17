@@ -1,5 +1,6 @@
 import { Box, Typography, styled } from '@mui/joy';
 import { useState, useEffect } from 'react';
+import { altImage } from '../../constants/variables';
 
 const StyledVenueCard = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -26,11 +27,18 @@ const StyledVenueCard = styled(Box)(({ theme }) => ({
 }));
 
 export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
+  const [thisVenue, setThisVenue] = useState({ ...venue, bookings: [] });
   const [filteredBookings, setFilteredBookings] = useState([]);
 
   useEffect(() => {
     if (venue) {
-      const filtered = venue.bookings.filter((booking) => {
+      setThisVenue(venue);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (thisVenue && thisVenue.bookings) {
+      const filtered = thisVenue.bookings.filter((booking) => {
         const bookingDate = new Date(booking.dateFrom);
         const date = new Date();
         return bookingDate >= date;
@@ -38,7 +46,7 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
 
       setFilteredBookings(filtered);
     }
-  }, []);
+  }, [thisVenue]);
 
   const sortedBookings = filteredBookings.sort((a, b) => {
     return new Date(a.date) - new Date(b.date);
@@ -55,14 +63,15 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
 
   return (
     <StyledVenueCard
-      id={venue.id}
+      id={thisVenue.id}
       sx={{ display: 'flex', gap: 1 }}
       onClick={handleBookingsSlideIn}>
-      {venue && (
+      {thisVenue && (
         <Box
           component={'img'}
-          src={venue.media[0]}
-          alt={venue.name}
+          src={thisVenue && thisVenue.media[0] ? thisVenue.media[0] : altImage}
+          alt={thisVenue.name}
+          onError={(e) => (e.target.src = altImage)}
           sx={{
             width: '100%',
             height: '100%',
@@ -83,15 +92,17 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
             textTransform: 'uppercase',
             lineHeight: 1,
           }}>
-          {venue.name.length > 22
-            ? venue.name.slice(0, 22) + '...'
-            : venue.name}
+          {thisVenue.name.length > 22
+            ? thisVenue.name.slice(0, 22) + '...'
+            : thisVenue.name}
         </Typography>
-        <Typography level='body1' component={'p'}>
-          Upcoming booking(s): {venue.bookings.length}
-        </Typography>
-        {venue.bookings &&
-          venue.bookings.length > 0 &&
+        {thisVenue && thisVenue.bookings && (
+          <Typography level='body1' component={'p'}>
+            Upcoming booking(s): {thisVenue.bookings.length}
+          </Typography>
+        )}
+        {thisVenue.bookings &&
+          thisVenue.bookings.length > 0 &&
           sortedBookings.length > 0 && (
             <Typography
               component={'p'}

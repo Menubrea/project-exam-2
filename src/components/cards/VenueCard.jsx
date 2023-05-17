@@ -2,6 +2,7 @@ import { Box, Typography, styled } from '@mui/joy';
 import { alpha } from '@mui/system';
 import { VenueMeta, VenuePrice } from '../venueData';
 import { LinkWrapper } from '../../styles/GlobalStyles';
+import { altImage } from '../../constants/variables';
 
 const StyledTitle = styled(Typography)(({ theme, alphaValue }) => ({
   fontFamily: 'amatic-sc, sans-serif',
@@ -33,9 +34,6 @@ const StyledCard = styled(Box)(({ theme }) => ({
   },
 }));
 
-const altImage =
-  'https://images.unsplash.com/photo-1575403071235-5dcd06cbf169?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80';
-
 export default function VenueCard({ venue }) {
   return (
     <StyledCard>
@@ -47,7 +45,8 @@ export default function VenueCard({ venue }) {
             height: '100%',
             objectFit: 'cover',
           }}
-          src={venue.media ? venue.media[0] : altImage}
+          src={venue && venue.media[0] ? venue.media[0] : altImage}
+          alt={`${venue.name} media`}
           onError={(e) => (e.target.src = altImage)}
         />
         <VenuePrice venue={venue} />

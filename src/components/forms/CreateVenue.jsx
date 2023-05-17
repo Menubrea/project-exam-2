@@ -14,25 +14,85 @@ import {
 
 import CloseIcon from '@mui/icons-material/Close';
 import { NorwegianCounties } from '../../constants/counties';
+import { set } from 'date-fns';
 
-export default function CreateVenue({ token }) {
+export default function CreateVenue({
+  token,
+  setProfileVenues,
+  setFilteredVenues,
+  handleCloseSlideOut,
+}) {
   const [mediaArray, setMediaArray] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [mediaMessage, setMediaMessage] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    location: {
+      address: '',
+      city: '',
+    },
+  });
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
-  const handleAddMedia = (e) => {
-    setMediaArray([...mediaArray, inputValue]);
+  const validateSubmit = () => {
+    if (
+      formData.name.length > 0 &&
+      formData.description.length > 0 &&
+      formData.location.address.length > 0 &&
+      formData.location.city.length > 0 &&
+      mediaArray.length > 0
+    ) {
+      return true;
+    }
+    setMessage(
+      'All fields, except meta, are required. Including at least 1 image'
+    );
+    setTimeout(() => {
+      setMessage('');
+    }, 3000);
+    return false;
+  };
+
+  const handleAddMedia = () => {
     const input = document.getElementById('addMedia');
     input.value = '';
+
+    const regex = /^https?:\/\/.*/;
+
+    if (regex.test(inputValue)) {
+      setMediaArray([...mediaArray, inputValue]);
+      setFormData({ ...formData, media: [...mediaArray, inputValue] });
+      setInputValue('');
+    } else {
+      setMediaMessage('Please provide a valid image url');
+      setTimeout(() => {
+        setMediaMessage('');
+      }, 3000);
+    }
   };
 
   const handleRemoveMedia = (index) => {
     setMediaArray(mediaArray.filter((item, i) => i !== index));
+  };
+
+  const resetStates = () => {
+    setMediaArray([]);
+    setInputValue('');
+    setMediaMessage('');
+    setFormData({
+      name: '',
+      description: '',
+      location: {
+        address: '',
+        city: '',
+      },
+    });
   };
 
   const createForm = useForm({
@@ -40,6 +100,7 @@ export default function CreateVenue({ token }) {
     defaultValues: {
       media: [],
       location: {
+        city: '',
         country: 'Norway',
         continent: 'Europe',
       },
@@ -50,18 +111,10 @@ export default function CreateVenue({ token }) {
     createForm.setValue('media', mediaArray);
   }, [createForm, mediaArray]);
 
-  const allValues = createForm.getValues();
-  console.log(allValues);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = createForm;
+  const { register, handleSubmit } = createForm;
 
   const submitEdit = async (data) => {
     try {
-      console.log('creating venue');
       setLoading(true);
       const res = await fetch(`https://api.noroff.dev/api/v1/holidaze/venues`, {
         method: 'POST',
@@ -71,12 +124,24 @@ export default function CreateVenue({ token }) {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (res.ok) {
-        const result = await res.json();
-        setMessage(`${result.name} was successfully created`);
-        setLoading(false);
-      } else {
-        setMessage('Something went wrong, please try again');
+
+      switch (res.status) {
+        case 201:
+          const result = await res.json();
+          setMessage(`${result.name} was successfully created`);
+          setProfileVenues((prev) => [...prev, result]);
+          setFilteredVenues((prev) => [...prev, result]);
+          resetStates();
+          setTimeout(() => {
+            handleCloseSlideOut();
+          }, 1000);
+          break;
+        case 400:
+          setMessage('Invalid image url provided');
+          throw new Error('Something went wrong');
+        default:
+          setMessage('Something went wrong, please try again');
+          throw new Error('Something went wrong');
       }
     } catch (error) {
       setMessage('Something went wrong, please try again');
@@ -106,6 +171,7 @@ export default function CreateVenue({ token }) {
       <StyledDivider />
       <FlexContainer
         sx={{
+          display: { xs: 'block', md: 'flex' },
           borderBottom: (theme) =>
             theme.palette.mode === 'dark'
               ? `1px solid ${theme.palette.common.white}`
@@ -116,18 +182,35 @@ export default function CreateVenue({ token }) {
           <MainThemeInput
             size='sm'
             id='venueName'
+            required
+            onKeyUp={(e) => {
+              setFormData({ ...formData, name: e.target.value });
+            }}
             type='text'
             name='name'
+            slotProps={{
+              input: {
+                minLength: 1,
+                maxLength: 50,
+                pattern: '[a-zA-Z\\s]+',
+                title: 'Only letters and spaces are allowed',
+              },
+            }}
             {...register('name')}
           />
-          <Typography level='body3'>{errors.name?.message}</Typography>
+          <Typography padding={0.5} level='body3' textAlign={'right'}>
+            {formData.name.length === 0
+              ? `Please provide a name`
+              : formData.name.length + '/50'}
+          </Typography>
         </Box>
         <Box>
           <Typography htmlFor='venuePrice'>Price</Typography>
           <MainThemeInput
-            sx={{ maxWidth: '100px' }}
+            sx={{ maxWidth: { xs: '100%', sm: '100px' } }}
             size='sm'
             id='venuePrice'
+            required
             type='number'
             name='price'
             slotProps={{
@@ -139,15 +222,16 @@ export default function CreateVenue({ token }) {
             }}
             {...register('price')}
           />
-          <Typography level='body3'>{errors.price?.message}</Typography>
         </Box>
 
         <Box>
           <Typography htmlFor='venueMaxGuests'>Guests</Typography>
           <MainThemeInput
-            sx={{ maxWidth: '100px' }}
+            sx={{ maxWidth: { xs: '100%', sm: '100px' } }}
             size='sm'
             id='venueMaxGuests'
+            required
+            title='Max guests'
             type='number'
             name='maxGuests'
             slotProps={{
@@ -160,7 +244,6 @@ export default function CreateVenue({ token }) {
             }}
             {...register('maxGuests')}
           />
-          <Typography level='body3'>{errors.maxGuests?.message}</Typography>
         </Box>
       </FlexContainer>
       <Box
@@ -202,12 +285,19 @@ export default function CreateVenue({ token }) {
                   <CloseIcon />
                 </MainThemeButton>
               </Box>
-              <Typography>{errors.media?.message}</Typography>
             </Box>
           ))}
+          {mediaArray.length === 0 && (
+            <Typography textAlign={'center'} level='body1'>
+              Please provide an image url, it should display here as an image if
+              the url is valid.
+            </Typography>
+          )}
         </Box>
         <Box marginTop={1}>
-          <Typography>Add images</Typography>
+          <Typography aria-label='addMedia' component={'label'}>
+            Add images
+          </Typography>
           <Box sx={{ display: 'flex', gap: 1 }}>
             <MainThemeInput
               id='addMedia'
@@ -224,6 +314,9 @@ export default function CreateVenue({ token }) {
               Add
             </MainThemeButton>
           </Box>
+          <Typography padding={0.5} level='body3' textAlign={'right'}>
+            {mediaMessage}
+          </Typography>
         </Box>
       </Box>
 
@@ -240,9 +333,25 @@ export default function CreateVenue({ token }) {
           minRows={2}
           id='venueDescription'
           name='description'
+          required
           size='lg'
+          onKeyUp={(e) => {
+            setFormData({ ...formData, description: e.target.value });
+          }}
+          placeholder='Provide a detailed description of your venue'
+          slotProps={{
+            textarea: {
+              minLength: 1,
+              maxLength: 480,
+            },
+          }}
           {...register('description')}
         />
+        <Typography padding={0.5} level='body3' textAlign={'right'}>
+          {formData.description.length === 0
+            ? `Please provide a description`
+            : formData.description.length + '/480'}
+        </Typography>
       </Box>
       <Box
         sx={{
@@ -306,47 +415,78 @@ export default function CreateVenue({ token }) {
             <Typography htmlFor='venueAddress'>Address</Typography>
             <MainThemeInput
               size='sm'
+              required
+              onKeyUp={(e) => {
+                setFormData({
+                  ...formData,
+                  location: {
+                    ...formData.location,
+                    address: e.target.value,
+                  },
+                });
+              }}
               id='venueAddress'
               type='text'
               {...register('location.address')}
             />
+            <Typography padding={0.5} level='body3' textAlign={'right'}>
+              {formData.location.address === '' && `Please provide an address`}
+            </Typography>
           </Box>
           <Box width={'100%'}>
             <Typography htmlFor='venueRegion'>Region</Typography>
-            <MainThemeSelect size='sm' placeholder={'Select a region'}>
+            <MainThemeSelect
+              size='sm'
+              required={true}
+              id='venueRegion'
+              placeholder={'Select a region'}
+              defaultValue={'Select a region'}
+              slotProps={{
+                select: {
+                  title: 'Please select a region',
+                },
+              }}>
               {NorwegianCounties.map((region) => (
                 <Option
+                  onClick={(e) => {
+                    setFormData({
+                      ...formData,
+                      location: {
+                        ...formData.location,
+                        city: e.target.outerText,
+                      },
+                    });
+                    createForm.setValue('location.city', e.target.outerText);
+                  }}
                   key={region.name}
-                  value={region.name}
-                  {...register('location.city')}>
+                  value={region.name}>
                   {region.name}
                 </Option>
               ))}
             </MainThemeSelect>
+
+            <Typography padding={0.5} level='body3' textAlign={'right'}>
+              {formData.location.city === '' && `Please select a region`}
+            </Typography>
           </Box>
         </Box>
       </Box>
-      {message && (
-        <Typography
-          level='h6'
-          sx={{
-            marginX: 'auto',
-            marginY: 2,
-            padding: 2,
-            backgroundColor: 'rgba(0, 0, 0, .05)',
-            borderRadius: 3,
-            width: 'fit-content',
-          }}>
-          {message}
-        </Typography>
-      )}
+
       <Box padding={1} marginTop={0}>
         {loading ? (
           <MainThemeButton type='button' loading fullWidth />
         ) : (
-          <MainThemeButton fullWidth type='submit'>
-            Create Venue
-          </MainThemeButton>
+          <Box>
+            {message ? (
+              <MainThemeButton disabled fullWidth>
+                {message && message}
+              </MainThemeButton>
+            ) : (
+              <MainThemeButton onClick={validateSubmit} type='submit' fullWidth>
+                Create Venue
+              </MainThemeButton>
+            )}
+          </Box>
         )}
       </Box>
     </EditFormContainer>
@@ -354,7 +494,6 @@ export default function CreateVenue({ token }) {
 }
 
 const FlexContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
   gap: theme.spacing(1),
   padding: theme.spacing(2),
   backgroundColor:
@@ -379,9 +518,9 @@ const EditFormContainer = styled(Box)(({ theme }) => ({
 }));
 
 const CreateVenueSchema = yup.object({
-  name: yup.string().required().trim(),
-  description: yup.string().required().trim(),
-  media: yup.array().of(yup.string().required().trim()),
+  name: yup.string().required().min(1).max(35).trim(),
+  description: yup.string().required().min(1).max(480).trim(),
+  media: yup.array().required().min(1).of(yup.string().required().trim()),
 
   price: yup.number().required().min(1),
   maxGuests: yup.number().required().min(1).max(100),
@@ -394,8 +533,8 @@ const CreateVenueSchema = yup.object({
   }),
 
   location: yup.object().shape({
-    address: yup.string().required().trim(),
-    city: yup.string().required().trim(),
+    address: yup.string().required().min(1).trim(),
+    city: yup.string().required().min(1).trim(),
     country: yup.string().trim(),
     continent: yup.string().trim(),
   }),

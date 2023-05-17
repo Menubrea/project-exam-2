@@ -12,8 +12,14 @@ import {
 } from '../../styles/GlobalStyles';
 
 import CloseIcon from '@mui/icons-material/Close';
+import { altImage } from '../../constants/variables';
 
-export default function EditVenue({ venue }) {
+export default function EditVenue({
+  venue,
+  setProfileVenues,
+  handleCloseSlideOut,
+  setFilteredVenues,
+}) {
   const [mediaArray, setMediaArray] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [message, setMessage] = useState('');
@@ -39,16 +45,14 @@ export default function EditVenue({ venue }) {
     setMediaArray(mediaArray.filter((item, i) => i !== index));
   };
 
-  console.log(mediaArray);
-
   const editForm = useForm({
     resolver: yupResolver(EditVenueSchema),
     defaultValues: {
-      name: venue.name,
+      name: venue.name && venue.name,
       description: venue.description,
       price: venue.price,
       maxGuests: venue.maxGuests,
-      media: venue.media,
+      media: venue.media ? venue.media : altImage,
       meta: {
         wifi: venue.meta.wifi,
         parking: venue.meta.parking,
@@ -91,8 +95,21 @@ export default function EditVenue({ venue }) {
         }
       );
       if (res.ok) {
-        const result = await res.json();
-        setMessage(`${result.name} successfully updated`);
+        const editedVenue = await res.json();
+        setMessage(`${editedVenue.name} successfully updated`);
+        setProfileVenues((prev) =>
+          prev.map((venue) =>
+            venue.id === editedVenue.id ? { ...editedVenue } : venue
+          )
+        );
+        setFilteredVenues((prev) =>
+          prev.map((venue) =>
+            venue.id === editedVenue.id ? { ...editedVenue } : venue
+          )
+        );
+        setTimeout(() => {
+          handleCloseSlideOut();
+        }, 1000);
         setLoading(false);
       } else {
         setMessage('Something went wrong, please try again');
@@ -136,6 +153,7 @@ export default function EditVenue({ venue }) {
           <MainThemeInput
             size='sm'
             id='venueName'
+            value={venue.name}
             type='text'
             name='name'
             {...register('name')}
@@ -148,6 +166,7 @@ export default function EditVenue({ venue }) {
             sx={{ maxWidth: '100px' }}
             size='sm'
             id='venuePrice'
+            value={venue.price}
             type='number'
             name='price'
             slotProps={{
@@ -168,6 +187,7 @@ export default function EditVenue({ venue }) {
             sx={{ maxWidth: '100px' }}
             size='sm'
             id='venueMaxGuests'
+            value={venue.maxGuests}
             type='number'
             name='maxGuests'
             slotProps={{
@@ -197,34 +217,38 @@ export default function EditVenue({ venue }) {
             gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
             gap: 1,
           }}>
-          {mediaArray.map((mediaItem, index) => (
-            <Box key={index}>
-              <Typography level='body3' htmlFor={`venueMedia${index}`}>
-                Image {index + 1}
-              </Typography>
-              <Box position={'relative'}>
-                <Box
-                  sx={{
-                    width: '100%',
-                    height: '200px',
-                    overflow: 'hidden',
-                    objectFit: 'cover',
-                  }}
-                  component={'img'}
-                  src={mediaItem}
-                  alt={`media url ${mediaItem}`}
-                />
-                <MainThemeButton
-                  sx={{ position: 'absolute', zIndex: 10, top: 2, right: 2 }}
-                  size='sm'
-                  type='button'
-                  onClick={() => handleRemoveMedia(index)}>
-                  <CloseIcon />
-                </MainThemeButton>
+          {mediaArray ? (
+            mediaArray.map((mediaItem, index) => (
+              <Box key={index}>
+                <Typography level='body3' htmlFor={`venueMedia${index}`}>
+                  Image {index + 1}
+                </Typography>
+                <Box position={'relative'}>
+                  <Box
+                    sx={{
+                      width: '100%',
+                      height: '200px',
+                      overflow: 'hidden',
+                      objectFit: 'cover',
+                    }}
+                    component={'img'}
+                    src={mediaItem}
+                    alt={`media url ${mediaItem}`}
+                  />
+                  <MainThemeButton
+                    sx={{ position: 'absolute', zIndex: 10, top: 2, right: 2 }}
+                    size='sm'
+                    type='button'
+                    onClick={() => handleRemoveMedia(index)}>
+                    <CloseIcon />
+                  </MainThemeButton>
+                </Box>
+                <Typography>{errors.media?.message}</Typography>
               </Box>
-              <Typography>{errors.media?.message}</Typography>
-            </Box>
-          ))}
+            ))
+          ) : (
+            <Typography>No media</Typography>
+          )}
         </Box>
         <Box marginTop={1}>
           <Typography>Add images</Typography>
@@ -256,6 +280,7 @@ export default function EditVenue({ venue }) {
         <MainThemeTextArea
           minRows={2}
           id='venueDescription'
+          value={venue.description}
           name='description'
           size='lg'
           {...register('description')}
@@ -283,24 +308,28 @@ export default function EditVenue({ venue }) {
             variant='solid'
             name='meta.wifi'
             label='wifi'
+            checked={venue.meta.wifi}
             {...register('meta.wifi')}
           />
           <Checkbox
             variant='solid'
             name='meta.parking'
             label='parking'
+            checked={venue.meta.parking}
             {...register('meta.parking')}
           />
           <Checkbox
             variant='solid'
             name='meta.breakfast'
             label='breakfast'
+            checked={venue.meta.breakfast}
             {...register('meta.breakfast')}
           />
           <Checkbox
             variant='solid'
             name='meta.pets'
             label='pets'
+            checked={venue.meta.pets}
             {...register('meta.pets')}
           />
         </Box>
