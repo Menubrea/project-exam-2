@@ -1,5 +1,9 @@
 import { Box, Typography, styled, IconButton } from '@mui/joy';
-import { MainThemeButton, MainThemeInput } from '../../styles/GlobalStyles';
+import {
+  MainThemeButton,
+  MainThemeInput,
+  StyledDivider,
+} from '../../styles/GlobalStyles';
 import { useEffect, useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
@@ -64,16 +68,18 @@ export default function ProfileMeta({ profile, handleCreateSlide }) {
 
   return (
     <ProfileContainer>
-      <FlexContainer>
-        <Box sx={{ position: 'relative' }}>
+      <Box sx={{ display: { xs: 'block', sm: 'flex' }, gap: 2 }}>
+        <Box
+          sx={{ position: 'relative', margin: '0 auto', width: 'fit-content' }}>
           <Box
             component={'img'}
             src={avatar}
             sx={{
-              height: '124px',
+              margin: '0 auto',
+              width: 'clamp(50px, 25vh, 96px)',
               aspectRatio: '1 / 1',
-              border: '1px solid white',
               objectFit: 'cover',
+              borderRadius: 3,
             }}
           />
           <Box
@@ -81,8 +87,8 @@ export default function ProfileMeta({ profile, handleCreateSlide }) {
             onSubmit={handleSubmit(submitAvatar)}
             sx={{
               position: 'absolute',
-              bottom: '35px',
-              left: '-15px',
+              top: -12,
+              left: -12,
             }}>
             {showInput && (
               <>
@@ -136,16 +142,30 @@ export default function ProfileMeta({ profile, handleCreateSlide }) {
         </Box>
         <Box>
           <Typography
-            level='h1'
+            level='h2'
             component={'h1'}
             sx={{
+              textAlign: { xs: 'center', sm: 'left' },
               fontFamily: 'amatic-sc, sans-serif',
-              textTransform: 'uppercase',
             }}>
             {profile.name}
           </Typography>
-          <Typography level='body1'>{profile.email}</Typography>
-          <Box display={'flex'} gap={2}>
+          <Typography
+            sx={{ textAlign: { xs: 'center', sm: 'left' } }}
+            level='body1'>
+            {profile.email}
+          </Typography>
+          <Box
+            display={'flex'}
+            justifyContent={{ xs: 'center', sm: 'flex-start' }}
+            gap={2}
+            sx={{
+              paddingY: 0.5,
+              borderBlock: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? `1px solid ${theme.palette.common.white}`
+                  : `1px solid ${theme.palette.primary[900]}`,
+            }}>
             {profile.bookings && (
               <Typography level='body3' component={'span'}>
                 Bookings: {profile.bookings.length}
@@ -157,15 +177,15 @@ export default function ProfileMeta({ profile, handleCreateSlide }) {
               </Typography>
             )}
           </Box>
-          <Box sx={{ marginTop: 2, width: 'fit-content', margin: '1rem auto' }}>
+          <Box sx={{ marginY: 2 }}>
             {profile.venueManager && (
-              <MainThemeButton onClick={handleCreateSlide}>
+              <MainThemeButton fullWidth onClick={handleCreateSlide}>
                 Create Venue
               </MainThemeButton>
             )}
           </Box>
         </Box>
-      </FlexContainer>
+      </Box>
     </ProfileContainer>
   );
 }
@@ -188,12 +208,6 @@ const ProfileContainer = styled(Box)(({ theme }) => ({
     theme.palette.mode === 'dark'
       ? theme.palette.primary[700]
       : theme.palette.neutral[200],
-  height: 'clamp(300px, 25vh, 500px)',
   gap: theme.spacing(2),
-  paddingTop: theme.spacing(10),
-}));
-
-const FlexContainer = styled(Box)(({ theme, ...props }) => ({
-  display: 'flex',
-  gap: theme.spacing(3) || props.gap,
+  paddingTop: theme.spacing(14),
 }));

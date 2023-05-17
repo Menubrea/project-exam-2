@@ -50,9 +50,7 @@ export default function CreateVenue({
     ) {
       return true;
     }
-    setMessage(
-      'All fields, except meta, are required. Including at least 1 image'
-    );
+    setMessage('All fields required, including minimum 1 image.');
     setTimeout(() => {
       setMessage('');
     }, 3000);
@@ -371,7 +369,7 @@ export default function CreateVenue({
             flexWrap: 'wrap',
             justifyContent: 'space-between',
             alignItems: 'center',
-            gap: 1,
+            gap: { xs: 2, sm: 2, md: 1 },
           }}>
           <Checkbox
             variant='solid'
@@ -407,7 +405,7 @@ export default function CreateVenue({
         </Typography>
         <Box
           sx={{
-            display: 'flex',
+            display: { xs: 'block', sm: 'flex' },
             gap: 1,
             justifyContent: 'space-between',
           }}>
