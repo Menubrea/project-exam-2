@@ -44,13 +44,13 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
         return bookingDate >= date;
       });
 
+      filtered.sort((a, b) => {
+        return new Date(a.date) - new Date(b.date);
+      });
+
       setFilteredBookings(filtered);
     }
   }, [thisVenue]);
-
-  const sortedBookings = filteredBookings.sort((a, b) => {
-    return new Date(a.date) - new Date(b.date);
-  });
 
   const formatDate = (date) => {
     let formatDate = new Date(date).toLocaleDateString('en-UK', {
@@ -87,39 +87,36 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
           level='body1'
           component={'h3'}
           sx={{
-            fontFamily: 'futura-pt-condensed, sans-serif',
-            fontWeight: 700,
-            textTransform: 'uppercase',
+            fontFamily: 'futura-pt, sans-serif',
+            fontWeight: 500,
             lineHeight: 1,
           }}>
-          {thisVenue.name.length > 22
-            ? thisVenue.name.slice(0, 22) + '...'
+          {thisVenue.name.length > 25
+            ? thisVenue.name.slice(0, 25) + '...'
             : thisVenue.name}
         </Typography>
         {thisVenue && thisVenue.bookings && (
           <Typography level='body1' component={'p'}>
-            Upcoming booking(s): {sortedBookings.length}
+            Upcoming booking(s): {filteredBookings.length}
           </Typography>
         )}
-        {thisVenue.bookings &&
-          thisVenue.bookings.length > 0 &&
-          sortedBookings.length > 0 && (
-            <Typography
-              component={'p'}
-              sx={{
-                fontFamily: 'futura-PT-condensed',
-                textTransform: 'uppercase',
-                fontSize: '.9rem',
-                backgroundColor: 'rgba(0,0,0,.1)',
-                padding: 0.1,
-                paddingX: 2,
-                textAlign: 'center',
-                borderRadius: 3,
-              }}>
-              {formatDate(sortedBookings[0].dateFrom)} -{' '}
-              {formatDate(sortedBookings[0].dateTo)}
-            </Typography>
-          )}
+        {filteredBookings.length > 0 && (
+          <Typography
+            component={'p'}
+            sx={{
+              fontFamily: 'futura-PT-condensed',
+              textTransform: 'uppercase',
+              fontSize: '.9rem',
+              backgroundColor: 'rgba(0,0,0,.1)',
+              padding: 0.1,
+              paddingX: 2,
+              textAlign: 'center',
+              borderRadius: 3,
+            }}>
+            {formatDate(filteredBookings[0].dateFrom)} -{' '}
+            {formatDate(filteredBookings[0].dateTo)}
+          </Typography>
+        )}
       </Box>
     </StyledVenueCard>
   );

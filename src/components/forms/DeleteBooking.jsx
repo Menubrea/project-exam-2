@@ -1,4 +1,4 @@
-import { Box, Checkbox, Typography, Button } from '@mui/joy';
+import { Box, Checkbox, Typography } from '@mui/joy';
 import { MainThemeButton } from '../../styles/GlobalStyles';
 import { useState } from 'react';
 

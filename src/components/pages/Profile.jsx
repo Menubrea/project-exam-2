@@ -1,4 +1,4 @@
-import { Box, Container, Typography, Button } from '@mui/joy';
+import { Box, Container, Typography } from '@mui/joy';
 import { useState, useEffect } from 'react';
 import {
   ProfileBookings,
@@ -21,6 +21,7 @@ export default function Profile({ setFilteredVenues }) {
   const [selectedVenue, setSelectedVenue] = useState(null);
   const [slideIn, setSlideIn] = useState(false);
   const [createVenue, setCreateVenue] = useState(false);
+  const [venueUpdates, setVenueUpdates] = useState(0);
 
   useEffect(() => {
     const container = document.getElementById('bookingsContainer');
@@ -54,6 +55,10 @@ export default function Profile({ setFilteredVenues }) {
     setSlideIn(true);
     setCreateVenue(true);
   };
+
+  useEffect(() => {
+    setVenueUpdates((prev) => prev + 1);
+  }, [profileVenues, setProfileVenues]);
 
   const handleBookingsSlideIn = (e) => {
     const button = e.target.closest('div[id]');
@@ -143,8 +148,9 @@ export default function Profile({ setFilteredVenues }) {
           profileVenues={profileVenues}
         />
 
-        {profile.venueManager && profileVenues.length > 0 && (
+        {profile.venueManager && profileVenues && profileVenues.length > 0 && (
           <ProfileVenues
+            key={venueUpdates}
             venues={profileVenues}
             handleBookingsSlideIn={handleBookingsSlideIn}
           />

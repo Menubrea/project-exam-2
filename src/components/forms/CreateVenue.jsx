@@ -3,18 +3,19 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 
-import { Box, Typography, Checkbox, styled, Option } from '@mui/joy';
+import { Box, Typography, Checkbox, styled, Button } from '@mui/joy';
 import {
   MainThemeButton,
   MainThemeInput,
   MainThemeTextArea,
   StyledDivider,
   MainThemeSelect,
+  StyledOption,
+  StyledButton,
 } from '../../styles/GlobalStyles';
 
 import CloseIcon from '@mui/icons-material/Close';
 import { NorwegianCounties } from '../../constants/counties';
-import { set } from 'date-fns';
 
 export default function CreateVenue({
   token,
@@ -154,6 +155,7 @@ export default function CreateVenue({
 
   return (
     <EditFormContainer
+      id='createVenueForm'
       sx={{ marginTop: 1 }}
       component={'form'}
       onSubmit={handleSubmit(submitEdit)}>
@@ -169,7 +171,7 @@ export default function CreateVenue({
       <StyledDivider />
       <FlexContainer
         sx={{
-          display: { xs: 'block', md: 'flex' },
+          display: { xs: 'block', sm: 'flex' },
           borderBottom: (theme) =>
             theme.palette.mode === 'dark'
               ? `1px solid ${theme.palette.common.white}`
@@ -275,13 +277,15 @@ export default function CreateVenue({
                   src={mediaItem}
                   alt={`media url ${mediaItem}`}
                 />
-                <MainThemeButton
-                  sx={{ position: 'absolute', zIndex: 10, top: 2, right: 2 }}
+                <StyledButton
+                  sx={{ position: 'absolute', zIndex: 10, top: 0, right: 0 }}
                   size='sm'
                   type='button'
                   onClick={() => handleRemoveMedia(index)}>
-                  <CloseIcon />
-                </MainThemeButton>
+                  <CloseIcon
+                    sx={{ position: 'absolute', top: 15, right: 15 }}
+                  />
+                </StyledButton>
               </Box>
             </Box>
           ))}
@@ -336,7 +340,6 @@ export default function CreateVenue({
           onKeyUp={(e) => {
             setFormData({ ...formData, description: e.target.value });
           }}
-          placeholder='Provide a detailed description of your venue'
           slotProps={{
             textarea: {
               minLength: 1,
@@ -445,7 +448,7 @@ export default function CreateVenue({
                 },
               }}>
               {NorwegianCounties.map((region) => (
-                <Option
+                <StyledOption
                   onClick={(e) => {
                     setFormData({
                       ...formData,
@@ -459,7 +462,7 @@ export default function CreateVenue({
                   key={region.name}
                   value={region.name}>
                   {region.name}
-                </Option>
+                </StyledOption>
               ))}
             </MainThemeSelect>
 
@@ -472,7 +475,13 @@ export default function CreateVenue({
 
       <Box padding={1} marginTop={0}>
         {loading ? (
-          <MainThemeButton type='button' loading fullWidth />
+          <MainThemeButton
+            type='button'
+            loading
+            loadingPosition='start'
+            fullWidth>
+            Creating Venue
+          </MainThemeButton>
         ) : (
           <Box>
             {message ? (

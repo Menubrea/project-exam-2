@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Avatar, Box, Menu, MenuItem, styled } from '@mui/joy';
+import { Box, Menu, MenuItem, styled } from '@mui/joy';
 import { AuthModal } from '../../modals';
 import { LinkWrapper, MainThemeButton } from '../../../styles/GlobalStyles';
 
@@ -12,6 +12,10 @@ const StyledMenu = styled(Menu)(({ theme }) => ({
 }));
 
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+  color:
+    theme.palette.mode === 'dark'
+      ? theme.palette.common.white
+      : theme.palette.primary[500],
   '&:hover': {
     backgroundColor:
       theme.palette.mode === 'dark'

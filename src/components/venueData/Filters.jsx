@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Box, Typography, Slider, Select, Option } from '@mui/joy';
+import { Box, Typography, Slider } from '@mui/joy';
+import { MainThemeSelect, StyledOption } from '../../styles/GlobalStyles';
 
 export default function Filters({ venues, setFiltered, search, filtered }) {
   const [guests, setGuests] = useState(1);
@@ -62,28 +63,37 @@ export default function Filters({ venues, setFiltered, search, filtered }) {
           justifyContent: 'space-between',
         }}>
         <Box>
-          <Typography>Guests</Typography>
-          <Select
+          <Typography htmlFor='pickGuests' component={'label'}>
+            Guests
+          </Typography>
+          <MainThemeSelect
+            id='pickGuests'
             variant='solid'
             color='primary'
             size='sm'
             placeholder='How many guests?'>
-            <Option value={'Any'} onClick={() => setGuests(1)}>
+            <StyledOption value={'Any'} onClick={() => setGuests(1)}>
               Any
-            </Option>
+            </StyledOption>
             {sortedGuests.map((guest) => (
-              <Option
+              <StyledOption
                 key={guest}
                 value={guest}
                 onClick={() => setGuests(guest)}>
                 {guest}
-              </Option>
+              </StyledOption>
             ))}
-          </Select>
+          </MainThemeSelect>
         </Box>
         <Box>
-          <Typography textAlign={'center'}>Price range:</Typography>
+          <Typography
+            htmlFor='priceRange'
+            textAlign={'center'}
+            component={'label'}>
+            Price range:
+          </Typography>
           <Slider
+            id='priceRange'
             variant='solid'
             color='primary'
             size='md'
@@ -101,24 +111,22 @@ export default function Filters({ venues, setFiltered, search, filtered }) {
           />
         </Box>
         <Box>
-          <Typography>County</Typography>
-          <Select
-            variant='solid'
-            color='primary'
-            size='sm'
-            placeholder='Choose County'>
-            <Option value={'All'} onClick={() => setRegion('All')}>
+          <Typography htmlFor='setRegion' component={'label'}>
+            Region
+          </Typography>
+          <MainThemeSelect id='setRegion' size='sm' placeholder='Choose County'>
+            <StyledOption value={'All'} onClick={() => setRegion('All')}>
               All
-            </Option>
+            </StyledOption>
             {regionArray.map((region) => (
-              <Option
+              <StyledOption
                 key={region}
                 value={region}
                 onClick={() => setRegion(region)}>
                 {region}{' '}
-              </Option>
+              </StyledOption>
             ))}
-          </Select>
+          </MainThemeSelect>
         </Box>
       </Box>
       <Box

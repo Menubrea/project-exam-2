@@ -9,10 +9,10 @@ import {
   MainThemeInput,
   MainThemeTextArea,
   StyledDivider,
+  StyledButton,
 } from '../../styles/GlobalStyles';
 
 import CloseIcon from '@mui/icons-material/Close';
-import { altImage } from '../../constants/variables';
 
 export default function EditVenue({
   venue,
@@ -35,7 +35,7 @@ export default function EditVenue({
     setInputValue(e.target.value);
   };
 
-  const handleAddMedia = (e) => {
+  const handleAddMedia = () => {
     setMediaArray([...mediaArray, inputValue]);
     const input = document.getElementById('addMedia');
     input.value = '';
@@ -48,11 +48,10 @@ export default function EditVenue({
   const editForm = useForm({
     resolver: yupResolver(EditVenueSchema),
     defaultValues: {
-      name: venue.name && venue.name,
+      name: venue.name,
       description: venue.description,
       price: venue.price,
       maxGuests: venue.maxGuests,
-      media: venue.media ? venue.media : altImage,
       meta: {
         wifi: venue.meta.wifi,
         parking: venue.meta.parking,
@@ -67,6 +66,27 @@ export default function EditVenue({
       },
     },
   });
+
+  useEffect(() => {
+    editForm.reset({
+      name: venue.name,
+      description: venue.description,
+      price: venue.price,
+      maxGuests: venue.maxGuests,
+      meta: {
+        wifi: venue.meta.wifi,
+        parking: venue.meta.parking,
+        breakfast: venue.meta.breakfast,
+        pets: venue.meta.pets,
+      },
+      location: {
+        address: venue.location.address,
+        city: venue.location.city,
+        country: venue.location.country,
+        continent: venue.location.continent,
+      },
+    });
+  }, [venue, editForm]);
 
   useEffect(() => {
     editForm.setValue('media', mediaArray);
@@ -97,16 +117,17 @@ export default function EditVenue({
       if (res.ok) {
         const editedVenue = await res.json();
         setMessage(`${editedVenue.name} successfully updated`);
-        setProfileVenues((prev) =>
-          prev.map((venue) =>
-            venue.id === editedVenue.id ? { ...editedVenue } : venue
-          )
-        );
-        setFilteredVenues((prev) =>
-          prev.map((venue) =>
-            venue.id === editedVenue.id ? { ...editedVenue } : venue
-          )
-        );
+
+        setProfileVenues((prev) => {
+          return prev.map((venue) =>
+            venue.id === editedVenue.id ? editedVenue : venue
+          );
+        });
+        setFilteredVenues((prev) => {
+          return prev.map((venue) =>
+            venue.id === editedVenue.id ? editedVenue : venue
+          );
+        });
         setTimeout(() => {
           handleCloseSlideOut();
         }, 1000);
@@ -127,6 +148,7 @@ export default function EditVenue({
 
   return (
     <EditFormContainer
+      id='editVenueForm'
       sx={{ marginTop: 1 }}
       component={'form'}
       onSubmit={handleSubmit(submitEdit)}>
@@ -143,6 +165,7 @@ export default function EditVenue({
       <StyledDivider />
       <FlexContainer
         sx={{
+          display: { xs: 'block', sm: 'flex' },
           borderBottom: (theme) =>
             theme.palette.mode === 'dark'
               ? `1px solid ${theme.palette.common.white}`
@@ -153,7 +176,7 @@ export default function EditVenue({
           <MainThemeInput
             size='sm'
             id='venueName'
-            value={venue.name}
+            required
             type='text'
             name='name'
             {...register('name')}
@@ -163,10 +186,10 @@ export default function EditVenue({
         <Box>
           <Typography htmlFor='venuePrice'>Price</Typography>
           <MainThemeInput
-            sx={{ maxWidth: '100px' }}
+            sx={{ maxWidth: { xs: '100%', sm: '100px' } }}
             size='sm'
             id='venuePrice'
-            value={venue.price}
+            required
             type='number'
             name='price'
             slotProps={{
@@ -184,10 +207,10 @@ export default function EditVenue({
         <Box>
           <Typography htmlFor='venueMaxGuests'>Guests</Typography>
           <MainThemeInput
-            sx={{ maxWidth: '100px' }}
+            sx={{ maxWidth: { xs: '100%', sm: '100px' } }}
             size='sm'
             id='venueMaxGuests'
-            value={venue.maxGuests}
+            required
             type='number'
             name='maxGuests'
             slotProps={{
@@ -235,13 +258,15 @@ export default function EditVenue({
                     src={mediaItem}
                     alt={`media url ${mediaItem}`}
                   />
-                  <MainThemeButton
-                    sx={{ position: 'absolute', zIndex: 10, top: 2, right: 2 }}
+                  <StyledButton
+                    sx={{ position: 'absolute', zIndex: 10, top: 0, right: 0 }}
                     size='sm'
                     type='button'
                     onClick={() => handleRemoveMedia(index)}>
-                    <CloseIcon />
-                  </MainThemeButton>
+                    <CloseIcon
+                      sx={{ position: 'absolute', top: 15, right: 15 }}
+                    />
+                  </StyledButton>
                 </Box>
                 <Typography>{errors.media?.message}</Typography>
               </Box>
@@ -279,8 +304,8 @@ export default function EditVenue({
         <Typography htmlFor='venueDescription'>Description</Typography>
         <MainThemeTextArea
           minRows={2}
+          required
           id='venueDescription'
-          value={venue.description}
           name='description'
           size='lg'
           {...register('description')}
@@ -308,28 +333,24 @@ export default function EditVenue({
             variant='solid'
             name='meta.wifi'
             label='wifi'
-            checked={venue.meta.wifi}
             {...register('meta.wifi')}
           />
           <Checkbox
             variant='solid'
             name='meta.parking'
             label='parking'
-            checked={venue.meta.parking}
             {...register('meta.parking')}
           />
           <Checkbox
             variant='solid'
             name='meta.breakfast'
             label='breakfast'
-            checked={venue.meta.breakfast}
             {...register('meta.breakfast')}
           />
           <Checkbox
             variant='solid'
             name='meta.pets'
             label='pets'
-            checked={venue.meta.pets}
             {...register('meta.pets')}
           />
         </Box>
@@ -350,12 +371,11 @@ export default function EditVenue({
       )}
       <Box padding={1} marginTop={0}>
         {loading ? (
-          <MainThemeButton loading fullWidth></MainThemeButton>
+          <MainThemeButton loading loadingPosition='start' fullWidth>
+            Updating Venue
+          </MainThemeButton>
         ) : (
-          <MainThemeButton
-            fullWidth
-            type='submit'
-            onClick={() => console.log('test')}>
+          <MainThemeButton fullWidth type='submit'>
             Update Venue
           </MainThemeButton>
         )}
@@ -365,7 +385,6 @@ export default function EditVenue({
 }
 
 const FlexContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
   gap: theme.spacing(1),
   padding: theme.spacing(2),
   backgroundColor:

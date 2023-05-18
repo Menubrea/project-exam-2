@@ -38,11 +38,10 @@ export default function Venue({ venue, loading, error }) {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    if (venue) {
-      venue.filter((filteredVenue) =>
-        filteredVenue.id === id ? setVenueById(filteredVenue) : null
-      );
-    }
+    const selectedVenue = venue.find(
+      (filteredVenue) => filteredVenue.id === id
+    );
+    setVenueById(selectedVenue);
   }, [venue, id]);
 
   useEffect(() => {
@@ -72,9 +71,6 @@ export default function Venue({ venue, loading, error }) {
 
   if (loading) return <Typography>Loading...</Typography>;
   if (error) return <Typography>Error: {error.message}</Typography>;
-
-  console.log(venueById);
-  console.log(profile);
 
   if (venueById) {
     return (
@@ -155,9 +151,10 @@ export default function Venue({ venue, loading, error }) {
 
           {venueById &&
             profile &&
-            profile?.name !== venueById?.owner?.name &&
-            profile?.name !== '' && <BookingForm venue={venueById} />}
-          {venueById && profile?.name === '' && <AuthContainer />}
+            venueById.owner?.name !== profile.name &&
+            profile.name !== '' && <BookingForm venue={venueById} />}
+
+          {venueById && profile.name === '' && <AuthContainer />}
         </VenueDetails>
       </StyledMainGrid>
     );

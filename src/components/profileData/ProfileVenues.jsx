@@ -33,14 +33,13 @@ export default function ProfileVenues({ venues, handleBookingsSlideIn }) {
         </Typography>
       </Container>
       <VenueContainer>
-        {venues &&
-          venues.map((venue) => (
-            <VenueEditCard
-              key={venue.id}
-              venue={venue}
-              handleBookingsSlideIn={handleBookingsSlideIn}
-            />
-          ))}
+        {venues.map((venue, i) => (
+          <VenueEditCard
+            key={i}
+            venue={venue}
+            handleBookingsSlideIn={handleBookingsSlideIn}
+          />
+        ))}
       </VenueContainer>
     </VenueWrapper>
   );

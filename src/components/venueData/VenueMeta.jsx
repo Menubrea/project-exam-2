@@ -3,7 +3,7 @@ import WifiIcon from '@mui/icons-material/Wifi';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import FreeBreakfastIcon from '@mui/icons-material/FreeBreakfast';
 import GroupsIcon from '@mui/icons-material/Groups';
-import { Box, styled } from '@mui/joy';
+import { Box, Tooltip, styled } from '@mui/joy';
 
 const VenueMetaStyle = styled(Box)(({ theme, ...props }) => ({
   position: props.position || 'absolute',
@@ -48,22 +48,30 @@ export default function VenueMeta({ meta, maxGuests, ...props }) {
       borderRadius={props.borderRadius}
       height={props.height}
       border={props.border}>
-      <StyledIconBox sx={{}}>
+      <StyledIconBox>
         <GroupsIcon />
         {maxGuests}
       </StyledIconBox>
       <StyledIconBox>
         {meta.pets === true ? (
-          <PetsIcon />
+          <Tooltip placement='right' title='Pets Allowed'>
+            <PetsIcon />
+          </Tooltip>
         ) : (
-          <PetsIcon sx={{ opacity: '20%' }} />
+          <Tooltip arrow placement='right' title='No Pets Allowed'>
+            <PetsIcon sx={{ opacity: '20%' }} />
+          </Tooltip>
         )}
       </StyledIconBox>
       <StyledIconBox>
         {meta.wifi === true ? (
-          <WifiIcon />
+          <Tooltip arrow placement='right' title='Wifi Available'>
+            <WifiIcon />
+          </Tooltip>
         ) : (
-          <WifiIcon sx={{ opacity: '20%' }} />
+          <Tooltip arrow placement='right' title='No Wifi Available'>
+            <WifiIcon sx={{ opacity: '20%' }} />
+          </Tooltip>
         )}
       </StyledIconBox>
       <StyledIconBox>

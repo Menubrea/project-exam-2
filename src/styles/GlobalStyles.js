@@ -1,4 +1,13 @@
-import { Button, Input, Sheet, styled, Textarea, Box, Select } from '@mui/joy';
+import {
+  Button,
+  Input,
+  Sheet,
+  styled,
+  Textarea,
+  Box,
+  Select,
+  Option,
+} from '@mui/joy';
 import { Link } from 'react-router-dom';
 
 export const LinkWrapper = styled(Link)(() => ({
@@ -27,7 +36,6 @@ export const MainThemeButton = styled(Button)(({ theme }) => ({
     theme.palette.mode === 'dark'
       ? theme.palette.common.white
       : theme.palette.primary[600],
-  borderRadius: 3,
   position: 'relative',
 
   ':hover': {
@@ -42,11 +50,98 @@ export const MainThemeButton = styled(Button)(({ theme }) => ({
         ? theme.palette.primary[700]
         : theme.palette.common.white,
   },
+
+  ':disabled': {
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? theme.palette.primary[800]
+        : theme.palette.neutral[300],
+    color:
+      theme.palette.mode === 'dark'
+        ? theme.palette.common.white
+        : theme.palette.primary[900],
+  },
+}));
+
+export const StyledButton = styled(Button)(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? theme.palette.primary[700]
+      : theme.palette.neutral[200],
+
+  color:
+    theme.palette.mode === 'dark'
+      ? theme.palette.common.white
+      : theme.palette.primary[900],
+
+  '&:hover': {
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? theme.palette.primary[500]
+        : theme.palette.neutral[100],
+  },
+
+  borderRadius: 0,
+  width: 80,
+  height: 80,
+  clipPath: 'polygon(0 0, 100% 0, 100% 100%)',
+}));
+
+export const StyledOption = styled(Option)(({ theme }) => ({
+  color:
+    theme.palette.mode === 'dark'
+      ? theme.palette.common.white
+      : theme.palette.primary[900],
+  ':hover': {
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? theme.palette.primary[500]
+        : theme.palette.primary[700],
+    color: theme.palette.common.white,
+  },
 }));
 
 export const MainThemeSelect = styled(Select)(({ theme }) => ({
-  borderRadius: 3,
+  color:
+    theme.palette.mode === 'dark'
+      ? theme.palette.common.white
+      : theme.palette.primary[900],
 
+  ':hover, :focus, :focus-within': {
+    boxShadow:
+      theme.palette.mode === 'dark'
+        ? `inset 0 0 0 3px ${theme.palette.common.white}`
+        : `inset 0 0 0 3px ${theme.palette.primary[700]}`,
+    backgroundColor: 'inherit',
+  },
+
+  border:
+    theme.palette.mode === 'dark'
+      ? `1px solid ${theme.palette.common.white}`
+      : `1px solid ${theme.palette.primary[700]}`,
+
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? theme.palette.primary[500]
+      : theme.palette.neutral[50],
+
+  ':placeholder': {
+    color:
+      theme.palette.mode === 'dark'
+        ? theme.palette.common.white
+        : theme.palette.primary[900],
+  },
+
+  '& button': {
+    color:
+      theme.palette.mode === 'dark'
+        ? theme.palette.common.white
+        : theme.palette.common.black,
+    fontWeight: 500,
+  },
+}));
+
+export const MainThemeInput = styled(Input)(({ theme }) => ({
   color:
     theme.palette.mode === 'dark'
       ? theme.palette.common.white
@@ -75,34 +170,8 @@ export const MainThemeSelect = styled(Select)(({ theme }) => ({
         ? theme.palette.common.white
         : theme.palette.primary[900],
   },
-}));
 
-export const MainThemeInput = styled(Input)(({ theme }) => ({
-  borderRadius: 3,
-
-  color:
-    theme.palette.mode === 'dark'
-      ? theme.palette.common.white
-      : theme.palette.primary[900],
-
-  ':hover, :focus, :focus-within': {
-    boxShadow:
-      theme.palette.mode === 'dark'
-        ? `inset 0 0 0 3px ${theme.palette.common.white}`
-        : `inset 0 0 0 3px ${theme.palette.primary[700]}`,
-  },
-
-  border:
-    theme.palette.mode === 'dark'
-      ? `1px solid ${theme.palette.common.white}`
-      : `1px solid ${theme.palette.primary[700]}`,
-
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.primary[500]
-      : theme.palette.neutral[50],
-
-  ':placeholder': {
+  '& input': {
     color:
       theme.palette.mode === 'dark'
         ? theme.palette.common.white
@@ -111,8 +180,6 @@ export const MainThemeInput = styled(Input)(({ theme }) => ({
 }));
 
 export const MainThemeTextArea = styled(Textarea)(({ theme }) => ({
-  borderRadius: 3,
-
   color:
     theme.palette.mode === 'dark'
       ? theme.palette.common.white
@@ -135,6 +202,13 @@ export const MainThemeTextArea = styled(Textarea)(({ theme }) => ({
           ? theme.palette.common.white
           : theme.palette.primary[900],
     },
+  },
+
+  '& textarea': {
+    color:
+      theme.palette.mode === 'dark'
+        ? theme.palette.common.white
+        : theme.palette.primary[900],
   },
 
   outline:

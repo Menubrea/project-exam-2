@@ -1,9 +1,5 @@
 import { Box, Typography, styled, IconButton } from '@mui/joy';
-import {
-  MainThemeButton,
-  MainThemeInput,
-  StyledDivider,
-} from '../../styles/GlobalStyles';
+import { MainThemeButton, MainThemeInput } from '../../styles/GlobalStyles';
 import { useEffect, useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
@@ -210,4 +206,5 @@ const ProfileContainer = styled(Box)(({ theme }) => ({
       : theme.palette.neutral[200],
   gap: theme.spacing(2),
   paddingTop: theme.spacing(14),
+  paddingBottom: theme.spacing(2),
 }));

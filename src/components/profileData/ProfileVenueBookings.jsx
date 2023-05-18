@@ -12,21 +12,38 @@ import { MainThemeButton } from '../../styles/GlobalStyles';
 import CloseIcon from '@mui/icons-material/Close';
 import RenderBookings from './RenderBookings';
 
+const StyledTab = styled(Tab)(({ theme }) => ({
+  color:
+    theme.palette.mode === 'dark'
+      ? theme.palette.neutral[50]
+      : theme.palette.primary[800],
+
+  ':hover': {
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? theme.palette.primary[800]
+        : theme.palette.neutral[100],
+    color:
+      theme.palette.mode === 'dark'
+        ? theme.palette.neutral[50]
+        : theme.palette.primary[800],
+  },
+}));
+
 const BookingsContainer = styled(Box)(({ theme }) => ({
   height: '100vh',
   overflowY: 'scroll',
   position: 'fixed',
-  backgroundColor: 'white',
   top: 0,
   left: 0,
   zIndex: 1000,
   transform: 'translateX(-100%)',
   padding: theme.spacing(2),
 
-  backgroundColor:
+  background:
     theme.palette.mode === 'dark'
-      ? theme.palette.primary[500]
-      : theme.palette.neutral[50],
+      ? `linear-gradient(-90deg, ${theme.palette.primary[500]} 0%, ${theme.palette.primary[700]} 100%)`
+      : `linear-gradient(-90deg, ${theme.palette.neutral[50]} 0%, ${theme.palette.neutral[500]} 100%)`,
 }));
 
 const Overlay = styled(Box)(({ theme }) => ({
@@ -46,9 +63,9 @@ export default function ProfileVenueBookings({
   token,
   setCreateVenue,
   createVenue,
-  profileVenues,
   setProfileVenues,
   setFilteredVenues,
+  profileVenues,
 }) {
   const handleCloseSlideOut = () => {
     const bookingsContainer = document.getElementById('bookingsContainer');
@@ -56,8 +73,6 @@ export default function ProfileVenueBookings({
     overlay.style.transform = 'translateX(-100%)';
     bookingsContainer.style.transform = 'translateX(-100%)';
     bookingsContainer.style.transition = 'transform 0.5s ease-in-out';
-
-    console.log(venue);
 
     if (createVenue) {
       setTimeout(() => {
@@ -86,7 +101,7 @@ export default function ProfileVenueBookings({
                     ? `1px solid ${theme.palette.common.white}`
                     : `1px solid ${theme.palette.primary[900]}`,
               }}>
-              <Typography level='h6' component={'h2'} sx={{ paddingX: 1 }}>
+              <Typography level='h6' component={'p'} sx={{ paddingX: 1 }}>
                 Managing {venue.name}
               </Typography>
               <MainThemeButton
@@ -98,7 +113,7 @@ export default function ProfileVenueBookings({
               </MainThemeButton>
             </Box>
 
-            <Tabs>
+            <Tabs sx={{ backgroundColor: 'transparent' }}>
               <TabList
                 sx={{
                   backgroundColor: (theme) =>
@@ -106,8 +121,8 @@ export default function ProfileVenueBookings({
                       ? ` ${theme.palette.primary[700]}`
                       : ` ${theme.palette.neutral[200]}`,
                 }}>
-                <Tab>Bookings</Tab>
-                <Tab>Edit</Tab>
+                <StyledTab>Bookings</StyledTab>
+                <StyledTab>Edit</StyledTab>
               </TabList>
               <TabPanel value={0}>
                 <RenderBookings profileVenues={venue} />
@@ -115,6 +130,7 @@ export default function ProfileVenueBookings({
               <TabPanel value={1}>
                 <EditVenue
                   venue={venue}
+                  profileVenues={profileVenues}
                   setProfileVenues={setProfileVenues}
                   handleCloseSlideOut={handleCloseSlideOut}
                   setFilteredVenues={setFilteredVenues}

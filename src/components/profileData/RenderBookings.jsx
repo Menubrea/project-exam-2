@@ -63,13 +63,14 @@ export default function RenderBookings({ profileVenues }) {
                   sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    padding: 1,
+                    padding: 0.5,
                     backgroundColor: (theme) =>
                       theme.palette.mode === 'dark'
                         ? theme.palette.primary[700]
                         : theme.palette.neutral[100],
                     borderRadius: 3,
-                    marginBottom: 2,
+                    marginBottom: 1,
+                    gap: 0.5,
                   }}>
                   <Box
                     sx={{
@@ -110,7 +111,7 @@ export default function RenderBookings({ profileVenues }) {
                       justifyContent: 'space-between',
                       backgroundColor: (theme) =>
                         theme.palette.mode === 'dark'
-                          ? theme.palette.primary[800]
+                          ? theme.palette.primary[500]
                           : theme.palette.neutral[50],
                       padding: 1,
                       borderRadius: 3,
