@@ -98,7 +98,7 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
         </Typography>
         {thisVenue && thisVenue.bookings && (
           <Typography level='body1' component={'p'}>
-            Upcoming booking(s): {thisVenue.bookings.length}
+            Upcoming booking(s): {sortedBookings.length}
           </Typography>
         )}
         {thisVenue.bookings &&

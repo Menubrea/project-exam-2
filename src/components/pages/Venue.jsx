@@ -38,9 +38,11 @@ export default function Venue({ venue, loading, error }) {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    venue.filter((filteredVenue) =>
-      filteredVenue.id === id ? setVenueById(filteredVenue) : null
-    );
+    if (venue) {
+      venue.filter((filteredVenue) =>
+        filteredVenue.id === id ? setVenueById(filteredVenue) : null
+      );
+    }
   }, [venue, id]);
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export default function Venue({ venue, loading, error }) {
     if (storedProfile) {
       setProfile(JSON.parse(storedProfile));
     }
-  }, []);
+  }, [localStorage]);
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -70,6 +72,9 @@ export default function Venue({ venue, loading, error }) {
 
   if (loading) return <Typography>Loading...</Typography>;
   if (error) return <Typography>Error: {error.message}</Typography>;
+
+  console.log(venueById);
+  console.log(profile);
 
   if (venueById) {
     return (

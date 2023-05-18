@@ -10,6 +10,7 @@ import {
 import { CreateVenue, DeleteBooking, EditVenue } from '../forms';
 import { MainThemeButton } from '../../styles/GlobalStyles';
 import CloseIcon from '@mui/icons-material/Close';
+import RenderBookings from './RenderBookings';
 
 const BookingsContainer = styled(Box)(({ theme }) => ({
   height: '100vh',
@@ -41,11 +42,11 @@ const Overlay = styled(Box)(({ theme }) => ({
 }));
 
 export default function ProfileVenueBookings({
-  profile,
   venue,
   token,
   setCreateVenue,
   createVenue,
+  profileVenues,
   setProfileVenues,
   setFilteredVenues,
 }) {
@@ -55,6 +56,8 @@ export default function ProfileVenueBookings({
     overlay.style.transform = 'translateX(-100%)';
     bookingsContainer.style.transform = 'translateX(-100%)';
     bookingsContainer.style.transition = 'transform 0.5s ease-in-out';
+
+    console.log(venue);
 
     if (createVenue) {
       setTimeout(() => {
@@ -106,7 +109,9 @@ export default function ProfileVenueBookings({
                 <Tab>Bookings</Tab>
                 <Tab>Edit</Tab>
               </TabList>
-              <TabPanel value={0}>Test</TabPanel>
+              <TabPanel value={0}>
+                <RenderBookings profileVenues={venue} />
+              </TabPanel>
               <TabPanel value={1}>
                 <EditVenue
                   venue={venue}

@@ -6,8 +6,6 @@ import {
   ProfileVenueBookings,
   ProfileVenues,
 } from '../profileData';
-import Loading from '../Loading';
-import { set } from 'date-fns';
 
 const profileUrl = 'https://api.noroff.dev/api/v1/holidaze';
 const action = '/profiles/';
@@ -70,8 +68,6 @@ export default function Profile({ setFilteredVenues }) {
       setSlideIn(true);
     }
   };
-
-  console.log(selectedVenue);
 
   useEffect(() => {
     if (token && profile.name) {
@@ -144,6 +140,7 @@ export default function Profile({ setFilteredVenues }) {
           setProfileVenues={setProfileVenues}
           createVenue={createVenue}
           setSlideIn={setSlideIn}
+          profileVenues={profileVenues}
         />
 
         {profile.venueManager && profileVenues.length > 0 && (
