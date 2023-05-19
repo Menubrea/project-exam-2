@@ -1,11 +1,13 @@
 import { Outlet } from 'react-router-dom';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { Search } from './UI_components';
 
-export function Layout() {
+export default function Layout({ venues }) {
   return (
     <>
-      <Header />
+      <Header venues={venues} />
+      <Search venues={venues} />
       <Outlet />
       <Footer />
     </>

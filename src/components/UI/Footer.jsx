@@ -1,7 +1,11 @@
+import { Box, Typography } from '@mui/joy';
+
 export function Footer() {
   return (
-    <footer>
-      <p>Footer</p>
-    </footer>
+    <Box sx={{ paddingY: 1 }} component={'footer'}>
+      <Typography level='body1' textAlign={'center'}>
+        Menubrea | All Rights Reserved
+      </Typography>
+    </Box>
   );
 }
