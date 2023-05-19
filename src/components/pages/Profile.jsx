@@ -4,8 +4,8 @@ import {
   ProfileBookings,
   ProfileMeta,
   ProfileVenueBookings,
+  ProfileVenues,
 } from '../profileData';
-import ProfileVenues from '../profileData/ProfileVenues.jsx';
 
 const profileUrl = 'https://api.noroff.dev/api/v1/holidaze';
 const action = '/profiles/';
