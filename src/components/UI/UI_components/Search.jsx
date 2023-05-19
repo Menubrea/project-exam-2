@@ -59,11 +59,14 @@ export default function Search({ venues }) {
   return (
     <StyledBox
       sx={{
-        position: 'fixed',
-        top: { xs: 50, md: 28 },
+        top: { xs: 'auto', sm: 28 },
+        bottom: { xs: 0, sm: 'auto' },
+        width: { xs: '100%', sm: 'fit-content' },
+        borderRadius: { xs: '0', sm: '5px' },
       }}>
-      <Box sx={{ width: 'fit-content', margin: '0 auto' }}>
+      <Box sx={{ margin: '0 auto' }}>
         <MainThemeButton
+          fullWidth
           startDecorator={<TravelExploreIcon />}
           size='sm'
           onClick={handleOpenSearch}>
@@ -76,6 +79,7 @@ export default function Search({ venues }) {
         handleChange={handleChange}
         handleClose={handleClose}
         search={search}
+        setSearch={setSearch}
         open={open}
         setFiltered={setFiltered}
         filtered={filtered}

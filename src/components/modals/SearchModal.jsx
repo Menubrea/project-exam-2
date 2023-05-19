@@ -1,4 +1,4 @@
-import { Modal, ModalDialog, styled, Box, Typography } from '@mui/joy';
+import { Modal, ModalDialog, styled, Box, Typography, Button } from '@mui/joy';
 import { MainThemeInput, MainThemeButton } from '../../styles/GlobalStyles';
 import { Filters } from '../venueData';
 import { SearchCard } from '../cards';
@@ -12,6 +12,7 @@ const StyledGrid = styled(Box)(({ theme }) => ({
   display: 'grid',
   gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
   gap: theme.spacing(1),
+  padding: theme.spacing(1),
 }));
 
 const StyledModalDialog = styled(ModalDialog)(({ theme }) => ({
@@ -19,7 +20,7 @@ const StyledModalDialog = styled(ModalDialog)(({ theme }) => ({
     theme.palette.mode === 'dark'
       ? '1px solid #fff'
       : `1px solid ${theme.palette.primary[500]}`,
-  borderRadius: 5,
+  borderRadius: 0,
 }));
 
 export default function SearchModal({
@@ -30,29 +31,45 @@ export default function SearchModal({
   setFiltered,
   filtered,
   handleClose,
+  setSearch,
 }) {
   const [isShown, setIsShown] = useState(true);
 
   const handleToggle = () => {
     isShown ? setIsShown(false) : setIsShown(true);
   };
+
   return (
     <Modal open={open}>
       <StyledModalDialog
         layout='fullscreen'
         variant='outlined'
-        sx={{ width: '100%', height: '100%', padding: { xs: 0.5, sm: 2 } }}>
+        sx={{
+          width: '100%',
+          height: '100%',
+          padding: 0,
+          position: 'relative',
+        }}>
         <Box
           sx={{
-            marginBottom: 1,
+            padding: 1,
             display: 'flex',
             justifyContent: 'space-between',
+            borderBottom: (theme) =>
+              theme.palette.mode === 'dark'
+                ? `1px solid ${theme.palette.neutral[50]}`
+                : `1px solid ${theme.palette.primary[500]}`,
+
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.primary[500]
+                : theme.palette.neutral[100],
           }}>
           <MainThemeButton
             startDecorator={<TuneIcon />}
             onClick={handleToggle}
             size='sm'>
-            Filters
+            {isShown ? 'Hide Filters' : 'Show Filters'}
           </MainThemeButton>{' '}
           <MainThemeButton
             aria-label='close modal'
@@ -63,33 +80,53 @@ export default function SearchModal({
               border: '1px solid #fff',
             }}
             onClick={handleClose}>
-            Close
+            Close Menu
           </MainThemeButton>
         </Box>
         {isShown && (
-          <Box>
+          <Box
+            sx={{
+              backgroundColor: 'rgba(0, 0, 0, .05)',
+              paddingX: 2,
+              paddingTop: 1,
+            }}>
             <Box
               sx={{
                 margin: '0 auto',
                 paddingX: 2,
                 width: '100%',
                 minWidth: '230px',
-                maxWidth: '600px',
-                borderRadius: '100px',
+                maxWidth: '800px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: 1,
               }}>
               <MainThemeInput
-                variant='outlined'
                 endDecorator={<SearchIcon />}
+                fullWidth
                 id='search-input'
                 onChange={handleChange}
-                size='lg'
+                size='sm'
                 placeholder={'Search'}
               />
+              {search.length > 0 && (
+                <MainThemeButton
+                  onClick={() => {
+                    setSearch('');
+                    document.getElementById('search-input').value = '';
+                  }}
+                  size='sm'
+                  variant='plain'>
+                  Clear
+                </MainThemeButton>
+              )}
             </Box>
             <Filters
               venues={venues}
               search={search}
               setFiltered={setFiltered}
+              setSearch={setSearch}
               filtered={filtered}
             />
           </Box>
@@ -106,7 +143,8 @@ export default function SearchModal({
           ) : (
             <Box
               sx={{
-                gridColumnStart: '2',
+                gridColumnStart: '-1',
+                gridColumnEnd: '1',
                 paddingTop: 10,
               }}>
               <Typography

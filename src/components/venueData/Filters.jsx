@@ -1,8 +1,19 @@
-import { useEffect, useState } from 'react';
-import { Box, Typography, Slider } from '@mui/joy';
-import { MainThemeSelect, StyledOption } from '../../styles/GlobalStyles';
+import { useEffect, useState, useRef } from 'react';
+import { Box, Typography, Slider, Button } from '@mui/joy';
+import {
+  MainThemeButton,
+  MainThemeSelect,
+  StyledOption,
+  StyledSlider,
+} from '../../styles/GlobalStyles';
 
-export default function Filters({ venues, setFiltered, search, filtered }) {
+export default function Filters({
+  venues,
+  setFiltered,
+  search,
+  filtered,
+  setSearch,
+}) {
   const [guests, setGuests] = useState(1);
   const [value, setValue] = useState([0, 0]);
   const [lowestPrice, setLowestPrice] = useState(0);
@@ -28,6 +39,30 @@ export default function Filters({ venues, setFiltered, search, filtered }) {
     }
   }, [venues]);
 
+  const ResetFilters = () => {
+    setGuests(1);
+    setRegion('All');
+    setValue([lowestPrice, highestPrice]);
+    setFiltered(venues);
+    setSearch('');
+    const search = document.getElementById('search-input');
+    search.value = '';
+  };
+
+  useEffect(() => {
+    const storedGuests = sessionStorage.getItem('guests');
+    const storedRegion = sessionStorage.getItem('region');
+    const lowestPrice = sessionStorage.getItem('lowestPrice');
+    const highestPrice = sessionStorage.getItem('highestPrice');
+
+    if (storedGuests && storedRegion && lowestPrice && highestPrice) {
+      setGuests(JSON.parse(storedGuests));
+      setRegion(storedRegion);
+      setValue([JSON.parse(lowestPrice), JSON.parse(highestPrice)]);
+      setRegion(storedRegion || 'All');
+    }
+  }, []);
+
   useEffect(() => {
     const filteredVenues = venues.filter((venue) => {
       if (
@@ -42,6 +77,10 @@ export default function Filters({ venues, setFiltered, search, filtered }) {
       return false;
     });
     setFiltered(filteredVenues);
+    sessionStorage.setItem('guests', guests);
+    sessionStorage.setItem('region', region);
+    sessionStorage.setItem('lowestPrice', JSON.stringify(value[0]));
+    sessionStorage.setItem('highestPrice', JSON.stringify(value[1]));
   }, [guests, venues, value, region, search]);
 
   const handleChange = (event, newValue) => {
@@ -56,17 +95,24 @@ export default function Filters({ venues, setFiltered, search, filtered }) {
     <>
       <Box
         sx={{
-          padding: { xs: 2, md: 4 },
+          paddingY: { xs: 2 },
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-          gap: { xs: 0, sm: 4 },
+          gap: { xs: 1, sm: 2 },
           justifyContent: 'space-between',
         }}>
-        <Box>
+        <Box
+          sx={{
+            padding: 1,
+            paddingX: 2,
+            backgroundColor: 'rgba(0, 0, 0, .05)',
+            borderRadius: 5,
+          }}>
           <Typography htmlFor='pickGuests' component={'label'}>
             Guests
           </Typography>
           <MainThemeSelect
+            value={guests}
             id='pickGuests'
             variant='solid'
             color='primary'
@@ -85,17 +131,22 @@ export default function Filters({ venues, setFiltered, search, filtered }) {
             ))}
           </MainThemeSelect>
         </Box>
-        <Box>
+        <Box
+          sx={{
+            paddingX: 3,
+            paddingY: 1,
+            backgroundColor: 'rgba(0, 0, 0, .05)',
+            borderRadius: 5,
+          }}>
           <Typography
             htmlFor='priceRange'
             textAlign={'center'}
             component={'label'}>
             Price range:
           </Typography>
-          <Slider
+          <StyledSlider
             id='priceRange'
             variant='solid'
-            color='primary'
             size='md'
             value={value}
             onChange={handleChange}
@@ -110,16 +161,27 @@ export default function Filters({ venues, setFiltered, search, filtered }) {
             max={highestPrice}
           />
         </Box>
-        <Box>
+        <Box
+          sx={{
+            padding: 1,
+            paddingX: 2,
+            backgroundColor: 'rgba(0, 0, 0, .05)',
+            borderRadius: 5,
+          }}>
           <Typography htmlFor='setRegion' component={'label'}>
             Region
           </Typography>
-          <MainThemeSelect id='setRegion' size='sm' placeholder='Choose County'>
+          <MainThemeSelect
+            value={region}
+            id='setRegion'
+            size='sm'
+            placeholder='Choose County'>
             <StyledOption value={'All'} onClick={() => setRegion('All')}>
               All
             </StyledOption>
             {regionArray.map((region) => (
               <StyledOption
+                id={`region-${region}`}
                 key={region}
                 value={region}
                 onClick={() => setRegion(region)}>
@@ -181,10 +243,21 @@ export default function Filters({ venues, setFiltered, search, filtered }) {
           sx={{
             width: 'fit-content',
             margin: { xs: '0 auto', md: '0 0 0 auto' },
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
           }}>
-          <Typography level='body1'>
-            {filtered.length} results found for your search.
+          <Typography
+            sx={{
+              backgroundColor: 'rgba(0, 0, 0, .1)',
+              padding: '0.2em .5em',
+              borderRadius: '5px 5px 0 0',
+            }}>
+            {filtered.length} results found.
           </Typography>
+          <MainThemeButton size='sm' onClick={ResetFilters}>
+            Reset Filters
+          </MainThemeButton>
         </Box>
       </Box>
     </>

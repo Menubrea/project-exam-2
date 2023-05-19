@@ -7,6 +7,7 @@ import {
   Box,
   Select,
   Option,
+  Slider,
 } from '@mui/joy';
 import { Link } from 'react-router-dom';
 
@@ -28,6 +29,7 @@ export const StyledDivider = styled(Box)(({ theme }) => ({
 }));
 
 export const MainThemeButton = styled(Button)(({ theme }) => ({
+  borderRadius: 3,
   color:
     theme.palette.mode === 'dark'
       ? theme.palette.primary[900]
@@ -37,18 +39,22 @@ export const MainThemeButton = styled(Button)(({ theme }) => ({
       ? theme.palette.common.white
       : theme.palette.primary[600],
   position: 'relative',
+  transition: 'all .2s ease-in-out',
 
   ':hover': {
-    transition: 'all 1s ease-in-out',
-    borderRadius: '100vh',
+    transition: 'all .2s ease-in-out',
     backgroundColor:
       theme.palette.mode === 'dark'
-        ? theme.palette.common.white
-        : theme.palette.primary[700],
+        ? theme.palette.primary[500]
+        : theme.palette.neutral[100],
     color:
       theme.palette.mode === 'dark'
-        ? theme.palette.primary[700]
-        : theme.palette.common.white,
+        ? theme.palette.common.white
+        : theme.palette.primary[800],
+    outline:
+      theme.palette.mode === 'dark'
+        ? `1px solid ${theme.palette.common.white}`
+        : `1px solid ${theme.palette.primary[700]}`,
   },
 
   ':disabled': {
@@ -112,7 +118,10 @@ export const MainThemeSelect = styled(Select)(({ theme }) => ({
       theme.palette.mode === 'dark'
         ? `inset 0 0 0 3px ${theme.palette.common.white}`
         : `inset 0 0 0 3px ${theme.palette.primary[700]}`,
-    backgroundColor: 'inherit',
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? theme.palette.primary[500]
+        : theme.palette.neutral[50],
   },
 
   border:
@@ -137,7 +146,6 @@ export const MainThemeSelect = styled(Select)(({ theme }) => ({
       theme.palette.mode === 'dark'
         ? theme.palette.common.white
         : theme.palette.common.black,
-    fontWeight: 500,
   },
 }));
 
@@ -246,4 +254,39 @@ export const MainGrid = styled(Box)(({ theme }) => ({
   maxWidth: '100%',
   margin: '0 auto 2em',
   minHeight: '50vh',
+}));
+
+export const StyledSlider = styled(Slider)(({ theme }) => ({
+  '& .MuiSlider-thumb, & .MuiSlider-track, & .MuiSlider-rail': {
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? theme.palette.common.white
+        : theme.palette.primary[500],
+  },
+
+  '& .MuiSlider-thumb': {
+    backgroundColor: theme.palette.common.white,
+  },
+  '& .MuiSlider-markLabel, & .MuiSlider-valueLabel': {
+    color:
+      theme.palette.mode === 'dark'
+        ? theme.palette.common.white
+        : theme.palette.primary[900],
+  },
+
+  '& .MuiSlider-valueLabel': {
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? theme.palette.primary[600]
+        : theme.palette.neutral[100],
+    ':before': {
+      borderColor:
+        theme.palette.mode === 'dark'
+          ? theme.palette.primary[600]
+          : theme.palette.neutral[100],
+      borderLeftColor: 'transparent',
+      borderBottomColor: 'transparent',
+      borderRightColor: 'transparent',
+    },
+  },
 }));

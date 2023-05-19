@@ -3,9 +3,8 @@ import { VenueMeta } from '../venueData';
 import { MainThemeButton, LinkWrapper } from '../../styles/GlobalStyles';
 import { altImage } from '../../constants/variables';
 
-// Styling for Hero section container.
 const HeroContainer = styled(Box)(({ theme }) => ({
-  height: 'min(70vh, 1000px)',
+  height: 'min(80vh, 1000px)',
   position: 'relative',
   overflow: 'hidden',
   top: 0,
@@ -29,7 +28,12 @@ const HeroContainer = styled(Box)(({ theme }) => ({
 }));
 
 // Styling for hero section body.
-const HeroBody = styled(Container)(({ theme }) => ({
+const HeroBody = styled(Box)(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? 'rgba(0,0,0, 0.1)'
+      : 'rgba(255,255,255, 0.1)',
+
   width: '100%',
   position: 'absolute',
   zIndex: 2,
@@ -49,54 +53,57 @@ export default function HeroCard({ venue }) {
         src={venue.media && venue.media[0] ? venue.media[0] : altImage}
         alt={venue && venue.name + ' media'}
         onError={(e) => (e.target.src = altImage)}
-        sx={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7 }}
+        sx={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 1 }}
       />
       <HeroBody>
-        <Box sx={{ display: 'flex' }}>
-          <VenueMeta
-            position='static'
-            borderRadius='100px'
-            meta={venue.meta}
-            maxGuests={venue.maxGuests}
-          />
-          <Box sx={{ padding: 2 }}>
+        <Container sx={{ display: 'flex' }}>
+          <Box sx={{ paddingY: 2, width: '100%' }}>
             <Typography
               level='h5'
               component='p'
               sx={{
-                fontFamily: 'futura-PT-condensed',
+                fontFamily: 'futura-PT-condensed, sans-serif',
                 textTransform: 'Uppercase',
-                lineHeight: 0.3,
+                fontWeight: 700,
+                lineHeight: 1,
               }}>
               This week's featured venue
             </Typography>
-            <Typography
-              level='h1'
-              component={'h1'}
+            <Box
               sx={{
-                fontFamily: 'amatic-sc',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                fontSize: 'clamp(2rem, 5vw, 3rem)',
-                lineHeight: 1,
-                marginBottom: 1,
+                display: { xs: 'block', sm: 'flex' },
+                justifyContent: 'space-between',
+                alignItems: 'center',
               }}>
-              {venue.name}
-            </Typography>
+              <Typography
+                level='h1'
+                component={'h1'}
+                sx={{
+                  fontFamily: 'amatic-sc, sans-serif',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  fontSize: 'clamp(2.8rem, 5vw, 3.8rem)',
+                  lineHeight: 1,
+                  marginBottom: 1,
+                }}>
+                {venue.name}
+              </Typography>
+              <Box sx={{ margin: { xs: '0 0 0 auto' }, width: 'fit-content' }}>
+                <LinkWrapper to={`/venue/${venue.id}`}>
+                  {' '}
+                  <MainThemeButton size='sm'>Read More</MainThemeButton>
+                </LinkWrapper>
+              </Box>
+            </Box>
+
             <Typography
               level='h6'
               component={'p'}
-              sx={{ overflow: 'hidden', display: { xs: 'none', sm: 'block' } }}>
+              sx={{ overflow: 'hidden', display: { xs: 'none', md: 'block' } }}>
               {venue.description.slice(0, 450).concat('...')}
             </Typography>
-            <Box sx={{ margin: '0 0 0 auto', width: 'fit-content' }}>
-              <LinkWrapper to={`/venue/${venue.id}`}>
-                {' '}
-                <MainThemeButton>Read More</MainThemeButton>
-              </LinkWrapper>
-            </Box>
           </Box>
-        </Box>
+        </Container>
       </HeroBody>
     </HeroContainer>
   );
