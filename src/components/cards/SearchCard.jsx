@@ -7,7 +7,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor:
     theme.palette.mode === 'dark'
       ? theme.palette.primary[700]
-      : theme.palette.neutral[200],
+      : theme.palette.neutral[100],
   borderRadius: theme.spacing(0.5),
   overflow: 'hidden',
   ':hover': {

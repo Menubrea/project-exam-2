@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Box, Menu, MenuItem, styled } from '@mui/joy';
+import { Avatar, Box, Menu, MenuItem, styled } from '@mui/joy';
 import { AuthModal } from '../../modals';
 import { LinkWrapper, MainThemeButton } from '../../../styles/GlobalStyles';
+import { useNavigate } from 'react-router-dom';
 
 const StyledMenu = styled(Menu)(({ theme }) => ({
   border:
     theme.palette.mode === 'dark'
       ? '1px solid #fff'
       : `1px solid ${theme.palette.primary[500]}`,
-  borderRadius: 3,
 }));
 
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
@@ -36,6 +36,7 @@ export default function MainMenu() {
   const [open, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [profile, setProfile] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedProfile = localStorage.getItem('profile');
@@ -59,6 +60,8 @@ export default function MainMenu() {
     localStorage.clear('profile');
     setAnchorEl(null);
 
+    navigate('/');
+
     document.dispatchEvent(new Event('logout'));
   };
 
@@ -72,8 +75,14 @@ export default function MainMenu() {
 
   return (
     <>
-      <MainThemeButton id='login-button' size='sm' onClick={handleMenu}>
-        {!isLoggedIn ? 'Login' : profile?.name}
+      <MainThemeButton
+        endDecorator={
+          <Avatar variant='rounded' size='sm' sx={{ height: 25, width: 25 }} />
+        }
+        id='login-button'
+        size='sm'
+        onClick={handleMenu}>
+        {!isLoggedIn ? 'Login' : 'My Account'}
       </MainThemeButton>
       <LoggedInMenu
         anchorEl={anchorEl}

@@ -1,7 +1,6 @@
 import { Typography, styled } from '@mui/material';
 
 const CardPrice = styled(Typography)(({ theme }) => ({
-  fontFamily: 'futura-pt-condensed, sans-serif',
   position: 'absolute',
   top: 10,
   right: 10,
@@ -11,11 +10,13 @@ const CardPrice = styled(Typography)(({ theme }) => ({
   background: `${theme.palette.neutral[100]}`,
   color: theme.palette.common.black,
   borderRadius: theme.spacing(0.2),
+  fontSize: '0.8rem',
+  fontWeight: 500,
 }));
 
 export default function VenuePrice({ venue }) {
   return (
-    <CardPrice level='body1' component='p'>
+    <CardPrice aria-aria-label='Price per night' component={'p'}>
       Per night: {venue.price},-
     </CardPrice>
   );

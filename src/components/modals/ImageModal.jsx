@@ -75,7 +75,7 @@ export default function ImageModal({ venue, open, handleClose }) {
             Close
           </MainThemeButton>
         </Box>
-        {toggle ? (
+        {!toggle ? (
           <Box
             sx={{
               position: 'relative',
@@ -158,7 +158,7 @@ export default function ImageModal({ venue, open, handleClose }) {
           }}
           size='sm'
           onClick={ToggleMediaView}>
-          {!toggle ? 'Slide Mode' : 'Gallery Mode'}
+          {toggle ? 'Slide Mode' : 'Gallery Mode'}
         </MainThemeButton>
       </StyledModal>
     </Modal>

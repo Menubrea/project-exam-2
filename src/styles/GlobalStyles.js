@@ -257,16 +257,37 @@ export const MainGrid = styled(Box)(({ theme }) => ({
 }));
 
 export const StyledSlider = styled(Slider)(({ theme }) => ({
-  '& .MuiSlider-thumb, & .MuiSlider-track, & .MuiSlider-rail': {
+  '& .MuiSlider-rail': {
+    height: 15,
+    borderRadius: 2,
     backgroundColor:
       theme.palette.mode === 'dark'
         ? theme.palette.common.white
         : theme.palette.primary[500],
+    opacity: 0.2,
+    backdropFilter: 'blur(5px)',
+  },
+
+  '.MuiSlider-mark:first': {
+    height: 1,
+    color: 'red',
+    backgroundColor: 'red',
+  },
+
+  '& .MuiSlider-mark': {
+    height: 10,
+  },
+
+  '& .MuiSlider-track': {
+    height: 18,
+    borderRadius: 100,
+    backgroundColor: theme.palette.primary[600],
   },
 
   '& .MuiSlider-thumb': {
     backgroundColor: theme.palette.common.white,
   },
+
   '& .MuiSlider-markLabel, & .MuiSlider-valueLabel': {
     color:
       theme.palette.mode === 'dark'

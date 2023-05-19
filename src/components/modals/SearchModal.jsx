@@ -13,14 +13,12 @@ const StyledGrid = styled(Box)(({ theme }) => ({
   gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
   gap: theme.spacing(1),
   padding: theme.spacing(1),
+  paddingX: theme.spacing(4),
 }));
 
 const StyledModalDialog = styled(ModalDialog)(({ theme }) => ({
-  border:
-    theme.palette.mode === 'dark'
-      ? '1px solid #fff'
-      : `1px solid ${theme.palette.primary[500]}`,
-  borderRadius: 0,
+  borderRadius: 5,
+  border: 'none',
 }));
 
 export default function SearchModal({
@@ -42,7 +40,7 @@ export default function SearchModal({
   return (
     <Modal open={open} onClose={handleClose}>
       <StyledModalDialog
-        layout='fullscreen'
+        layout='center'
         variant='outlined'
         sx={{
           width: '100%',
@@ -66,7 +64,7 @@ export default function SearchModal({
                 : theme.palette.neutral[100],
           }}>
           <MainThemeButton
-            startDecorator={<TuneIcon />}
+            startDecorator={<TuneIcon fontSize='sm' />}
             onClick={handleToggle}
             size='sm'>
             {isShown ? 'Hide Filters' : 'Show Filters'}
@@ -86,17 +84,20 @@ export default function SearchModal({
         {isShown && (
           <Box
             sx={{
-              backgroundColor: 'rgba(0, 0, 0, .05)',
+              backgroundColor: 'rgba(0, 0, 0, .1)',
               paddingX: 2,
               paddingTop: 1,
+              borderBottom: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? `1px solid ${theme.palette.neutral[50]}`
+                  : `1px solid ${theme.palette.primary[500]}`,
             }}>
             <Box
               sx={{
                 margin: '0 auto',
-                paddingX: 2,
                 width: '100%',
                 minWidth: '230px',
-                maxWidth: '800px',
+                maxWidth: '500px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',

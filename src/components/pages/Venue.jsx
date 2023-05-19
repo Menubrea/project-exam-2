@@ -76,7 +76,7 @@ export default function Venue({ venue, loading, error }) {
         maxWidth='lg'
         component={'main'}
         sx={{
-          paddingX: { xs: 0, md: 2 },
+          paddingX: { xs: 0, md: 2, lg: 0 },
           paddingTop: { sm: 0, md: 12 },
           gap: { xs: 0, sm: 0, md: 2 },
         }}>
