@@ -1,5 +1,6 @@
 import { Typography, Box, styled } from '@mui/joy';
 import { LinkWrapper } from '../../styles/GlobalStyles';
+import { altImage } from '../../constants/variables';
 
 const VenueBookingCardStyle = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -52,8 +53,13 @@ export default function VenueBookingCard({ bookings }) {
         </TextStyle>
         <Box
           component={'img'}
-          src={bookings.venue.media[0]}
+          src={
+            bookings.venue && bookings.venue.media[0]
+              ? bookings.venue.media[0]
+              : altImage
+          }
           alt={bookings.venue.name}
+          onError={(e) => (e.target.src = altImage)}
           sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
 

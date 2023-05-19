@@ -1,7 +1,6 @@
 import {
   IconButton,
   Modal,
-  ModalClose,
   Box,
   ModalDialog,
   Typography,
@@ -10,21 +9,29 @@ import {
 import { useState } from 'react';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import { MainThemeButton } from '../../styles/GlobalStyles';
+
+import { altImage } from '../../constants/variables';
 
 const StyledModal = styled(ModalDialog)(({ theme }) => ({
-  borderRadius: theme.spacing(1),
-  backgroundColor: theme.palette.neutral[50],
+  border: 'none',
   padding: theme.spacing(2),
+}));
 
-  p: {
-    color: theme.palette.primary[700],
-  },
+const StyledGrid = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  overflowY: 'auto',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+  gap: theme.spacing(1),
+  height: `calc(100% - ${theme.spacing(10)})`,
 }));
 
 export default function ImageModal({ venue, open, handleClose }) {
   const [count, setCount] = useState(0);
+  const [toggle, setToggle] = useState(false);
 
-  if (!venue) return null; // If no venue, return null.
+  if (!venue) return null;
 
   const handleNext = () => {
     setCount((prevCount) => prevCount + 1);
@@ -38,74 +45,121 @@ export default function ImageModal({ venue, open, handleClose }) {
     return count;
   };
 
+  const ToggleMediaView = () => {
+    toggle ? setToggle(false) : setToggle(true);
+    return toggle;
+  };
+
   return (
     <Modal open={open} onClose={handleClose}>
       <StyledModal
+        layout='fullscreen'
         aria-labelledby='modal-title'
-        aria-describedby='modal-description'
-        size='md'>
-        <ModalClose
-          variant='solid'
-          color='primary'
-          onClick={handleClose}
+        aria-describedby='modal-description'>
+        <Box
           sx={{
-            top: -15,
-            right: -15,
-            borderRadius: '100%',
-            border: '1px solid #fff',
-          }}
-        />
-        <Box sx={{ position: 'relative' }}>
-          {venue.media.length > 1 && (
-            <Box
-              sx={{
-                position: 'absolute',
-                bottom: '50%',
-                transform: 'translateY(50%)',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}>
-              <IconButton
-                variant='solid'
-                color='primary'
-                sx={{ border: '1px solid white', left: '1rem' }}
-                aria-label='Previous Image'
-                onClick={handlePrev}>
-                <SkipPreviousIcon sx={{ color: 'white' }} />
-              </IconButton>
-              <IconButton
-                variant='solid'
-                color='primary'
-                sx={{ border: '1px solid white', right: '1rem' }}
-                aria-label='Next Image'
-                onClick={handleNext}>
-                <SkipNextIcon sx={{ color: 'white' }} />
-              </IconButton>
-            </Box>
-          )}
-
-          <Box
-            id='modal-description'
-            component={'img'}
-            sx={{
-              width: '80vw',
-              aspectRatio: '16/9',
-              objectFit: 'cover',
-              borderRadius: '.2rem',
-            }}
-            onClick={handleNext}
-            src={venue.media[count]}
-            alt={`${venue.name} media`}
-          />
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+            height: (theme) => theme.spacing(6),
+          }}>
           <Typography
             id='modal-title'
-            level='body1'
-            component={'p'}
-            textAlign={'center'}>
-            {count + 1} out of {venue.media.length}
+            aria-label='modal-title'
+            sx={{ margin: 0, padding: 0 }}
+            level='h6'
+            component={'p'}>
+            Viewing images for {venue.name}
           </Typography>
+          <MainThemeButton size='sm' onClick={handleClose}>
+            Close
+          </MainThemeButton>
         </Box>
+        {!toggle ? (
+          <Box
+            sx={{
+              position: 'relative',
+              height: (theme) => `calc(100% - ${theme.spacing(10)})`,
+            }}>
+            {venue.media.length > 1 && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  bottom: '50%',
+                  transform: 'translateY(50%)',
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  paddingX: 2,
+                }}>
+                <MainThemeButton
+                  size='sm'
+                  aria-label='Previous Image'
+                  onClick={handlePrev}>
+                  <SkipPreviousIcon />
+                </MainThemeButton>
+                <MainThemeButton
+                  size='sm'
+                  aria-label='Next Image'
+                  onClick={handleNext}>
+                  <SkipNextIcon />
+                </MainThemeButton>
+              </Box>
+            )}
+            {venue.media && (
+              <Box
+                id='modal-description'
+                component={'img'}
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  borderRadius: 10,
+                }}
+                onClick={handleNext}
+                src={venue.media[count]}
+                alt={`${venue.name} media`}
+                onError={(e) => (e.target.src = altImage)}
+              />
+            )}
+            <Typography
+              sx={{ height: (theme) => theme.spacing(4) }}
+              level='body1'
+              component={'p'}
+              textAlign={'center'}>
+              {count + 1} out of {venue.media.length}
+            </Typography>
+          </Box>
+        ) : (
+          <StyledGrid>
+            {venue.media.map((image, index) => (
+              <Box
+                key={index}
+                component={'img'}
+                src={image || altImage}
+                alt={`${venue.name} media`}
+                onError={(e) => (e.target.src = altImage)}
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '.2rem',
+                }}
+              />
+            ))}
+          </StyledGrid>
+        )}
+        <MainThemeButton
+          sx={{
+            position: 'absolute',
+            bottom: 60,
+            left: '50%',
+            transform: 'translateX(-50%)',
+          }}
+          size='sm'
+          onClick={ToggleMediaView}>
+          {toggle ? 'Slide Mode' : 'Gallery Mode'}
+        </MainThemeButton>
       </StyledModal>
     </Modal>
   );

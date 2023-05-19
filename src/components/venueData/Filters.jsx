@@ -1,12 +1,25 @@
 import { useEffect, useState } from 'react';
-import { Box, Typography, Slider, Select, Option } from '@mui/joy';
+import { Box, Typography } from '@mui/joy';
+import {
+  MainThemeButton,
+  MainThemeSelect,
+  StyledOption,
+  StyledSlider,
+} from '../../styles/GlobalStyles';
+import CloseIcon from '@mui/icons-material/Close';
 
-export default function Filters({ venues, setFiltered, search, filtered }) {
+export default function Filters({
+  venues,
+  setFiltered,
+  search,
+  filtered,
+  setSearch,
+}) {
   const [guests, setGuests] = useState(1);
   const [value, setValue] = useState([0, 0]);
   const [lowestPrice, setLowestPrice] = useState(0);
   const [highestPrice, setHighestPrice] = useState(1);
-  const [region, setRegion] = useState('All');
+  const [region, setRegion] = useState('All Regions');
 
   const regionSet = new Set(venues.map((venue) => venue.location.city));
   const guestSet = new Set(venues.map((venue) => venue.maxGuests));
@@ -27,13 +40,37 @@ export default function Filters({ venues, setFiltered, search, filtered }) {
     }
   }, [venues]);
 
+  const ResetFilters = () => {
+    setGuests(1);
+    setRegion('All Regions');
+    setValue([lowestPrice, highestPrice]);
+    setFiltered(venues);
+    setSearch('');
+    const search = document.getElementById('search-input');
+    search.value = '';
+  };
+
+  useEffect(() => {
+    const storedGuests = sessionStorage.getItem('guests');
+    const storedRegion = sessionStorage.getItem('region');
+    const lowestPrice = sessionStorage.getItem('lowestPrice');
+    const highestPrice = sessionStorage.getItem('highestPrice');
+
+    if (storedGuests && storedRegion && lowestPrice && highestPrice) {
+      setGuests(JSON.parse(storedGuests));
+      setRegion(storedRegion);
+      setValue([JSON.parse(lowestPrice), JSON.parse(highestPrice)]);
+      setRegion(storedRegion || 'All Regions');
+    }
+  }, []);
+
   useEffect(() => {
     const filteredVenues = venues.filter((venue) => {
       if (
         venue.maxGuests >= guests &&
         venue.price >= value[0] &&
         venue.price <= value[1] &&
-        (venue.location.city === region || region === 'All') &&
+        (venue.location.city === region || region === 'All Regions') &&
         venue.name.toLowerCase().startsWith(search.toLowerCase())
       ) {
         return true;
@@ -41,6 +78,10 @@ export default function Filters({ venues, setFiltered, search, filtered }) {
       return false;
     });
     setFiltered(filteredVenues);
+    sessionStorage.setItem('guests', guests);
+    sessionStorage.setItem('region', region);
+    sessionStorage.setItem('lowestPrice', JSON.stringify(value[0]));
+    sessionStorage.setItem('highestPrice', JSON.stringify(value[1]));
   }, [guests, venues, value, region, search]);
 
   const handleChange = (event, newValue) => {
@@ -55,72 +96,92 @@ export default function Filters({ venues, setFiltered, search, filtered }) {
     <>
       <Box
         sx={{
-          padding: { xs: 2, md: 4 },
+          paddingY: { xs: 1 },
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-          gap: { xs: 0, sm: 4 },
+          gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
+          gap: { xs: 1, sm: 2 },
           justifyContent: 'space-between',
         }}>
         <Box>
-          <Typography>Guests</Typography>
-          <Select
+          <MainThemeSelect
+            value={guests}
+            id='pickGuests'
             variant='solid'
             color='primary'
+            aria-label='pick Guests'
+            aria-roledescription='pick Guests'
             size='sm'
-            placeholder='How many guests?'>
-            <Option value={'Any'} onClick={() => setGuests(1)}>
+            placeholder='Guests'>
+            <StyledOption value={'Any'} onClick={() => setGuests(1)}>
               Any
-            </Option>
+            </StyledOption>
             {sortedGuests.map((guest) => (
-              <Option
+              <StyledOption
                 key={guest}
                 value={guest}
                 onClick={() => setGuests(guest)}>
                 {guest}
-              </Option>
+              </StyledOption>
             ))}
-          </Select>
+          </MainThemeSelect>
         </Box>
         <Box>
-          <Typography textAlign={'center'}>Price range:</Typography>
-          <Slider
-            variant='solid'
-            color='primary'
+          <MainThemeSelect
+            value={region}
+            id='setRegion'
             size='sm'
-            value={value}
-            onChange={handleChange}
-            getAriaValueText={valueText}
-            valueLabelDisplay='on'
-            x
-            step={100}
-            marks={[
-              { value: lowestPrice, label: `${lowestPrice},-` },
-              { value: highestPrice, label: `${highestPrice},-` },
-            ]}
-            min={lowestPrice}
-            max={highestPrice}
-          />
-        </Box>
-        <Box>
-          <Typography>County</Typography>
-          <Select
-            variant='solid'
-            color='primary'
-            size='sm'
-            placeholder='Choose County'>
-            <Option value={'All'} onClick={() => setRegion('All')}>
-              All
-            </Option>
+            aria-label='set Region'
+            aria-roledescription='set Region'
+            placeholder='Choose Region'>
+            <StyledOption
+              value={'All Regions'}
+              onClick={() => setRegion('All Regions')}>
+              All Regions
+            </StyledOption>
             {regionArray.map((region) => (
-              <Option
+              <StyledOption
+                id={`region-${region}`}
                 key={region}
                 value={region}
                 onClick={() => setRegion(region)}>
                 {region}{' '}
-              </Option>
+              </StyledOption>
             ))}
-          </Select>
+          </MainThemeSelect>
         </Box>
+      </Box>
+      <Box marginBottom={1}>
+        <StyledSlider
+          sx={{
+            '--Slider-thumbSize': 0,
+            marginTop: 3,
+          }}
+          id='priceRange'
+          variant='solid'
+          size='md'
+          value={value}
+          onChange={handleChange}
+          getAriaValueText={valueText}
+          valueLabelDisplay='on'
+          step={100}
+          min={lowestPrice}
+          max={highestPrice}
+          marks
+        />
+        <Typography
+          sx={{
+            backgroundColor: (theme) => theme.palette.primary[600],
+            color: (theme) => theme.palette.common.white,
+            width: 'fit-content',
+            margin: '0 auto',
+            padding: '.1em .5em',
+            borderRadius: '0 0 5px 5px',
+          }}
+          htmlFor='priceRange'
+          textAlign={'center'}
+          component={'label'}>
+          Price range:
+        </Typography>
       </Box>
       <Box
         sx={{
@@ -130,40 +191,44 @@ export default function Filters({ venues, setFiltered, search, filtered }) {
         }}>
         <Box
           sx={{
-            display: { xs: 'none', md: 'flex' },
+            display: { xs: 'none', sm: 'flex' },
             flexWrap: 'wrap',
             gap: 1,
             width: 'fit-content',
           }}>
           <Typography
+            level='body3'
             sx={{
-              backgroundColor: 'rgba(0, 0, 0, .1)',
-              padding: '0.2em .5em',
+              backgroundColor: 'rgba(0, 0, 0, .05)',
+              padding: '.5em',
               borderRadius: '5px 5px 0 0',
             }}>
             Price range: {value[0]} kr - {value[1]} kr
           </Typography>
           <Typography
+            level='body3'
             sx={{
-              backgroundColor: 'rgba(0, 0, 0, .1)',
-              padding: '0.2em .5em',
+              backgroundColor: 'rgba(0, 0, 0, .05)',
+              padding: '.5em',
               borderRadius: '5px 5px 0 0',
             }}>
             Region: {region}
           </Typography>
           <Typography
+            level='body3'
             sx={{
-              backgroundColor: 'rgba(0, 0, 0, .1)',
-              padding: '0.2em .5em',
+              backgroundColor: 'rgba(0, 0, 0, .05)',
+              padding: '.5em',
               borderRadius: '5px 5px 0 0',
             }}>
             Min guest(s): {guests}
           </Typography>
           {search && (
             <Typography
+              level='body3'
               sx={{
-                backgroundColor: 'rgba(0, 0, 0, .1)',
-                padding: '0.2em .5em',
+                backgroundColor: 'rgba(0, 0, 0, .05)',
+                padding: '.5em',
                 borderRadius: '5px 5px 0 0',
               }}>
               Searching: {search}
@@ -173,11 +238,32 @@ export default function Filters({ venues, setFiltered, search, filtered }) {
         <Box
           sx={{
             width: 'fit-content',
-            margin: { xs: '0 auto', md: '0 0 0 auto' },
+            margin: { xs: '0 auto', sm: '0 0 0 auto' },
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
           }}>
-          <Typography level='body1'>
-            {filtered.length} results found for your search.
+          <Typography
+            level='body3'
+            sx={{
+              backgroundColor: 'rgba(0, 0, 0, .05)',
+              padding: '.5em',
+              borderRadius: '5px 5px 0 0',
+            }}>
+            {filtered.length} results found.
           </Typography>
+          <MainThemeButton
+            endDecorator={<CloseIcon fontSize='sm' />}
+            sx={{
+              fontSize: '.8rem',
+              paddingY: 0,
+              paddingX: 1,
+              borderRadius: '5px 5px 0 0',
+            }}
+            size='sm'
+            onClick={ResetFilters}>
+            Reset Filters
+          </MainThemeButton>
         </Box>
       </Box>
     </>

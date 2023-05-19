@@ -3,3 +3,4 @@ export { default as LoginForm } from './LoginForm.jsx';
 export { default as BookingForm } from './BookingForm.jsx';
 export { default as CreateVenue } from './CreateVenue.jsx';
 export { default as EditVenue } from './EditVenue.jsx';
+export { default as DeleteBooking } from './DeleteBooking.jsx';

@@ -12,8 +12,8 @@ const VenueWrapper = styled(Box)(({ theme }) => ({
   width: '100%',
   backgroundColor:
     theme.palette.mode === 'dark'
-      ? theme.palette.primary[900]
-      : theme.palette.neutral[50],
+      ? theme.palette.primary[500]
+      : theme.palette.neutral[300],
   borderTop:
     theme.palette.mode === 'dark'
       ? `1px solid ${theme.palette.common.white}`
@@ -24,7 +24,7 @@ const VenueWrapper = styled(Box)(({ theme }) => ({
       : `1px solid ${theme.palette.primary[700]}`,
 }));
 
-export default function ProfileVenues({ venues, handleOpen }) {
+export default function ProfileVenues({ venues, handleBookingsSlideIn }) {
   return (
     <VenueWrapper>
       <Container component={'section'}>
@@ -33,14 +33,13 @@ export default function ProfileVenues({ venues, handleOpen }) {
         </Typography>
       </Container>
       <VenueContainer>
-        {venues &&
-          venues.map((venue) => (
-            <VenueEditCard
-              key={venue.id}
-              venue={venue}
-              handleOpen={handleOpen}
-            />
-          ))}
+        {venues.map((venue, i) => (
+          <VenueEditCard
+            key={i}
+            venue={venue}
+            handleBookingsSlideIn={handleBookingsSlideIn}
+          />
+        ))}
       </VenueContainer>
     </VenueWrapper>
   );

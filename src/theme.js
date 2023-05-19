@@ -1,6 +1,15 @@
 import { extendTheme } from '@mui/joy/styles';
 
 export const theme = extendTheme({
+  typography: {
+    body3: {
+      fontSize: '0.8rem',
+      fontWeight: 400,
+      lineHeight: '1rem',
+      letterSpacing: '0.03333em',
+      color: 'var(--joy-palette-text-primary)',
+    },
+  },
   fontFamily: {
     body: 'futura-PT, var(--joy-fontFamily-fallback)',
   },
@@ -22,17 +31,18 @@ export const theme = extendTheme({
         neutral: {
           50: '#FFFFFF',
           100: '#F7F7F7',
-          200: '#E6E6E6',
-          300: '#D4D4D4',
-          400: '#C3C3C3',
-          500: '#B1B1B1',
-          600: '#A0A0A0',
-          700: '#8E8E8E',
-          800: '#7D7D7D',
-          900: '#B1B1B1',
+          200: '#EEEEEE',
+          300: '#E5E5E5',
+          400: '#DCDCDC',
+          500: '#D3D3D3',
+          600: '#C9C9C9',
+          700: '#C0C0C0',
+          800: '#B7B7B7',
+          900: '#D9D9D9',
         },
         text: {
           primary: 'var(--joy-palette-primary-800)',
+          body3: 'var(--joy-palette-primary-800)',
         },
         background: { body: 'var(--joy-palette-neutral-50)' },
       },
@@ -54,14 +64,14 @@ export const theme = extendTheme({
         neutral: {
           50: '#FFFFFF',
           100: '#F7F7F7',
-          200: '#E6E6E6',
-          300: '#D4D4D4',
-          400: '#C3C3C3',
-          500: '#B1B1B1',
-          600: '#A0A0A0',
-          700: '#8E8E8E',
-          800: '#7D7D7D',
-          900: '#B1B1B1',
+          200: '#EEEEEE',
+          300: '#E5E5E5',
+          400: '#DCDCDC',
+          500: '#D3D3D3',
+          600: '#C9C9C9',
+          700: '#C0C0C0',
+          800: '#B7B7B7',
+          900: '#D9D9D9',
         },
         background: {
           surface: 'var(--joy-palette-primary-500)',

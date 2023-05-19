@@ -1,39 +1,45 @@
-import { Box, Container, Typography, styled } from '@mui/joy';
+import { Box, Container, Typography } from '@mui/joy';
 import { useState, useEffect } from 'react';
-import { ProfileBookings, ProfileMeta, ProfileVenues } from '../profileData';
-import { EditVenueModal } from '../modals';
+import {
+  ProfileBookings,
+  ProfileMeta,
+  ProfileVenueBookings,
+  ProfileVenues,
+} from '../profileData';
 
 const profileUrl = 'https://api.noroff.dev/api/v1/holidaze';
 const action = '/profiles/';
 const flags = '?_bookings=true&_venues=true';
 const venueFlags = '/venues?_bookings=true';
 
-export default function Profile() {
+export default function Profile({ setFilteredVenues }) {
   const [token, setToken] = useState('');
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [profileVenues, setProfileVenues] = useState([]);
-  const [venueById, setVenueById] = useState({});
-  const [open, setOpen] = useState(false);
+  const [selectedVenue, setSelectedVenue] = useState(null);
+  const [slideIn, setSlideIn] = useState(false);
+  const [createVenue, setCreateVenue] = useState(false);
+  const [venueUpdates, setVenueUpdates] = useState(0);
 
-  const handleOpen = (e) => {
-    const button = e.target.closest('button[id]');
-    const buttonId = button && button.getAttribute('id');
-    const venueId = e.target.id;
-    const venue = profileVenues.find(
-      (venue) => venue.id === venueId || venue.id === buttonId
-    );
-
-    if (venue) {
-      setOpen(true);
-      setVenueById(venue);
+  useEffect(() => {
+    const container = document.getElementById('bookingsContainer');
+    const overlay = document.getElementById('overlay');
+    if (container && overlay) {
+      container.style.transform = 'translateX(0)';
+      container.style.transition = 'transform 0.5s ease-in-out';
+      overlay.style.transform = 'translateX(0)';
     }
-  };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+    return () => {
+      container && (container.style.transform = null);
+      container && (container.style.transition = null);
+      overlay && (overlay.style.transform = null);
+      overlay && (overlay.style.transition = null);
+      setSlideIn(false);
+    };
+  }, [selectedVenue, slideIn]);
 
   useEffect(() => {
     const storedProfile = localStorage.getItem('profile');
@@ -44,6 +50,29 @@ export default function Profile() {
       setToken(JSON.parse(storedToken));
     }
   }, []);
+
+  const handleCreateSlide = () => {
+    setSlideIn(true);
+    setCreateVenue(true);
+  };
+
+  useEffect(() => {
+    setVenueUpdates((prev) => prev + 1);
+  }, [profileVenues, setProfileVenues]);
+
+  const handleBookingsSlideIn = (e) => {
+    const button = e.target.closest('div[id]');
+    const buttonId = button && button.getAttribute('id');
+    const venueId = e.target.id;
+    const venue = profileVenues.find(
+      (venue) => venue.id === venueId || venue.id === buttonId
+    );
+
+    if (venue) {
+      setSelectedVenue(venue);
+      setSlideIn(true);
+    }
+  };
 
   useEffect(() => {
     if (token && profile.name) {
@@ -70,7 +99,7 @@ export default function Profile() {
       };
       fetchProfile();
     }
-  }, [token]);
+  }, [token, profile.name]);
 
   useEffect(() => {
     if (token && profile.name) {
@@ -86,8 +115,8 @@ export default function Profile() {
               },
             }
           );
-          const result = await response.json();
-          setProfileVenues(result);
+          const myVenues = await response.json();
+          setProfileVenues(myVenues);
         } catch (error) {
           setError(true);
           console.log(error);
@@ -99,21 +128,32 @@ export default function Profile() {
     }
   }, [token]);
 
-  if (loading)
-    return (
-      <Box sx={{ height: '100vh', width: '100vw', backgroundColor: 'red' }}>
-        Loading...
-      </Box>
-    );
+  if (loading) return <div>Loading...</div>;
   if (error) return <p>Something went wrong, please try again</p>;
 
   if (profile) {
     return (
       <Box component={'main'}>
-        <ProfileMeta profile={profile} />
+        <ProfileMeta profile={profile} handleCreateSlide={handleCreateSlide} />
 
-        {profile.venueManager && profileVenues.length > 0 && (
-          <ProfileVenues venues={profileVenues} handleOpen={handleOpen} />
+        <ProfileVenueBookings
+          profile={profile}
+          venue={selectedVenue}
+          token={token}
+          setCreateVenue={setCreateVenue}
+          setFilteredVenues={setFilteredVenues}
+          setProfileVenues={setProfileVenues}
+          createVenue={createVenue}
+          setSlideIn={setSlideIn}
+          profileVenues={profileVenues}
+        />
+
+        {profile.venueManager && profileVenues && profileVenues.length > 0 && (
+          <ProfileVenues
+            key={venueUpdates}
+            venues={profileVenues}
+            handleBookingsSlideIn={handleBookingsSlideIn}
+          />
         )}
 
         {profile.bookings && profile.bookings.length > 0 && (
@@ -124,11 +164,6 @@ export default function Profile() {
             <ProfileBookings profile={profile} />
           </Container>
         )}
-        <EditVenueModal
-          venue={venueById}
-          open={open}
-          handleClose={handleClose}
-        />
       </Box>
     );
   }

@@ -1,12 +1,13 @@
 import { Box, Typography, styled } from '@mui/material';
 import { LinkWrapper } from '../../styles/GlobalStyles';
 import { VenueMeta, VenuePrice } from '../venueData';
+import { altImage } from '../../constants/variables';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor:
     theme.palette.mode === 'dark'
       ? theme.palette.primary[700]
-      : theme.palette.neutral[200],
+      : theme.palette.neutral[100],
   borderRadius: theme.spacing(0.5),
   overflow: 'hidden',
   ':hover': {
@@ -24,8 +25,9 @@ export default function SearchCard({ venue, handleClose }) {
       <StyledBox sx={{ position: 'relative' }}>
         <Box
           component={'img'}
-          src={venue.media[0]}
+          src={venue && venue.media[0] ? venue.media[0] : altImage}
           alt={`${venue.name} media`}
+          onError={(e) => (e.target.src = altImage)}
           sx={{
             width: '100%',
             objectFit: 'cover',

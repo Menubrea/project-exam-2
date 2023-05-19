@@ -6,6 +6,7 @@ import { LocationMeta } from '../venueData';
 import { ImageModal } from '../modals';
 import { MainThemeButton } from '../../styles/GlobalStyles';
 import { AuthContainer } from '../UI/UI_components';
+import { altImage } from '../../constants/variables';
 
 const StyledMainGrid = styled(Container)(() => ({
   display: 'grid',
@@ -22,24 +23,23 @@ const VenueDetails = styled(Box)(({ theme }) => ({
 
 export default function Venue({ venue, loading, error }) {
   const { id } = useParams();
-  const [venueById, setVenueById] = useState(null);
+  const [venueById, setVenueById] = useState();
   const [open, setOpen] = useState(false);
   const [profile, setProfile] = useState({ name: '' });
 
   if (!venue) return null;
 
   const handleOpen = () => {
-    if (window.innerWidth > 600) {
-      setOpen(true);
-    }
+    setOpen(true);
   };
 
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    venue.filter((filteredVenue) =>
-      filteredVenue.id === id ? setVenueById(filteredVenue) : null
+    const selectedVenue = venue.find(
+      (filteredVenue) => filteredVenue.id === id
     );
+    setVenueById(selectedVenue);
   }, [venue, id]);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function Venue({ venue, loading, error }) {
     if (storedProfile) {
       setProfile(JSON.parse(storedProfile));
     }
-  }, []);
+  }, [localStorage]);
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -76,7 +76,7 @@ export default function Venue({ venue, loading, error }) {
         maxWidth='lg'
         component={'main'}
         sx={{
-          paddingX: { xs: 0, md: 2 },
+          paddingX: { xs: 0, md: 2, lg: 0 },
           paddingTop: { sm: 0, md: 12 },
           gap: { xs: 0, sm: 0, md: 2 },
         }}>
@@ -87,7 +87,11 @@ export default function Venue({ venue, loading, error }) {
           }}>
           <Box
             component={'img'}
-            src={venueById && venueById.media[0]}
+            src={
+              venueById && venueById.media[0] ? venueById.media[0] : altImage
+            }
+            alt={venueById && venueById.name}
+            onError={(e) => (e.target.src = { altImage })}
             sx={{
               width: '100%',
               height: '100%',
@@ -144,9 +148,11 @@ export default function Venue({ venue, loading, error }) {
           <Typography>{venueById && venueById.description}</Typography>
 
           {venueById &&
-            profile?.name !== venueById?.owner.name &&
+            profile &&
+            venueById.owner?.name !== profile.name &&
             profile.name !== '' && <BookingForm venue={venueById} />}
-          {venueById && profile?.name === '' && <AuthContainer />}
+
+          {venueById && profile.name === '' && <AuthContainer />}
         </VenueDetails>
       </StyledMainGrid>
     );

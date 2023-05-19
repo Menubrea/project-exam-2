@@ -41,7 +41,10 @@ function App() {
                 <Home data={filteredVenues} error={error} loading={loading} />
               }
             />
-            <Route path='/profile' element={<Profile />} />
+            <Route
+              path='/profile'
+              element={<Profile setFilteredVenues={setFilteredVenues} />}
+            />
             <Route
               path='/venue/:id'
               element={

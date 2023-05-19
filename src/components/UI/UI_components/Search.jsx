@@ -6,7 +6,6 @@ import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   position: 'fixed',
-  top: theme.spacing(3.5),
   left: '50%',
   transform: 'translateX(-50%)',
   borderRadius: '5px',
@@ -58,9 +57,16 @@ export default function Search({ venues }) {
   };
 
   return (
-    <StyledBox>
-      <Box sx={{ width: 'fit-content', margin: '0 auto' }}>
+    <StyledBox
+      sx={{
+        top: { xs: 'auto', sm: 28 },
+        bottom: { xs: 0, sm: 'auto' },
+        width: { xs: '100%', sm: 'fit-content' },
+        borderRadius: { xs: '0', sm: '5px' },
+      }}>
+      <Box sx={{ margin: '0 auto' }}>
         <MainThemeButton
+          fullWidth
           startDecorator={<TravelExploreIcon />}
           size='sm'
           onClick={handleOpenSearch}>
@@ -73,6 +79,7 @@ export default function Search({ venues }) {
         handleChange={handleChange}
         handleClose={handleClose}
         search={search}
+        setSearch={setSearch}
         open={open}
         setFiltered={setFiltered}
         filtered={filtered}
