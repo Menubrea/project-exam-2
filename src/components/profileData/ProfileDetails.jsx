@@ -12,7 +12,7 @@ const EditMediaSchema = yup.object({
   avatar: yup.string().required().trim(),
 });
 
-export default function ProfileMeta({ profile, handleCreateSlide }) {
+export default function ProfileDetails({ profile, handleCreateSlide }) {
   const [token, setToken] = useState('');
   const [showInput, setShowInput] = useState(false);
   const [avatar, setAvatar] = useState(profile.avatar || '');

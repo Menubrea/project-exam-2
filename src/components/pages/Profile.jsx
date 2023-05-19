@@ -2,7 +2,7 @@ import { Box, Container, Typography } from '@mui/joy';
 import { useState, useEffect } from 'react';
 import {
   ProfileBookings,
-  ProfileMeta,
+  ProfileDetails,
   ProfileVenueBookings,
   ProfileVenueList,
 } from '../profileData';
@@ -134,7 +134,10 @@ export default function Profile({ setFilteredVenues }) {
   if (profile) {
     return (
       <Box component={'main'}>
-        <ProfileMeta profile={profile} handleCreateSlide={handleCreateSlide} />
+        <ProfileDetails
+          profile={profile}
+          handleCreateSlide={handleCreateSlide}
+        />
 
         <ProfileVenueBookings
           profile={profile}
