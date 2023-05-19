@@ -4,7 +4,7 @@ import {
   ProfileBookings,
   ProfileMeta,
   ProfileVenueBookings,
-  RenderProfileVenues,
+  ProfileVenueList,
 } from '../profileData';
 
 const profileUrl = 'https://api.noroff.dev/api/v1/holidaze';
@@ -149,7 +149,7 @@ export default function Profile({ setFilteredVenues }) {
         />
 
         {profile.venueManager && profileVenues && profileVenues.length > 0 && (
-          <RenderProfileVenues
+          <ProfileVenueList
             key={venueUpdates}
             venues={profileVenues}
             handleBookingsSlideIn={handleBookingsSlideIn}

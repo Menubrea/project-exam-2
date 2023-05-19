@@ -16,7 +16,7 @@ const CardPrice = styled(Typography)(({ theme }) => ({
 
 export default function VenuePrice({ venue }) {
   return (
-    <CardPrice aria-aria-label='Price per night' component={'p'}>
+    <CardPrice aria-label='Price per night' component={'p'}>
       Per night: {venue.price},-
     </CardPrice>
   );

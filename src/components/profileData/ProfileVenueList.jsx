@@ -24,7 +24,7 @@ const VenueWrapper = styled(Box)(({ theme }) => ({
       : `1px solid ${theme.palette.primary[700]}`,
 }));
 
-export default function RenderProfileVenues({ venues, handleBookingsSlideIn }) {
+export default function ProfileVenueList({ venues, handleBookingsSlideIn }) {
   return (
     <VenueWrapper>
       <Container component={'section'}>
