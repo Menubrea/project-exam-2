@@ -40,7 +40,7 @@ export default function SearchModal({
   };
 
   return (
-    <Modal open={open}>
+    <Modal open={open} onClose={handleClose}>
       <StyledModalDialog
         layout='fullscreen'
         variant='outlined'

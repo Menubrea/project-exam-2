@@ -30,9 +30,7 @@ export default function Venue({ venue, loading, error }) {
   if (!venue) return null;
 
   const handleOpen = () => {
-    if (window.innerWidth > 600) {
-      setOpen(true);
-    }
+    setOpen(true);
   };
 
   const handleClose = () => setOpen(false);
