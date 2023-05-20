@@ -7,8 +7,8 @@ import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 const StyledBox = styled(Box)(({ theme }) => ({
   position: 'fixed',
   left: '50%',
+  borderRadius: '0 0 5px 5px',
   transform: 'translateX(-50%)',
-  borderRadius: '5px',
   width: 'fit-content',
   backgroundColor:
     theme.palette.mode === 'dark'
@@ -50,17 +50,13 @@ export default function Search({ venues }) {
   return (
     <StyledBox
       sx={{
-        top: { xs: 'auto', sm: 28 },
-        bottom: { xs: 0, sm: 'auto' },
+        top: 50,
         width: { xs: '100%', sm: 'fit-content' },
-        borderRadius: { xs: '0', sm: '5px' },
       }}>
       <Box sx={{ margin: '0 auto' }}>
         <MainThemeButton
           sx={{
-            fontSize: { xs: '1.2rem', sm: 'inherit' },
             alignItems: 'center',
-            paddingY: { xs: 2, sm: 0 },
           }}
           size='md'
           fullWidth

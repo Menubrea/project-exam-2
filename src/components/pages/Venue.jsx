@@ -134,7 +134,7 @@ export default function Venue({ venue, loading, error }) {
             Introducing
           </Typography>
           <Typography
-            level='h1'
+            level='h2'
             component={'h1'}
             sx={{
               fontFamily: 'amatic-sc, sans-serif',

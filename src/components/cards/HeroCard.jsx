@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 
 const HeroContainer = styled(Box)(({ theme }) => ({
-  height: 'min(98vh, 1000px)',
+  height: 'min(96vh, 1000px)',
   position: 'relative',
   overflow: 'hidden',
   top: 0,
@@ -17,8 +17,6 @@ const HeroBody = styled(Box)(({ theme }) => ({
   zIndex: 2,
   bottom: 0,
   display: 'flex',
-  left: '50%',
-  transform: 'translateX(-50%)',
   alignItems: 'center',
   justifyContent: 'space-between',
   marginBottom: theme.spacing(2),
@@ -100,9 +98,8 @@ export default function HeroCard({ venue }) {
                   textTransform: 'Uppercase',
                   fontWeight: 900,
                   lineHeight: 1,
-                  marginBottom: -0.5,
                 }}>
-                This week's featured venue
+                Newest and hottest
               </Typography>
               <Box
                 sx={{
