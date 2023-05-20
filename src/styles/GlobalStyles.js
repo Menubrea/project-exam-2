@@ -253,29 +253,23 @@ export const MainGrid = styled(Box)(({ theme }) => ({
 }));
 
 export const StyledSlider = styled(Slider)(({ theme }) => ({
-  '& .MuiSlider-rail': {
-    height: 15,
-    borderRadius: 2,
+  '& .MuiSlider-mark': {
     backgroundColor:
       theme.palette.mode === 'dark'
-        ? theme.palette.common.white
-        : theme.palette.primary[500],
-    opacity: 0.2,
-    backdropFilter: 'blur(5px)',
+        ? theme.palette.primary[400]
+        : theme.palette.neutral[50],
+    height: 8,
   },
 
-  '.MuiSlider-mark:first': {
-    height: 1,
-    color: 'red',
-    backgroundColor: 'red',
-  },
-
-  '& .MuiSlider-mark': {
-    height: 10,
+  '& .MuiSlider-markActive': {
+    border:
+      theme.palette.mode === 'dark'
+        ? `1px solid ${theme.palette.common.white}`
+        : `1px solid ${theme.palette.primary[500]} `,
   },
 
   '& .MuiSlider-track': {
-    height: 18,
+    height: 10,
     borderRadius: 100,
     backgroundColor: theme.palette.primary[600],
   },
@@ -288,18 +282,22 @@ export const StyledSlider = styled(Slider)(({ theme }) => ({
     color:
       theme.palette.mode === 'dark'
         ? theme.palette.common.white
-        : theme.palette.primary[900],
+        : theme.palette.primary[700],
   },
 
   '& .MuiSlider-valueLabel': {
     backgroundColor:
       theme.palette.mode === 'dark'
-        ? theme.palette.primary[600]
-        : theme.palette.neutral[100],
+        ? theme.palette.common.white
+        : theme.palette.primary[700],
+    color:
+      theme.palette.mode === 'dark'
+        ? theme.palette.primary[900]
+        : theme.palette.common.white,
     ':before': {
       borderColor:
         theme.palette.mode === 'dark'
-          ? theme.palette.primary[600]
+          ? theme.palette.common.white
           : theme.palette.neutral[100],
       borderLeftColor: 'transparent',
       borderBottomColor: 'transparent',

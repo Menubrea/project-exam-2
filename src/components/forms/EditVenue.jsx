@@ -329,30 +329,18 @@ export default function EditVenue({
             alignItems: 'center',
             gap: 1,
           }}>
+          <Checkbox name='meta.wifi' label='wifi' {...register('meta.wifi')} />
           <Checkbox
-            variant='solid'
-            name='meta.wifi'
-            label='wifi'
-            {...register('meta.wifi')}
-          />
-          <Checkbox
-            variant='solid'
             name='meta.parking'
             label='parking'
             {...register('meta.parking')}
           />
           <Checkbox
-            variant='solid'
             name='meta.breakfast'
             label='breakfast'
             {...register('meta.breakfast')}
           />
-          <Checkbox
-            variant='solid'
-            name='meta.pets'
-            label='pets'
-            {...register('meta.pets')}
-          />
+          <Checkbox name='meta.pets' label='pets' {...register('meta.pets')} />
         </Box>
       </Box>
       {message && (

@@ -374,30 +374,18 @@ export default function CreateVenue({
             alignItems: 'center',
             gap: { xs: 2, sm: 2, md: 1 },
           }}>
+          <Checkbox name='meta.wifi' label='wifi' {...register('meta.wifi')} />
           <Checkbox
-            variant='solid'
-            name='meta.wifi'
-            label='wifi'
-            {...register('meta.wifi')}
-          />
-          <Checkbox
-            variant='solid'
             name='meta.parking'
             label='parking'
             {...register('meta.parking')}
           />
           <Checkbox
-            variant='solid'
             name='meta.breakfast'
             label='breakfast'
             {...register('meta.breakfast')}
           />
-          <Checkbox
-            variant='solid'
-            name='meta.pets'
-            label='pets'
-            {...register('meta.pets')}
-          />
+          <Checkbox name='meta.pets' label='pets' {...register('meta.pets')} />
         </Box>
       </Box>
       <Box sx={{ padding: 2 }}>

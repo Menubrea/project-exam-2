@@ -127,8 +127,7 @@ export default function Venue({ venue, loading, error }) {
             level='h6'
             component={'p'}
             sx={{
-              fontFamily: 'condor-condensed, sans-serif',
-              fontWeight: 700,
+              fontWeight: 900,
               textTransform: 'uppercase',
               lineHeight: 0.5,
             }}>

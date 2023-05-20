@@ -60,7 +60,7 @@ export default function VenueMeta({ meta, maxGuests, ...props }) {
         arrow
         placement='right'
         title={`${maxGuests} guests allowed`}>
-        <StyledIconBox>
+        <StyledIconBox aria-label='guests'>
           <GroupsIcon />
 
           {maxGuests}
@@ -69,7 +69,7 @@ export default function VenueMeta({ meta, maxGuests, ...props }) {
       <StyledIconBox>
         {meta.pets === true ? (
           <Tooltip color='primary' arrow placement='right' title='Pets Allowed'>
-            <PetsIcon />
+            <PetsIcon aria-label='Pets allowed' />
           </Tooltip>
         ) : (
           <Tooltip
@@ -77,7 +77,7 @@ export default function VenueMeta({ meta, maxGuests, ...props }) {
             arrow
             placement='right'
             title='No Pets Allowed'>
-            <PetsIcon sx={{ opacity: '20%' }} />
+            <PetsIcon aria-label='Pets not allowed' sx={{ opacity: '20%' }} />
           </Tooltip>
         )}
       </StyledIconBox>
@@ -87,8 +87,8 @@ export default function VenueMeta({ meta, maxGuests, ...props }) {
             color='primary'
             arrow
             placement='right'
-            title='Wifi Available'>
-            <WifiIcon />
+            title='Wifi is Available'>
+            <WifiIcon aria-label='Wifi is available' />
           </Tooltip>
         ) : (
           <Tooltip
@@ -96,18 +96,18 @@ export default function VenueMeta({ meta, maxGuests, ...props }) {
             arrow
             placement='right'
             title='No Wifi Available'>
-            <WifiIcon sx={{ opacity: '20%' }} />
+            <WifiIcon aria-label='No Wifi available' sx={{ opacity: '20%' }} />
           </Tooltip>
         )}
       </StyledIconBox>
       <StyledIconBox>
         {meta.parking ? (
           <Tooltip
-            title='Parking available'
+            title='Parking is available'
             color='primary'
             arrow
             placement='right'>
-            <LocalParkingIcon />
+            <LocalParkingIcon aria-label='Parking is available' />
           </Tooltip>
         ) : (
           <Tooltip
@@ -115,7 +115,10 @@ export default function VenueMeta({ meta, maxGuests, ...props }) {
             color='primary'
             arrow
             placement='right'>
-            <LocalParkingIcon sx={{ opacity: '20%' }} />
+            <LocalParkingIcon
+              aria-label='No parking is available'
+              sx={{ opacity: '20%' }}
+            />
           </Tooltip>
         )}
       </StyledIconBox>
@@ -126,7 +129,7 @@ export default function VenueMeta({ meta, maxGuests, ...props }) {
             color='primary'
             arrow
             placement='right'>
-            <FreeBreakfastIcon />
+            <FreeBreakfastIcon aria-label='Breakfast is included' />
           </Tooltip>
         ) : (
           <Tooltip
@@ -134,7 +137,10 @@ export default function VenueMeta({ meta, maxGuests, ...props }) {
             color='primary'
             arrow
             placement='right'>
-            <FreeBreakfastIcon sx={{ opacity: '20%' }} />
+            <FreeBreakfastIcon
+              aria-label='Breakfast not included'
+              sx={{ opacity: '20%' }}
+            />
           </Tooltip>
         )}
       </StyledIconBox>

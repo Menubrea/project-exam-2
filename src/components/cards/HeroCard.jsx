@@ -61,10 +61,10 @@ export default function HeroCard({ venue }) {
               level='h5'
               component='p'
               sx={{
-                fontFamily: 'condor-condensed, sans-serif',
                 textTransform: 'Uppercase',
-                fontWeight: 700,
+                fontWeight: 900,
                 lineHeight: 0.6,
+                marginBottom: 0,
               }}>
               This week's featured venue
             </Typography>
@@ -80,6 +80,7 @@ export default function HeroCard({ venue }) {
                 sx={{
                   fontFamily: 'amatic-sc, sans-serif',
                   fontWeight: 700,
+                  textTransform: 'uppercase',
                   fontSize: 'clamp(2.8rem, 5vw, 3.8rem)',
                   marginBottom: 1,
                   lineHeight: 1,

@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
-  Input,
   Typography,
   styled,
   Alert,
@@ -19,6 +18,7 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -37,6 +37,7 @@ export default function BookingForm({ venue }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [bookedDates, setBookedDates] = useState([]);
+  const [guests, setGuests] = useState(1);
 
   useEffect(() => {
     if (venue.bookings) {
@@ -66,6 +67,10 @@ export default function BookingForm({ venue }) {
     })
   );
 
+  const onChangeGuests = (e) => {
+    setGuests(e.target.value);
+  };
+
   const {
     register,
     handleSubmit,
@@ -82,6 +87,7 @@ export default function BookingForm({ venue }) {
     setOpen(false);
     setErrorMessage('');
   };
+  console.log(guests);
 
   const submitBooking = async (data) => {
     try {
@@ -198,7 +204,9 @@ export default function BookingForm({ venue }) {
               margin: '0 auto',
               backgroundColor: 'white',
             }}>
-            <Alert variant='plain' color='primary'>
+            <Alert
+              variant='plain'
+              sx={{ color: (theme) => theme.palette.common.black }}>
               {dateError}
             </Alert>
           </Box>
@@ -225,6 +233,8 @@ export default function BookingForm({ venue }) {
           <MainThemeInput
             id='guests'
             type='number'
+            onKeyUp={onChangeGuests}
+            onClick={onChangeGuests}
             {...register('guests')}
             sx={{ width: '100px' }}
             defaultValue={1}
@@ -277,8 +287,8 @@ export default function BookingForm({ venue }) {
       <Button id='booking-submit' sx={{ display: 'none' }} type='submit'>
         Submit
       </Button>
-      <Modal open={open}>
-        <ModalDialog sx={{ border: '1px solid white' }}>
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <ModalDialog sx={{ borderRadius: 3 }}>
           {!errorMessage ? (
             <Box>
               <Typography level='body1' sx={{ textAlign: 'center' }}>
@@ -288,11 +298,24 @@ export default function BookingForm({ venue }) {
                 level='h4'
                 textAlign={'center'}
                 sx={{
-                  fontFamily: 'futura-PT-condensed, sans-serif',
+                  fontFamily: 'source-sans-pro, sans-serif',
                   textTransform: 'uppercase',
+                  fontWeight: 700,
                 }}>
                 {venue.name}
               </Typography>
+              <GuestsContainer>
+                <GroupsIcon aria-label='guests' size='sm' />
+                <Typography
+                  aria-label='number of guests'
+                  level='h5'
+                  lineHeight={0.8}
+                  fontWeight={700}
+                  color={'black'}>
+                  {guests}
+                </Typography>
+              </GuestsContainer>
+
               {startDate && endDate && (
                 <Box
                   sx={{
@@ -309,6 +332,10 @@ export default function BookingForm({ venue }) {
                   </Typography>
                 </Box>
               )}
+              <PriceContainer>
+                <Typography>Total cost:</Typography>
+                <Typography>{price},-</Typography>
+              </PriceContainer>
               <Box sx={{ display: 'flex', gap: 1, marginTop: 2 }}>
                 <Button color='error' onClick={() => setOpen(false)} size='sm'>
                   Cancel
@@ -364,7 +391,38 @@ export default function BookingForm({ venue }) {
   );
 }
 
+const PriceContainer = styled(Box)(() => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+
+  backgroundColor: 'rgba(0, 0, 0, 0.05)',
+  marginTop: '1rem',
+  padding: '.5rem',
+  borderRadius: 3,
+}));
+
 const BookingFormStyle = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(2),
   color: theme.palette.common.white,
+}));
+
+const GuestsContainer = styled(Box)(({ theme }) => ({
+  height: 50,
+  width: 50,
+  borderRadius: 100,
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? theme.palette.common.white
+      : theme.palette.primary[500],
+  color:
+    theme.palette.mode === 'dark'
+      ? theme.palette.common.black
+      : theme.palette.common.white,
+
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+
+  margin: '.5rem auto 1rem',
 }));

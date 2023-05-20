@@ -42,8 +42,7 @@ export default function SearchCard({ venue, handleClose }) {
         <VenuePrice venue={venue} />
         <Typography
           level='body1'
-          fontFamily={'open-sans, sans-serif'}
-          fontWeight={300}
+          fontWeight={500}
           textAlign={'center'}
           component={'p'}
           sx={{ marginBottom: 1 }}>
