@@ -14,8 +14,7 @@ const VenueBookingCardStyle = styled(Box)(({ theme }) => ({
 
   '&:hover': {
     '& img': {
-      transform: 'scale(1.1)',
-      transition: 'transform 0.3s ease-in-out',
+      filter: 'brightness(0.8)',
     },
   },
 }));
@@ -74,10 +73,9 @@ export default function VenueBookingCard({ bookings }) {
             position: 'absolute',
             right: 10,
             top: 40,
-            backgroundColor: 'rgba(255,255,255,0.5)',
-            backdropFilter: 'blur(5px)',
+            backgroundColor: 'rgba(255,255,255,1)',
             color: 'black',
-            padding: '0.2rem 1rem',
+            padding: '0.1rem .6rem',
             borderRadius: '0.2rem',
           }}>
           Guests: {bookings.guests}

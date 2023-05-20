@@ -36,8 +36,8 @@ export const MainThemeButton = styled(Button)(({ theme }) => ({
       : theme.palette.common.white,
   backgroundColor:
     theme.palette.mode === 'dark'
-      ? theme.palette.common.white
-      : theme.palette.primary[600],
+      ? theme.palette.neutral[50]
+      : theme.palette.primary[500],
   position: 'relative',
   transition: 'all .2s ease-in-out',
 
@@ -45,16 +45,13 @@ export const MainThemeButton = styled(Button)(({ theme }) => ({
     transition: 'all .2s ease-in-out',
     backgroundColor:
       theme.palette.mode === 'dark'
-        ? theme.palette.primary[500]
-        : theme.palette.neutral[100],
+        ? theme.palette.neutral[300]
+        : theme.palette.primary[700],
     color:
       theme.palette.mode === 'dark'
-        ? theme.palette.common.white
-        : theme.palette.primary[800],
-    outline:
-      theme.palette.mode === 'dark'
-        ? `1px solid ${theme.palette.common.white}`
-        : `1px solid ${theme.palette.primary[700]}`,
+        ? theme.palette.primary[900]
+        : theme.palette.common.white,
+    borderRadius: 10,
   },
 
   ':disabled': {
@@ -253,7 +250,6 @@ export const MainGrid = styled(Box)(({ theme }) => ({
   gap: theme.spacing(4, 2),
   maxWidth: '100%',
   margin: '0 auto 2em',
-  minHeight: '50vh',
 }));
 
 export const StyledSlider = styled(Slider)(({ theme }) => ({

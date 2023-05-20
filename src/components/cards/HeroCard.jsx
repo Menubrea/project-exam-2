@@ -27,7 +27,6 @@ const HeroContainer = styled(Box)(({ theme }) => ({
   bottom: '0',
 }));
 
-// Styling for hero section body.
 const HeroBody = styled(Box)(({ theme }) => ({
   backgroundColor:
     theme.palette.mode === 'dark'
@@ -62,10 +61,10 @@ export default function HeroCard({ venue }) {
               level='h5'
               component='p'
               sx={{
-                fontFamily: 'futura-PT-condensed, sans-serif',
+                fontFamily: 'condor-condensed, sans-serif',
                 textTransform: 'Uppercase',
                 fontWeight: 700,
-                lineHeight: 1,
+                lineHeight: 0.6,
               }}>
               This week's featured venue
             </Typography>
@@ -81,10 +80,9 @@ export default function HeroCard({ venue }) {
                 sx={{
                   fontFamily: 'amatic-sc, sans-serif',
                   fontWeight: 700,
-                  textTransform: 'uppercase',
                   fontSize: 'clamp(2.8rem, 5vw, 3.8rem)',
-                  lineHeight: 1,
                   marginBottom: 1,
+                  lineHeight: 1,
                 }}>
                 {venue.name}
               </Typography>

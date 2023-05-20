@@ -16,9 +16,7 @@ export default function Logo() {
         component={'img'}
         src={logo}
         sx={{
-          marginTop: 1.2,
-          height: '35px',
-          width: '100%',
+          width: '100px',
         }}
       />
     </LinkWrapper>

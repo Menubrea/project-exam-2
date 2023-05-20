@@ -127,7 +127,7 @@ export default function Venue({ venue, loading, error }) {
             level='h6'
             component={'p'}
             sx={{
-              fontFamily: 'futura-pt-condensed, sans-serif',
+              fontFamily: 'condor-condensed, sans-serif',
               fontWeight: 700,
               textTransform: 'uppercase',
               lineHeight: 0.5,
@@ -135,7 +135,7 @@ export default function Venue({ venue, loading, error }) {
             Introducing
           </Typography>
           <Typography
-            level='h2'
+            level='h1'
             component={'h1'}
             sx={{
               fontFamily: 'amatic-sc, sans-serif',

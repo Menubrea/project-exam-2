@@ -11,7 +11,11 @@ import {
   ModalDialog,
   Button,
 } from '@mui/joy';
-import { LinkWrapper, MainThemeButton } from '../../styles/GlobalStyles';
+import {
+  LinkWrapper,
+  MainThemeButton,
+  MainThemeInput,
+} from '../../styles/GlobalStyles';
 import { useEffect, useMemo, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -178,14 +182,6 @@ export default function BookingForm({ venue }) {
   return (
     <BookingFormStyle onSubmit={handleSubmit(submitBooking)} component={'form'}>
       <Box sx={{ position: 'relative', width: '100%' }}>
-        <Box sx={{ width: 'fit-content', margin: '0 0 .3rem auto' }}>
-          <MainThemeButton
-            endDecorator={<CloseIcon />}
-            size='small'
-            onClick={ResetSelection}>
-            Clear selection
-          </MainThemeButton>
-        </Box>
         <DatePicker
           selected={(startDate, endDate)}
           onChange={handleDateRangeChange}
@@ -208,6 +204,14 @@ export default function BookingForm({ venue }) {
           </Box>
         </DatePicker>
       </Box>
+      <Box sx={{ width: 'fit-content', margin: '.3rem 0 0 auto' }}>
+        <MainThemeButton
+          endDecorator={<CloseIcon />}
+          size='sm'
+          onClick={ResetSelection}>
+          Clear selection
+        </MainThemeButton>
+      </Box>
       <Box marginTop={1}>
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
           <Typography level='body1' component={'label'} htmlFor='guests'>
@@ -218,11 +222,11 @@ export default function BookingForm({ venue }) {
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 1 }}>
-          <Input
+          <MainThemeInput
             id='guests'
             type='number'
             {...register('guests')}
-            sx={{ width: '100px', border: '1px solid white' }}
+            sx={{ width: '100px' }}
             defaultValue={1}
             slotProps={{
               input: {

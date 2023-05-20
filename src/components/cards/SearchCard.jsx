@@ -42,10 +42,14 @@ export default function SearchCard({ venue, handleClose }) {
         <VenuePrice venue={venue} />
         <Typography
           level='body1'
+          fontFamily={'open-sans, sans-serif'}
+          fontWeight={300}
           textAlign={'center'}
           component={'p'}
           sx={{ marginBottom: 1 }}>
-          {venue.name}
+          {venue.name.length > 25
+            ? venue.name.slice(0, 25) + '...'
+            : venue.name}
         </Typography>
       </StyledBox>
     </LinkWrapper>

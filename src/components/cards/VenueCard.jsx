@@ -47,7 +47,7 @@ export default function VenueCard({ venue }) {
           onError={(e) => (e.target.src = altImage)}
         />
         <VenuePrice venue={venue} />
-        <StyledTitle level='h5' component='h2'>
+        <StyledTitle level='h4' component='h3'>
           {venue.name}
         </StyledTitle>
         <VenueMeta meta={venue.meta} maxGuests={venue.maxGuests} />
