@@ -11,17 +11,23 @@ const StyledTitle = styled(Typography)(({ theme }) => ({
   textAlign: 'left',
   position: 'absolute',
   border: `1px solid ${theme.palette.common.white}`,
+  borderBottom: 0,
+  borderLeft: 0,
   bottom: 0,
-  borderRadius: '3px 1em 3px 3px',
+  borderRadius: '0 5px 0 0',
   background: `linear-gradient(-90deg, ${theme.palette.primary[500]} 0%, ${theme.palette.primary[700]} 100%)`,
   color: theme.palette.common.white,
 }));
 
 const StyledCard = styled(Box)(({ theme }) => ({
+  flexBasis: `calc(33.333%)`,
+  minWidth: 260,
+  flexGrow: 1,
   height: 390,
   position: 'relative',
   boxShadow: '0 0 10px 5px rgba(0,0,0,0.1)',
   borderRadius: 5,
+  overflow: 'hidden',
   cursor: 'pointer',
   ':hover': {
     '& img': {

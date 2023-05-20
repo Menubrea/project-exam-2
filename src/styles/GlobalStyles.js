@@ -245,10 +245,9 @@ export const ModalSheet = styled(Sheet)(({ theme }) => ({
 }));
 
 export const MainGrid = styled(Box)(({ theme }) => ({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-  gap: theme.spacing(4, 2),
-  maxWidth: '100%',
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: theme.spacing(2),
   margin: '0 auto 2em',
 }));
 

@@ -26,7 +26,7 @@ export default function Home({ data, error, loading }) {
     return new Date(b.created) - new Date(a.created);
   });
 
-  const newestVenues = sortByNewest.slice(0, 3);
+  const newestVenues = sortByNewest.slice(0, 5);
 
   const sortedByRegionArray = Object.entries(sortedByRegion);
   sortedByRegionArray.sort((a, b) => a[0].localeCompare(b[0]));
@@ -46,6 +46,7 @@ export default function Home({ data, error, loading }) {
                 <VenueCard key={venue.id} venue={venue} />
               ))}
           </MainGrid>
+          <StyledDivider />
         </Container>
         <Container>
           {sortedByRegionArray &&
@@ -63,6 +64,7 @@ export default function Home({ data, error, loading }) {
                     <VenueCard key={venue.id} venue={venue} />
                   ))}
                 </MainGrid>
+                <StyledDivider />
               </Box>
             ))}
         </Container>
