@@ -16,15 +16,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
       : theme.palette.neutral[200],
   padding: theme.spacing(0.5),
   zIndex: '100',
-
-  ':hover': {
-    transition: 'all 1s ease-in-out',
-    borderRadius: '100vh',
-    '& button': {
-      transition: 'all 1s ease-in-out',
-      borderRadius: '100vh',
-    },
-  },
 }));
 
 export default function Search({ venues }) {
@@ -66,11 +57,16 @@ export default function Search({ venues }) {
       }}>
       <Box sx={{ margin: '0 auto' }}>
         <MainThemeButton
+          sx={{
+            fontSize: { xs: '1.2rem', sm: 'inherit' },
+            alignItems: 'center',
+            paddingY: { xs: 2, sm: 0 },
+          }}
+          size='md'
           fullWidth
           startDecorator={<TravelExploreIcon />}
-          size='sm'
           onClick={handleOpenSearch}>
-          {open ? 'Close' : 'find your perfect vacation'}
+          {open ? 'Close' : 'Find the perfect vacation'}
         </MainThemeButton>
       </Box>
 

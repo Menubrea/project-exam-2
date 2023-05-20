@@ -161,7 +161,9 @@ export default function Profile({ setFilteredVenues }) {
 
         {profile.bookings && profile.bookings.length > 0 && (
           <Container sx={{ marginTop: 2 }}>
-            <Typography level='h6' component={'h2'}>
+            <Typography
+              sx={{ fontWeight: 900, marginBottom: 0.5 }}
+              component={'h2'}>
               Upcoming Bookings:
             </Typography>
             <ProfileBookings profile={profile} />

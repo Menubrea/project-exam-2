@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/joy';
+import { Box, Typography, styled } from '@mui/joy';
 import {
   MainThemeButton,
   MainThemeSelect,
@@ -7,6 +7,21 @@ import {
   StyledSlider,
 } from '../../styles/GlobalStyles';
 import CloseIcon from '@mui/icons-material/Close';
+
+const StyledText = styled(Typography)(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? theme.palette.primary[600]
+      : theme.palette.common.white,
+  padding: '.5em',
+  borderRadius: '5px 5px 0 0',
+  border:
+    theme.palette.mode === 'dark'
+      ? `1px solid ${theme.palette.common.white}`
+      : `1px solid ${theme.palette.common.black}`,
+
+  borderBottom: 'none',
+}));
 
 export default function Filters({
   venues,
@@ -163,17 +178,22 @@ export default function Filters({
           onChange={handleChange}
           getAriaValueText={valueText}
           valueLabelDisplay='on'
-          step={100}
           min={lowestPrice}
           max={highestPrice}
           marks
         />
         <Typography
           sx={{
-            backgroundColor: (theme) => theme.palette.primary[600],
-            color: (theme) => theme.palette.common.white,
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.common.white
+                : theme.palette.primary[500],
+            color: (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.common.black
+                : theme.palette.common.white,
             width: 'fit-content',
-            margin: '0 auto',
+            margin: '-2px auto',
             padding: '.1em .5em',
             borderRadius: '0 0 5px 5px',
           }}
@@ -196,44 +216,12 @@ export default function Filters({
             gap: 1,
             width: 'fit-content',
           }}>
-          <Typography
-            level='body3'
-            sx={{
-              backgroundColor: 'rgba(0, 0, 0, .05)',
-              padding: '.5em',
-              borderRadius: '5px 5px 0 0',
-            }}>
+          <StyledText level='body3'>
             Price range: {value[0]} kr - {value[1]} kr
-          </Typography>
-          <Typography
-            level='body3'
-            sx={{
-              backgroundColor: 'rgba(0, 0, 0, .05)',
-              padding: '.5em',
-              borderRadius: '5px 5px 0 0',
-            }}>
-            Region: {region}
-          </Typography>
-          <Typography
-            level='body3'
-            sx={{
-              backgroundColor: 'rgba(0, 0, 0, .05)',
-              padding: '.5em',
-              borderRadius: '5px 5px 0 0',
-            }}>
-            Min guest(s): {guests}
-          </Typography>
-          {search && (
-            <Typography
-              level='body3'
-              sx={{
-                backgroundColor: 'rgba(0, 0, 0, .05)',
-                padding: '.5em',
-                borderRadius: '5px 5px 0 0',
-              }}>
-              Searching: {search}
-            </Typography>
-          )}
+          </StyledText>
+          <StyledText level='body3'>Region: {region}</StyledText>
+          <StyledText level='body3'>Min guest(s): {guests}</StyledText>
+          {search && <StyledText level='body3'>Searching: {search}</StyledText>}
         </Box>
         <Box
           sx={{
@@ -243,15 +231,9 @@ export default function Filters({
             alignItems: 'center',
             gap: 1,
           }}>
-          <Typography
-            level='body3'
-            sx={{
-              backgroundColor: 'rgba(0, 0, 0, .05)',
-              padding: '.5em',
-              borderRadius: '5px 5px 0 0',
-            }}>
+          <StyledText level='body3'>
             {filtered.length} results found.
-          </Typography>
+          </StyledText>
           <MainThemeButton
             endDecorator={<CloseIcon fontSize='sm' />}
             sx={{
@@ -259,6 +241,9 @@ export default function Filters({
               paddingY: 0,
               paddingX: 1,
               borderRadius: '5px 5px 0 0',
+              ':hover': {
+                borderRadius: 0,
+              },
             }}
             size='sm'
             onClick={ResetFilters}>

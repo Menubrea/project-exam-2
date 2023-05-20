@@ -11,7 +11,7 @@ export const theme = extendTheme({
     },
   },
   fontFamily: {
-    body: 'futura-PT, var(--joy-fontFamily-fallback)',
+    body: 'source-sans-pro, var(--joy-fontFamily-fallback)',
   },
   colorSchemes: {
     light: {

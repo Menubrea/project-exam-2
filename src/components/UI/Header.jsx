@@ -28,6 +28,7 @@ export function Header() {
           justifyContent: 'space-between',
           paddingX: { xs: 2, md: 1, lg: 0 },
           alignItems: 'center',
+          height: 50,
         }}>
         <Logo />
         <Box sx={{ display: 'flex', gap: 1 }}>

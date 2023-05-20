@@ -5,6 +5,7 @@ import { SearchCard } from '../cards';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
 import TuneIcon from '@mui/icons-material/Tune';
+import CloseIcon from '@mui/icons-material/Close';
 
 const StyledGrid = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -18,7 +19,6 @@ const StyledGrid = styled(Box)(({ theme }) => ({
 
 const StyledModalDialog = styled(ModalDialog)(({ theme }) => ({
   borderRadius: 5,
-  border: 'none',
 }));
 
 export default function SearchModal({
@@ -40,7 +40,7 @@ export default function SearchModal({
   return (
     <Modal open={open} onClose={handleClose}>
       <StyledModalDialog
-        layout='center'
+        layout='fullWidth'
         variant='outlined'
         sx={{
           width: '100%',
@@ -70,6 +70,7 @@ export default function SearchModal({
             {isShown ? 'Hide Filters' : 'Show Filters'}
           </MainThemeButton>{' '}
           <MainThemeButton
+            endDecorator={<CloseIcon fontSize='sm' />}
             aria-label='close modal'
             size='sm'
             variant='solid'
@@ -84,7 +85,10 @@ export default function SearchModal({
         {isShown && (
           <Box
             sx={{
-              backgroundColor: 'rgba(0, 0, 0, .1)',
+              backgroundColor: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? theme.palette.primary[700]
+                  : theme.palette.neutral[200],
               paddingX: 2,
               paddingTop: 1,
               borderBottom: (theme) =>

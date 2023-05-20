@@ -28,7 +28,9 @@ export default function ProfileVenueList({ venues, handleBookingsSlideIn }) {
   return (
     <VenueWrapper>
       <Container component={'section'}>
-        <Typography level='h6' component={'h2'}>
+        <Typography
+          sx={{ fontWeight: 900, marginBottom: 0.5 }}
+          component={'h2'}>
           Manage Venues:
         </Typography>
       </Container>
