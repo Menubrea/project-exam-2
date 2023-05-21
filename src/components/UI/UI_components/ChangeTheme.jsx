@@ -22,11 +22,14 @@ export default function ChangeTheme() {
           title='Change to dark mode theme'
           arrow
           placement='bottom'>
-          <DarkModeIcon aria-label='Change to dark mode' />
+          <DarkModeIcon color='primary' aria-label='Change to dark mode' />
         </Tooltip>
       ) : (
         <Tooltip color='primary' title='Change to light mode theme' arrow>
-          <LightModeIcon aria-label='Change to light mode' />
+          <LightModeIcon
+            sx={{ color: 'white' }}
+            aria-label='Change to light mode'
+          />
         </Tooltip>
       )}
     </IconButton>

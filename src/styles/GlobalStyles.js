@@ -34,41 +34,19 @@ export const MainThemeButton = styled(Button)(({ theme }) => ({
     theme.palette.mode === 'dark'
       ? theme.palette.primary[900]
       : theme.palette.common.white,
-  background:
+  backgroundColor:
     theme.palette.mode === 'dark'
       ? theme.palette.neutral[50]
       : theme.palette.primary[500],
-  position: 'relative',
 
-  ':before': {
-    content: '""',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-
-    transform: 'scaleX(0)',
-    transition: 'transform 0.3s ease-in-out',
-    transformOrigin: 'right',
-    zIndex: '-1',
-  },
-
-  ':hover': {
-    background: 'transparent',
-    backgroundColor: 'transparent',
-    color:
+  '&:hover': {
+    backgroundColor:
       theme.palette.mode === 'dark'
-        ? theme.palette.common.white
-        : theme.palette.primary[900],
+        ? theme.palette.neutral[300]
+        : theme.palette.primary[700],
   },
 
-  ':hover:before': {
-    transform: 'scaleX(1)',
-    transformOrigin: 'left',
-  },
-
-  ':disabled': {
+  '& :disabled': {
     backgroundColor:
       theme.palette.mode === 'dark'
         ? theme.palette.primary[800]

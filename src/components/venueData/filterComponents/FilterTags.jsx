@@ -7,10 +7,10 @@ const StyledText = styled(Typography)(({ theme }) => ({
       : theme.palette.neutral[200],
   border:
     theme.palette.mode === 'dark'
-      ? `.1px solid ${theme.palette.primary[100]}`
+      ? `.1px solid ${theme.palette.common.white}`
       : `.1px solid ${theme.palette.neutral[900]}`,
-  padding: '.5em',
-  borderRadius: '5px',
+  padding: '.5em 1em',
+  borderRadius: '100px',
   flexGrow: 1,
 }));
 

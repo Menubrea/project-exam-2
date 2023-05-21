@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { Box, Typography, Button, styled } from '@mui/joy';
-import { MainThemeButton, MainThemeInput } from '../../styles/GlobalStyles';
+import { Box, Typography, styled } from '@mui/joy';
+import { MainThemeButton } from '../../styles/GlobalStyles';
 import CloseIcon from '@mui/icons-material/Close';
 import {
   FilterTags,
@@ -9,7 +9,6 @@ import {
   FilterRegion,
   FilterSearch,
 } from './filterComponents';
-import { useState } from 'react';
 import { VenuePill } from '../cards';
 
 export default function Filters({ filterState }) {
@@ -30,9 +29,8 @@ export default function Filters({ filterState }) {
     handleToggle,
     setSearch,
     filtered,
+    ResetFilters,
   } = filterState;
-
-  const [isShown, setIsShown] = useState(false);
 
   const regionSet = new Set(venues.map((venue) => venue.location.city));
   const guestSet = new Set(venues.map((venue) => venue.maxGuests));
@@ -99,40 +97,33 @@ export default function Filters({ filterState }) {
     setSearch(e.target.value);
   };
 
-  const handleToggleView = () => {
-    setIsShown((prev) => !prev);
-  };
-
   return (
     <>
       <StyledHeader>
-        <Typography level='h6' component={'h2'}>
+        <Typography level='body1' component={'h2'}>
           Manage filters
         </Typography>
         <MainThemeButton size='sm' onClick={handleToggle}>
           <CloseIcon />
         </MainThemeButton>
       </StyledHeader>
-      <HiddenDisplayButton fullWidth onClick={handleToggleView}>
-        {isShown ? 'Close results' : 'Show results'}
-      </HiddenDisplayButton>
-      {isShown && (
-        <HiddenDisplay>
-          <FilterTags
-            search={search}
-            region={region}
-            guests={guests}
-            filtered={filtered}
-            value={value}
-          />
-          <VenuePillBox>
-            {filtered.length > 0 &&
-              filtered.map((venue, i) => (
-                <VenuePill key={venue.id} venue={venue} />
-              ))}
-          </VenuePillBox>
-        </HiddenDisplay>
-      )}
+      <ContentBox>
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <MainThemeButton onClick={ResetFilters} size='sm'>
+            Reset
+          </MainThemeButton>
+          <Typography level='body2' component={'h3'}>
+            Current filter settings:
+          </Typography>
+        </Box>
+        <FilterTags
+          search={search}
+          region={region}
+          guests={guests}
+          filtered={filtered}
+          value={value}
+        />
+      </ContentBox>
       <Box sx={{ paddingX: 2, display: 'flex', gap: 2, marginTop: 2 }}>
         <FilterSearch
           search={search}
@@ -140,7 +131,6 @@ export default function Filters({ filterState }) {
           handleSearch={handleSearch}
         />
       </Box>
-
       <Box
         sx={{
           padding: 2,
@@ -171,33 +161,40 @@ export default function Filters({ filterState }) {
         highestPrice={highestPrice}
         valueText={valueText}
       />
+
+      <HiddenDisplay>
+        <Typography marginBottom={1} level='body2' component={'h3'}>
+          Results:
+        </Typography>
+        <VenuePillBox>
+          {filtered.length > 0 &&
+            filtered.map((venue, i) => (
+              <VenuePill key={venue.id} venue={venue} />
+            ))}
+        </VenuePillBox>
+      </HiddenDisplay>
     </>
   );
 }
 
-const HiddenDisplayButton = styled(Button)(({ theme }) => ({
-  borderRadius: 0,
-  borderBottom:
-    theme.palette.mode === 'dark'
-      ? `1px solid ${theme.palette.common.white}`
-      : `1px solid ${theme.palette.primary[800]}`,
-}));
-
-const HiddenDisplay = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(0, 2),
+const ContentBox = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2, 2, 0, 2),
   borderBottom:
     theme.palette.mode === 'dark'
       ? `1px solid ${theme.palette.common.white}`
       : `1px solid ${theme.palette.primary[700]}`,
 }));
 
+const HiddenDisplay = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2),
+}));
+
 const VenuePillBox = styled(Box)(() => ({
-  height: '100px',
+  maxHeight: 300,
   overflow: 'auto',
   marginTop: 0,
   display: 'flex',
   flexWrap: 'wrap',
-  gap: 0.5,
 }));
 
 const StyledHeader = styled(Box)(({ theme }) => ({

@@ -3,12 +3,14 @@ import { LinkWrapper } from '../../styles/GlobalStyles';
 import { altImage } from '../../constants/variables';
 import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
+import { AltMeta } from '../venueData';
 
 const HeroContainer = styled(Box)(({ theme }) => ({
   height: 'min(calc(90vh + 50px), 1000px)',
   position: 'relative',
   overflow: 'hidden',
   top: 0,
+  zIndex: 0,
 }));
 
 const HeroBody = styled(Box)(({ theme }) => ({
@@ -20,6 +22,7 @@ const HeroBody = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'space-between',
   paddingBottom: theme.spacing(2),
+  zIndex: 1,
 
   ':before': {
     content: '""',
@@ -84,17 +87,21 @@ export default function HeroCard({ venue }) {
         <Container sx={{ display: 'flex' }}>
           <LinkWrapper to={`/venue/${venue.id}`}>
             <Box sx={{ paddingTop: 2, width: '100%' }}>
-              <Typography
-                level='h6'
-                component='p'
-                sx={{
-                  fontSize: 'clamp(1rem, 2vw, 1.2rem)',
-                  textTransform: 'Uppercase',
-                  fontWeight: 900,
-                  lineHeight: 1,
-                }}>
-                Newest and hottest
-              </Typography>
+              <Box>
+                <AltMeta venue={venue} />
+                <Typography
+                  level='h6'
+                  component='p'
+                  sx={{
+                    fontSize: 'clamp(1.2rem, 2vw, 1.4rem)',
+                    textTransform: 'Uppercase',
+                    fontWeight: 900,
+                    lineHeight: 1,
+                    marginTop: 1,
+                  }}>
+                  Newest and hottest
+                </Typography>
+              </Box>
               <Box
                 sx={{
                   display: { xs: 'block', sm: 'flex' },
@@ -108,7 +115,7 @@ export default function HeroCard({ venue }) {
                     fontFamily: 'amatic-sc, sans-serif',
                     fontWeight: 700,
                     textTransform: 'uppercase',
-                    fontSize: 'clamp(2.5rem, 5vw, 3.8rem)',
+                    fontSize: 'clamp(2.8rem, 5vw, 3.8rem)',
                     marginBottom: 1,
                     lineHeight: 1,
                   }}>

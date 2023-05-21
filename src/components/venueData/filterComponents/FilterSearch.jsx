@@ -1,28 +1,34 @@
+import { Typography, Box } from '@mui/joy';
 import { MainThemeButton, MainThemeInput } from '../../../styles/GlobalStyles';
 import SearchIcon from '@mui/icons-material/Search';
 
 export default function FilterSearch({ search, setSearch, handleSearch }) {
   return (
-    <>
-      <MainThemeInput
-        endDecorator={<SearchIcon />}
-        fullWidth
-        id='search-input'
-        onChange={handleSearch}
-        size='md'
-        placeholder={'Search'}
-      />
-      {search.length > 0 && (
-        <MainThemeButton
-          onClick={() => {
-            setSearch('');
-            document.getElementById('search-input').value = '';
-          }}
+    <Box sx={{ width: '100%' }}>
+      <Typography level='body3' component={'label'}>
+        Search
+      </Typography>
+      <Box sx={{ display: 'flex', gap: 1 }}>
+        <MainThemeInput
+          endDecorator={<SearchIcon />}
+          fullWidth
+          id='search-input'
+          onChange={handleSearch}
           size='sm'
-          variant='plain'>
-          Clear
-        </MainThemeButton>
-      )}
-    </>
+          placeholder={'Search by name'}
+        />
+        {search.length > 0 && (
+          <MainThemeButton
+            onClick={() => {
+              setSearch('');
+              document.getElementById('search-input').value = '';
+            }}
+            size='sm'
+            variant='plain'>
+            Clear
+          </MainThemeButton>
+        )}
+      </Box>
+    </Box>
   );
 }

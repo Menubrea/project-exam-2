@@ -2,7 +2,7 @@ import { Container, Typography, styled, Box } from '@mui/joy';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { BookingForm } from '../forms';
-import { LocationMeta } from '../venueData';
+import { AltMeta, LocationMeta } from '../venueData';
 import { ImageModal } from '../modals';
 import { MainThemeButton } from '../../styles/GlobalStyles';
 import { AuthContainer } from '../UI/UI_components';
@@ -129,7 +129,7 @@ export default function Venue({ venue, loading, error }) {
             sx={{
               fontWeight: 900,
               textTransform: 'uppercase',
-              lineHeight: 0.5,
+              lineHeight: 1,
             }}>
             Introducing
           </Typography>
@@ -143,7 +143,13 @@ export default function Venue({ venue, loading, error }) {
             }}>
             {venueById && venueById.name}
           </Typography>
+
           {venueById && <LocationMeta location={venueById.location} />}
+
+          <Box sx={{ width: 'fit-content', margin: '8px auto' }}>
+            <AltMeta venue={venueById} />
+          </Box>
+
           <Typography>{venueById && venueById.description}</Typography>
 
           {venueById &&

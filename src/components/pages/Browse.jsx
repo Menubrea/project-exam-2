@@ -117,6 +117,7 @@ export default function Browse({ venues }) {
             setFiltered,
             handleToggle,
             filtered,
+            ResetFilters,
           }}
         />
       </FilterMenuBox>

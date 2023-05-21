@@ -8,17 +8,17 @@ const StyledNavElement = styled(Link)(({ theme }) => ({
   position: 'relative',
   width: '100%',
   height: '100%',
-  padding: theme.spacing(1, 2),
+  padding: theme.spacing(1, 1.5),
   overflow: 'hidden',
 
   ':before': {
     content: '""',
     position: 'absolute',
-    bottom: 0,
+    bottom: '0',
     left: 0,
     width: '100%',
-    height: '100%',
-    borderRadius: 5,
+    height: '5px',
+    borderRadius: '100px',
     background:
       theme.palette.mode === 'dark'
         ? `linear-gradient(45deg, ${theme.palette.primary[500]}, ${theme.palette.primary[600]})`
@@ -34,8 +34,17 @@ const StyledNavElement = styled(Link)(({ theme }) => ({
     transformOrigin: 'left',
   },
 
+  '& p': {
+    color:
+      theme.palette.mode === 'dark'
+        ? theme.palette.common.white
+        : theme.palette.primary[700],
+    transition: 'color 0.3s ease-in-out',
+  },
+
   '@media (max-width: 600px)': {
     padding: theme.spacing(2, 1),
+    zIndex: 100,
   },
 }));
 
@@ -44,14 +53,12 @@ export function Navigation() {
     <Box component={'nav'} sx={{ width: '100%' }}>
       <Box
         sx={{
-          listStyle: 'none',
-          margin: 0,
-          padding: 0,
           display: 'flex',
           justifyContent: { xs: 'space-around', sm: 'flex-start' },
           height: '100%',
           width: '100%',
           alignItems: 'center',
+          gap: 1,
         }}>
         <StyledNavElement to='/'>
           <Typography

@@ -5,10 +5,8 @@ import { LinkWrapper, MainThemeButton } from '../../../styles/GlobalStyles';
 import { useNavigate } from 'react-router-dom';
 
 const StyledMenu = styled(Menu)(({ theme }) => ({
-  border:
-    theme.palette.mode === 'dark'
-      ? '1px solid #fff'
-      : `1px solid ${theme.palette.primary[500]}`,
+  borderRadius: 0,
+  border: 'none',
 }));
 
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({

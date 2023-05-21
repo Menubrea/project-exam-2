@@ -12,6 +12,8 @@ export default function VenuePill({ venue }) {
           flex: 1,
           width: 'max-content',
           borderRadius: 100,
+          marginBottom: 1,
+          marginRight: 1,
           ':hover': {
             backgroundColor: 'rgba(0, 0, 0, .1)',
           },

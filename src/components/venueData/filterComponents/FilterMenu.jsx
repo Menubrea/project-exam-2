@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { MainThemeButton } from '../../../styles/GlobalStyles';
 
 const StyledFilterMenuBox = styled(Box)(({ theme }) => ({
-  padding: 10,
+  padding: theme.spacing(1),
   display: 'flex',
   justifyContent: 'space-between',
   borderRadius: '5px',
