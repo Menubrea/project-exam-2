@@ -6,6 +6,7 @@ import {
   ProfileVenueBookings,
   ProfileVenueList,
 } from '../profileData';
+import AppMeta from '../AppMeta';
 
 const profileUrl = 'https://api.noroff.dev/api/v1/holidaze';
 const action = '/profiles/';
@@ -134,6 +135,12 @@ export default function Profile({ setFilteredVenues }) {
   if (profile) {
     return (
       <Box component={'main'}>
+        <AppMeta
+          title={`Holidaze | ${profile.name} profile`}
+          description='View your Holidaze profile, edit your details, view your bookings and venues.'
+          tags='rent, venue, online, place to rent, holidaze.com, vacation, booking, profile, edit, bookings, venues'
+        />
+
         <ProfileDetails
           profile={profile}
           handleCreateSlide={handleCreateSlide}

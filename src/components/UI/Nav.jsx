@@ -10,6 +10,7 @@ const StyledNavElement = styled(Link)(({ theme }) => ({
   height: '100%',
   padding: theme.spacing(1, 1.5),
   overflow: 'hidden',
+  zIndex: 100,
 
   ':before': {
     content: '""',

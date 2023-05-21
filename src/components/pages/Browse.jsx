@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { SearchCard } from '../cards';
 import Loading from '../Loading';
 import { FilterTags, FilterMenu } from '../venueData/filterComponents';
+import AppMeta from '../AppMeta';
 
 const Filter = styled(Box)(() => ({
   inset: 0,
@@ -80,6 +81,11 @@ export default function Browse({ venues }) {
         position: 'relative',
         minHeight: '80vh',
       }}>
+      <AppMeta
+        title='Holidaze | Browse'
+        description='Find a place to rent for holiday or business trips, or rent out your own venue, search by region, price, or number of guests.'
+        tags='rent, venue, online, place to rent, holidaze.com, vacation, booking'
+      />
       <Container>
         <FilterMenu ResetFilters={ResetFilters} handleToggle={handleToggle} />
         <FilterTags

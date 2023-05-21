@@ -190,7 +190,6 @@ const HiddenDisplay = styled(Box)(({ theme }) => ({
 }));
 
 const VenuePillBox = styled(Box)(() => ({
-  maxHeight: 300,
   overflow: 'auto',
   marginTop: 0,
   display: 'flex',

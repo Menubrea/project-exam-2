@@ -7,6 +7,7 @@ import { ImageModal } from '../modals';
 import { MainThemeButton } from '../../styles/GlobalStyles';
 import { AuthContainer } from '../UI/UI_components';
 import { altImage } from '../../constants/variables';
+import AppMeta from '../AppMeta';
 
 const StyledMainGrid = styled(Container)(() => ({
   display: 'grid',
@@ -80,6 +81,11 @@ export default function Venue({ venue, loading, error }) {
           paddingTop: { sm: 0, md: '70px' },
           gap: { xs: 0, sm: 0, md: 2 },
         }}>
+        <AppMeta
+          title={`Holidaze | ${venueById.name} venue`}
+          description='Take a closer look at this venue, and book it for your next holiday or business trip.'
+          tags='rent, venue, online, place to rent, holidaze.com, vacation, bookings, venues'
+        />
         <Box
           sx={{
             gridColumn: { xs: '-1 / -1', md: ' 1 / 8' },

@@ -2,6 +2,7 @@ import { Box, Container, Typography } from '@mui/joy';
 import { HeroCard, VenueCard } from '../cards';
 import { MainGrid, StyledDivider } from '../../styles/GlobalStyles';
 import Loading from '../Loading';
+import AppMeta from '../AppMeta';
 
 export default function Home({ data, error, loading }) {
   if (!data || data.length === 0 || loading)
@@ -31,6 +32,11 @@ export default function Home({ data, error, loading }) {
   if (data) {
     return (
       <Box component={'main'}>
+        <AppMeta
+          title='Holidaze | Home'
+          description='Find a place to rent for holiday or business trips, or rent out your own venue.'
+          tags='rent, venue, online, place to rent, holidaze.com, vacation, booking'
+        />
         {data && <HeroCard venue={promotedVenue[0]} />}
         <StyledDivider />
         <Container>
