@@ -17,7 +17,7 @@ const VenueDetails = styled(Box)(({ theme }) => ({
   backgroundColor:
     theme.palette.mode === 'dark'
       ? theme.palette.primary[700]
-      : theme.palette.neutral[100],
+      : theme.palette.neutral[200],
   padding: theme.spacing(4),
 }));
 
@@ -77,7 +77,7 @@ export default function Venue({ venue, loading, error }) {
         component={'main'}
         sx={{
           paddingX: { xs: 0, md: 2, lg: 0 },
-          paddingTop: { sm: 0, md: 12 },
+          paddingTop: { sm: 0, md: '70px' },
           gap: { xs: 0, sm: 0, md: 2 },
         }}>
         <Box
@@ -134,7 +134,7 @@ export default function Venue({ venue, loading, error }) {
             Introducing
           </Typography>
           <Typography
-            level='h1'
+            level='h2'
             component={'h1'}
             sx={{
               fontFamily: 'amatic-sc, sans-serif',

@@ -257,7 +257,7 @@ export default function CreateVenue({
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
             gap: 1,
           }}>
           {mediaArray.map((mediaItem, index) => (
@@ -278,7 +278,12 @@ export default function CreateVenue({
                   alt={`media url ${mediaItem}`}
                 />
                 <StyledButton
-                  sx={{ position: 'absolute', zIndex: 10, top: 0, right: 0 }}
+                  sx={{
+                    position: 'absolute',
+                    zIndex: 10,
+                    top: '-1px',
+                    right: '-1px',
+                  }}
                   size='sm'
                   type='button'
                   onClick={() => handleRemoveMedia(index)}>

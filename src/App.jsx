@@ -3,9 +3,10 @@ import { CssVarsProvider } from '@mui/joy/styles';
 import { theme } from './theme';
 import { Routes, Route } from 'react-router-dom';
 import { Layout } from './components/UI';
-import { Home, Venue, Profile } from './components/pages/';
+import { Home, Venue, Profile, Browse } from './components/pages/';
 import { useApi } from './api/useApi';
 import { useState, useEffect } from 'react';
+import Loading from './components/Loading';
 
 const venueUrl = 'https://api.noroff.dev/api/v1/holidaze';
 const action = '/venues';
@@ -27,7 +28,7 @@ function App() {
   }, [data]);
 
   if (error) return <div>Error</div>;
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading />;
 
   if (data) {
     return (
@@ -50,6 +51,10 @@ function App() {
               element={
                 <Venue venue={filteredVenues} loading={loading} error={error} />
               }
+            />
+            <Route
+              path='/browse'
+              element={<Browse venues={filteredVenues} />}
             />
           </Route>
         </Routes>

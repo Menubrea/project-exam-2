@@ -15,6 +15,7 @@ export default function Logo() {
       <Box
         component={'img'}
         src={logo}
+        alt='Holidaze logo'
         sx={{
           width: '100px',
         }}

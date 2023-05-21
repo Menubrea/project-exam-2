@@ -4,6 +4,9 @@ import { VenueMeta, VenuePrice } from '../venueData';
 import { altImage } from '../../constants/variables';
 
 const StyledBox = styled(Box)(({ theme }) => ({
+  flexBasis: `calc(33.333% - 1em)`,
+  minWidth: 260,
+  flexGrow: 1,
   backgroundColor:
     theme.palette.mode === 'dark'
       ? theme.palette.primary[700]
@@ -21,8 +24,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 export default function SearchCard({ venue, handleClose }) {
   return (
-    <LinkWrapper to={`/venue/${venue.id}`} onClick={handleClose}>
-      <StyledBox sx={{ position: 'relative' }}>
+    <StyledBox sx={{ position: 'relative' }}>
+      <LinkWrapper to={`/venue/${venue.id}`} onClick={handleClose}>
         <Box
           component={'img'}
           src={venue && venue.media[0] ? venue.media[0] : altImage}
@@ -50,7 +53,7 @@ export default function SearchCard({ venue, handleClose }) {
             ? venue.name.slice(0, 25) + '...'
             : venue.name}
         </Typography>
-      </StyledBox>
-    </LinkWrapper>
+      </LinkWrapper>
+    </StyledBox>
   );
 }

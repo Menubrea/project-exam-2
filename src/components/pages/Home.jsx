@@ -9,10 +9,6 @@ export default function Home({ data, error, loading }) {
 
   if (error) return <div>Error</div>;
 
-  const promotedVenue = data.filter(
-    (venue) => venue.name === `Nature Lover's Paradise`
-  );
-
   const sortedByRegion = data.reduce((acc, venue) => {
     const region = venue.location.city;
     if (!acc[region]) {
@@ -26,7 +22,8 @@ export default function Home({ data, error, loading }) {
     return new Date(b.created) - new Date(a.created);
   });
 
-  const newestVenues = sortByNewest.slice(0, 5);
+  const promotedVenue = sortByNewest.slice(0, 1);
+  const newestVenues = sortByNewest.slice(1, 6);
 
   const sortedByRegionArray = Object.entries(sortedByRegion);
   sortedByRegionArray.sort((a, b) => a[0].localeCompare(b[0]));
@@ -37,8 +34,11 @@ export default function Home({ data, error, loading }) {
         {data && <HeroCard venue={promotedVenue[0]} />}
         <StyledDivider />
         <Container>
-          <Typography level='h5' component={'h2'}>
-            Latest entries
+          <Typography
+            level='h4'
+            component={'h2'}
+            sx={{ marginTop: { xs: 4, sm: 10 } }}>
+            ...and other new Venues
           </Typography>
           <MainGrid>
             {newestVenues &&
@@ -56,7 +56,7 @@ export default function Home({ data, error, loading }) {
                 sx={{
                   marginBottom: 4,
                 }}>
-                <Typography level='h5' component={'h2'}>
+                <Typography level='h4' component={'h2'}>
                   {region[0]}
                 </Typography>
                 <MainGrid>
