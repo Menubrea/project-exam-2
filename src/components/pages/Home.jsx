@@ -34,7 +34,10 @@ export default function Home({ data, error, loading }) {
         {data && <HeroCard venue={promotedVenue[0]} />}
         <StyledDivider />
         <Container>
-          <Typography level='h4' component={'h2'} sx={{ marginTop: 12 }}>
+          <Typography
+            level='h4'
+            component={'h2'}
+            sx={{ marginTop: { xs: 4, sm: 10 } }}>
             ...and other new Venues
           </Typography>
           <MainGrid>

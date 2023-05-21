@@ -7,25 +7,12 @@ const LoadingContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   height: '100vh',
   width: '100vw',
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.primary[500]
-      : theme.palette.neutral[50],
-  animation: 'fadeOut 2s ease-in-out',
-  '@keyframes fadeOut': {
-    '0%': {
-      opacity: 1,
-    },
-    '100%': {
-      opacity: 0,
-    },
-  },
 }));
 
 const LoadingAnimation = styled(Box)(() => ({
   width: 'clamp(50px, 20vw, 100px)',
   height: 'clamp(50px, 20vw, 100px)',
-  animation: 'spin 2s linear infinite',
+  animation: 'spin 1s linear infinite',
   '@keyframes spin': {
     '100%': {
       transform: 'rotate(360deg)',

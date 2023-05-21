@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 
 const HeroContainer = styled(Box)(({ theme }) => ({
-  height: 'min(96vh, 1000px)',
+  height: 'min(calc(90vh + 50px), 1000px)',
   position: 'relative',
   overflow: 'hidden',
   top: 0,
@@ -19,31 +19,25 @@ const HeroBody = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  marginBottom: theme.spacing(2),
+  paddingBottom: theme.spacing(2),
 
   ':before': {
     content: '""',
     zIndex: -1,
     position: 'absolute',
     left: 0,
-    width: 0,
-    height: 0,
-    bottom: 0,
-    border:
+    width: '120vw',
+    height: '170%',
+    bottom: 80,
+    backgroundColor:
       theme.palette.mode === 'dark'
-        ? `100vw solid ${theme.palette.primary[500]}`
-        : `100vw solid ${theme.palette.neutral[50]}`,
-    borderTop: '7em solid transparent',
-    borderBottom:
-      theme.palette.mode === 'dark'
-        ? `7em solid ${theme.palette.primary[500]}`
-        : `7em solid ${theme.palette.neutral[50]}`,
+        ? theme.palette.primary[500]
+        : theme.palette.neutral[100],
+    clipPath: 'polygon(0% 53%, 100% 76%, 100% 100%, 0% 99%)',
   },
 
   ':hover': {
-    '& p': {
-      textDecoration: 'underline',
-    },
+    cursor: 'pointer',
   },
 }));
 
