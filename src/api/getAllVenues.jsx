@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export function useApi(url, options) {
+export function getAllVenues(url, options) {
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -12,7 +12,6 @@ export function useApi(url, options) {
     try {
       while (urlWithOffset) {
         setLoading(true);
-        setError(false);
         const res = await fetch(
           `${urlWithOffset}&offset=${currentOffset}`,
           options
@@ -22,6 +21,7 @@ export function useApi(url, options) {
         currentOffset += json.length;
         urlWithOffset = json.length > 0 ? url : null;
       }
+
       setData(allData);
     } catch (error) {
       console.log(error);

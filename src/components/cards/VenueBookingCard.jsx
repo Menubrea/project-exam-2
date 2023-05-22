@@ -28,8 +28,8 @@ const TextStyle = styled(Typography)(({ theme, ...props }) => ({
   width: '100%' || props.width,
   backgroundColor:
     theme.palette.mode === 'dark'
-      ? theme.palette.primary[700]
-      : theme.palette.neutral[100],
+      ? theme.palette.primary[500]
+      : theme.palette.neutral[50],
   zIndex: 99,
 }));
 

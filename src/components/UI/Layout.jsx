@@ -3,12 +3,14 @@ import { Header } from './Header';
 import { Footer } from './Footer';
 import { Box, styled } from '@mui/joy';
 import { Navigation } from './Nav';
+import Loading from '../Loading';
 
-export default function Layout({ venues }) {
+export default function Layout({ venues, loading }) {
   return (
     <>
       <Header venues={venues} />
       <Outlet />
+      {loading && <Loading />}
       <StyledBox
         sx={{ display: { xs: 'block', sm: 'none', position: 'fixed' } }}>
         <Navigation />
