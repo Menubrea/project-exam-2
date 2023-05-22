@@ -16,6 +16,7 @@ const LoadingContainer = styled(Box)(({ theme }) => ({
       ? theme.palette.primary[500]
       : theme.palette.neutral[100],
   overflow: 'hidden',
+  zIndex: 999,
 }));
 
 export default function Loading() {
@@ -43,6 +44,7 @@ export default function Loading() {
         <Box
           component={'img'}
           src={logo}
+          alt='Holidaze Logo'
           sx={{ width: '100px', height: '30px' }}
         />
         <LinearProgress determinate value={progress} />

@@ -9,6 +9,7 @@ import {
 import AppMeta from '../AppMeta';
 import { BreadCrumbsNav } from '../UI';
 import { Loading } from '../';
+import { ErrorComponent } from '../';
 
 const profileUrl = 'https://api.noroff.dev/api/v1/holidaze';
 const action = '/profiles/';
@@ -19,7 +20,7 @@ export default function Profile({ setFilteredVenues }) {
   const [token, setToken] = useState('');
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(true);
   const [profileVenues, setProfileVenues] = useState([]);
   const [selectedVenue, setSelectedVenue] = useState(null);
   const [slideIn, setSlideIn] = useState(false);
@@ -135,8 +136,8 @@ export default function Profile({ setFilteredVenues }) {
     }
   }, [token]);
 
+  if (error) return <ErrorComponent />;
   if (loading) return <Loading />;
-  if (error) return <p>Something went wrong, please try again</p>;
 
   if (profile) {
     return (
