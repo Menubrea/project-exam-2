@@ -49,7 +49,6 @@ export default function HeroCard({ venue }) {
   const [count, setCount] = useState(0);
 
   const handleResize = debounce(() => {
-    console.log(count);
     setCount(window.innerWidth / 3);
   }, 100);
 

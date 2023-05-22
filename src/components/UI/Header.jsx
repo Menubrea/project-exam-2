@@ -35,7 +35,8 @@ export function Header() {
         <Box
           sx={{
             display: 'flex',
-            gap: { sm: 2, alignItems: 'center' },
+            gap: { sm: 2 },
+            alignItems: 'center',
           }}>
           <Logo />
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>

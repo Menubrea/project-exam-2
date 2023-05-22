@@ -1,6 +1,7 @@
 import { Breadcrumbs, Typography } from '@mui/joy';
 import { LinkWrapper } from '../../styles/GlobalStyles';
 import { useLocation } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
 
 export default function BreadCrumbsNav({ venue, profile }) {
   const location = useLocation();
@@ -8,9 +9,11 @@ export default function BreadCrumbsNav({ venue, profile }) {
   return (
     <Breadcrumbs
       sx={{ width: 'fit-content', margin: '0 auto' }}
-      separator='-'
+      separator='|'
       aria-label='breadcrumb'>
-      <LinkWrapper to='/'>Home</LinkWrapper>
+      <LinkWrapper to='/'>
+        <Typography startDecorator={<HomeIcon />}>Home</Typography>
+      </LinkWrapper>
 
       {location.pathname.includes('venue') && (
         <LinkWrapper to={`/venue/${venue.id}`}>

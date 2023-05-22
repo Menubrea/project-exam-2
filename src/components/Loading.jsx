@@ -30,7 +30,7 @@ export default function Loading() {
       setProgress((prevProgress) =>
         prevProgress >= 100 ? 0 : prevProgress + 10
       );
-    }, 100);
+    }, 200);
 
     return () => {
       clearInterval(timer);

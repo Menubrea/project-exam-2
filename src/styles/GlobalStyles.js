@@ -147,14 +147,14 @@ export const MainThemeInput = styled(Input)(({ theme }) => ({
   ':hover, :focus, :focus-within': {
     boxShadow:
       theme.palette.mode === 'dark'
-        ? `inset 0 0 0 3px ${theme.palette.common.white}`
-        : `inset 0 0 0 3px ${theme.palette.primary[700]}`,
+        ? `inset 0 0 0 2px ${theme.palette.common.white}`
+        : `inset 0 0 0 2px ${theme.palette.primary[500]}`,
   },
 
   border:
     theme.palette.mode === 'dark'
       ? `1px solid ${theme.palette.common.white}`
-      : `1px solid ${theme.palette.primary[700]}`,
+      : `1px solid ${theme.palette.primary[600]}`,
 
   backgroundColor:
     theme.palette.mode === 'dark'
@@ -173,6 +173,12 @@ export const MainThemeInput = styled(Input)(({ theme }) => ({
       theme.palette.mode === 'dark'
         ? theme.palette.common.white
         : theme.palette.primary[900],
+  },
+
+  'internal-autofill-selected': {
+    transform: 'scale(1.5) !important',
+    backgroundImage: 'red !important',
+    color: 'red !important',
   },
 }));
 

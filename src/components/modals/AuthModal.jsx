@@ -1,8 +1,7 @@
-import { useState } from 'react';
-import { Modal, ModalClose, Box, Typography } from '@mui/joy';
+import { useEffect, useState } from 'react';
+import { Modal, Box, Typography, ModalDialog, ModalClose } from '@mui/joy';
 import { LoginForm, RegisterForm } from '../forms';
 import { MainThemeButton } from '../../styles/GlobalStyles';
-import { ModalSheet } from '../../styles/GlobalStyles';
 
 export default function AuthModal({ open, handleClose, handleLoggedIn }) {
   const [hasAccount, setHasAccount] = useState(true);
@@ -11,29 +10,30 @@ export default function AuthModal({ open, handleClose, handleLoggedIn }) {
     hasAccount ? setHasAccount(false) : setHasAccount(true);
   };
 
+  useEffect(() => {
+    setHasAccount(true);
+  }, [handleClose]);
+
   return (
-    <Modal
-      open={open}
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <ModalSheet
+    <Modal open={open} onClose={handleClose}>
+      <ModalDialog
         sx={{
-          maxWidth: 800,
-          minWidth: 300,
-        }}>
+          borderRadius: 0,
+          border: 0,
+          padding: 0,
+          overflowY: 'auto',
+          backgroundColor: (theme) =>
+            theme.palette.mode === 'dark'
+              ? theme.palette.primary[500]
+              : theme.palette.neutral[50],
+        }}
+        aria-labelledby='modal-title'
+        aria-describedby='modal-description'>
         <ModalClose
           variant='solid'
           color='primary'
+          size='sm'
           onClick={handleClose}
-          sx={{
-            top: -15,
-            right: -15,
-            borderRadius: '100%',
-            border: '1px solid #fff',
-          }}
         />
         {hasAccount ? (
           <LoginForm onLoginSuccess={handleLoggedIn} />
@@ -47,6 +47,7 @@ export default function AuthModal({ open, handleClose, handleLoggedIn }) {
             gap: 2,
             alignItems: 'center',
             margin: '1em auto 0',
+            paddingBottom: 2,
           }}>
           <Typography>
             {hasAccount ? `Don't have an account?` : 'Already have an account?'}
@@ -55,7 +56,7 @@ export default function AuthModal({ open, handleClose, handleLoggedIn }) {
             {hasAccount ? 'Register' : 'Login'}
           </MainThemeButton>
         </Box>
-      </ModalSheet>
+      </ModalDialog>
     </Modal>
   );
 }

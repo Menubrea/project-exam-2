@@ -35,7 +35,6 @@ const StyledIconBox = styled(Box)(({ theme }) => ({
 
 export default function AltMeta({ venue }) {
   const { meta, maxGuests } = venue;
-  console.log(meta);
 
   return (
     <AltMetaStyle>

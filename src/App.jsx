@@ -11,16 +11,22 @@ import ErrorComponent from './components/Error';
 const venueUrl = 'https://api.noroff.dev/api/v1/holidaze';
 const action = '/venues';
 const flags = '?_bookings=true&_owner=true';
+const demoAccount = 'SuperMarker'; // Change this if you want to display a different demo account. i.e if you're creating your own.
 
 function App() {
   const [filteredVenues, setFilteredVenues] = useState([]);
   const { data, error, loading } = getAllVenues(venueUrl + action + flags);
 
   useEffect(() => {
+    const approvedProfile = 'Easy_Living';
+
     if (data) {
       const filtered = data.filter((venue) => {
-        if (venue.owner.name === 'Easy_Living') {
-          return true;
+        if (
+          venue.owner.name.includes(demoAccount) ||
+          venue.owner.name.includes(approvedProfile)
+        ) {
+          return venue;
         }
       });
       setFilteredVenues(filtered);
