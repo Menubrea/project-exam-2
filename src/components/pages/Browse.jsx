@@ -1,4 +1,4 @@
-import { Box, Container, styled } from '@mui/joy';
+import { Box, Container, Typography, styled } from '@mui/joy';
 import { MainGrid } from '../../styles/GlobalStyles';
 import { Filters } from '../venueData';
 import { useEffect, useState } from 'react';
@@ -6,6 +6,7 @@ import { SearchCard } from '../cards';
 import Loading from '../Loading';
 import { FilterTags, FilterMenu } from '../venueData/filterComponents';
 import AppMeta from '../AppMeta';
+import { BreadCrumbsNav } from '../UI';
 
 const Filter = styled(Box)(() => ({
   inset: 0,
@@ -77,7 +78,7 @@ export default function Browse({ venues }) {
     <Box
       component={'main'}
       sx={{
-        paddingTop: '70px',
+        paddingTop: '54px', // header height
         position: 'relative',
         minHeight: '80vh',
       }}>
@@ -86,6 +87,9 @@ export default function Browse({ venues }) {
         description='Find a place to rent for holiday or business trips, or rent out your own venue, search by region, price, or number of guests.'
         tags='rent, venue, online, place to rent, holidaze.com, vacation, booking'
       />
+
+      <BreadCrumbsNav />
+
       <Container>
         <FilterMenu ResetFilters={ResetFilters} handleToggle={handleToggle} />
         <FilterTags
@@ -95,12 +99,18 @@ export default function Browse({ venues }) {
           guests={guests}
           value={value}
         />
-        <MainGrid>
-          {filtered &&
-            filtered.map((venue) => (
-              <SearchCard key={venue.id} venue={venue} />
-            ))}
-        </MainGrid>
+
+        <Box>
+          <Typography level='h6' component={'h1'}>
+            Your filtered results:
+          </Typography>
+          <MainGrid>
+            {filtered &&
+              filtered.map((venue) => (
+                <SearchCard key={venue.id} venue={venue} />
+              ))}
+          </MainGrid>
+        </Box>
       </Container>
       <FilterMenuBox
         sx={{ width: { xs: '100%', sm: '50%', md: '35%', zIndex: 2 } }}
