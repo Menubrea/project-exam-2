@@ -1,16 +1,31 @@
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Typography } from '@mui/joy';
+import {
+  Box,
+  Typography,
+  FormHelperText,
+  FormLabel,
+  FormControl,
+} from '@mui/joy';
 import { MainThemeButton } from '../../styles/GlobalStyles';
 import { MainThemeInput } from '../../styles/GlobalStyles';
 import { useState } from 'react';
+import { Logo } from '../UI/UI_components';
 
 const loginUrl = 'https://api.noroff.dev/api/v1/holidaze/auth/login';
 
 const loginSchema = yup.object({
-  email: yup.string().email().required().trim(),
-  password: yup.string().required().trim(),
+  email: yup
+    .string()
+    .email()
+    .required()
+    .matches(
+      /^[\w\-.]+@(stud\.)?noroff\.no$/,
+      'Must end with @noroff.no or @stud.noroff.no'
+    )
+    .trim(),
+  password: yup.string().required().min(8).trim(),
 });
 
 export default function LoginForm({ onLoginSuccess }) {
@@ -21,7 +36,7 @@ export default function LoginForm({ onLoginSuccess }) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(loginSchema) });
+  } = useForm({ resolver: yupResolver(loginSchema), mode: 'onChange' });
 
   const onSubmit = async (data) => {
     try {
@@ -49,48 +64,65 @@ export default function LoginForm({ onLoginSuccess }) {
 
         default:
           setErrorMessage('Something went wrong, please try again');
+
           throw new Error('Something went wrong, please try again');
       }
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 2000);
     }
   };
 
+  console.log(errors);
+
   return (
-    <Box onSubmit={handleSubmit(onSubmit)} component={'form'}>
-      <Typography level='body1' component={'label'} htmlFor='loginEmail'>
-        Email
-      </Typography>
-      <MainThemeInput
-        id='loginEmail'
-        type='email'
-        sx={{ paddingX: 1, borderRadius: 3 }}
-        {...register('email')}
-      />
-      <Typography level='body3'>{errors.email?.message}</Typography>
-      <Typography level='body1' component={'label'} htmlFor='loginPass'>
-        Password
-      </Typography>
-      <MainThemeInput
-        id='loginPass'
-        sx={{ paddingX: 1 }}
-        type='password'
-        {...register('password')}
-      />
-      <Typography level='body3'>{errors.password?.message}</Typography>
+    <Box
+      sx={{ padding: 2 }}
+      onSubmit={handleSubmit(onSubmit)}
+      component={'form'}>
+      <Box marginY={2}>
+        <Logo />
+        <Typography marginTop={1} textAlign={'center'}>
+          Log in to your Holidaze account
+        </Typography>
+      </Box>
+      <FormControl>
+        <FormLabel>Email</FormLabel>
+        <MainThemeInput
+          title='Must be a valid noroff.no or @stud.noroff.no email'
+          name='email'
+          type='email'
+          {...register('email')}
+        />
+        <FormHelperText sx={{ width: 'fit-content', margin: '0 auto' }}>
+          {errors.email?.message}
+        </FormHelperText>
+      </FormControl>
+      <FormControl sx={{ marginTop: 2 }}>
+        <FormLabel>Password</FormLabel>
+        <MainThemeInput type='password' {...register('password')} />
+        <FormHelperText sx={{ width: 'fit-content', margin: '0 auto' }}>
+          {errors.password?.message}
+        </FormHelperText>
+      </FormControl>
       <Typography
         variant='h6'
         component={'p'}
         textAlign={'center'}
-        color='error'
-        sx={{ marginTop: 2 }}>
+        sx={{ marginY: 2 }}>
         {errorMessage}
       </Typography>
-      <MainThemeButton sx={{ marginTop: 2 }} fullWidth type='submit'>
-        Log In
-      </MainThemeButton>
+      {loading ? (
+        <MainThemeButton fullWidth aria-label='loading' type='button' loading />
+      ) : (
+        <MainThemeButton fullWidth type='submit'>
+          Log In
+        </MainThemeButton>
+      )}
     </Box>
   );
 }
