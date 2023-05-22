@@ -8,6 +8,7 @@ import {
 } from '../profileData';
 import AppMeta from '../AppMeta';
 import { BreadCrumbsNav } from '../UI';
+import { Loading } from '../';
 
 const profileUrl = 'https://api.noroff.dev/api/v1/holidaze';
 const action = '/profiles/';
@@ -96,7 +97,9 @@ export default function Profile({ setFilteredVenues }) {
           setError(true);
           console.log(error);
         } finally {
-          setLoading(false);
+          setTimeout(() => {
+            setLoading(false);
+          }, 300);
         }
       };
       fetchProfile();
@@ -123,14 +126,16 @@ export default function Profile({ setFilteredVenues }) {
           setError(true);
           console.log(error);
         } finally {
-          setLoading(false);
+          setTimeout(() => {
+            setLoading(false);
+          }, 300);
         }
       };
       fetchProfileVenues();
     }
   }, [token]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading />;
   if (error) return <p>Something went wrong, please try again</p>;
 
   if (profile) {

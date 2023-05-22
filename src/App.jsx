@@ -28,39 +28,37 @@ function App() {
   }, [data]);
 
   if (error) return <div>Error</div>;
-  if (loading) return <Loading />;
 
-  if (data) {
-    return (
-      <CssVarsProvider defaultMode='system' theme={theme}>
-        <CssBaseline />
-        <Routes>
-          <Route path='/' element={<Layout venues={filteredVenues} />}>
-            <Route
-              index
-              element={
-                <Home data={filteredVenues} error={error} loading={loading} />
-              }
-            />
-            <Route
-              path='/profile'
-              element={<Profile setFilteredVenues={setFilteredVenues} />}
-            />
-            <Route
-              path='/venue/:id'
-              element={
-                <Venue venue={filteredVenues} loading={loading} error={error} />
-              }
-            />
-            <Route
-              path='/browse'
-              element={<Browse venues={filteredVenues} />}
-            />
-          </Route>
-        </Routes>
-      </CssVarsProvider>
-    );
-  }
+  return (
+    <CssVarsProvider defaultMode='system' theme={theme}>
+      <CssBaseline />
+      <Routes>
+        <Route
+          path='/'
+          element={
+            <Layout venues={filteredVenues} loading={loading} error={error} />
+          }>
+          <Route
+            index
+            element={
+              <Home data={filteredVenues} error={error} loading={loading} />
+            }
+          />
+          <Route
+            path='/profile'
+            element={<Profile setFilteredVenues={setFilteredVenues} />}
+          />
+          <Route
+            path='/venue/:id'
+            element={
+              <Venue venue={filteredVenues} loading={loading} error={error} />
+            }
+          />
+          <Route path='/browse' element={<Browse venues={filteredVenues} />} />
+        </Route>
+      </Routes>
+    </CssVarsProvider>
+  );
 }
 
 export default App;
