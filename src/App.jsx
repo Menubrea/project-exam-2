@@ -4,7 +4,7 @@ import { theme } from './theme';
 import { Routes, Route } from 'react-router-dom';
 import { Layout } from './components/UI';
 import { Home, Venue, Profile, Browse } from './components/pages/';
-import { getAllVenues } from './api/getAllVenues';
+import { getAllVenues } from './api';
 import { useState, useEffect } from 'react';
 import ErrorComponent from './components/Error';
 

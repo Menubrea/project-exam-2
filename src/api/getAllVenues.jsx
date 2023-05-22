@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export function getAllVenues(url, options) {
+export default function getAllVenues(url, options) {
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
