@@ -1,1 +1,1 @@
-export { default as fetchProfile } from './getProfileByName.js';
+export { default as FetchProfile } from './fetchProfile.jsx';

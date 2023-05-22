@@ -8,7 +8,7 @@ const StyledNavElement = styled(Link)(({ theme }) => ({
   position: 'relative',
   width: '100%',
   height: '100%',
-  padding: theme.spacing(1, 1.5),
+  padding: theme.spacing(0.5, 1),
   overflow: 'hidden',
   zIndex: 100,
 
@@ -17,22 +17,22 @@ const StyledNavElement = styled(Link)(({ theme }) => ({
     position: 'absolute',
     bottom: '0',
     left: 0,
-    width: '100%',
-    height: '5px',
-    borderRadius: '100px',
+    width: '3px',
+    height: '100%',
+    borderRadius: '5px',
     background:
       theme.palette.mode === 'dark'
-        ? `linear-gradient(45deg, ${theme.palette.primary[500]}, ${theme.palette.primary[600]})`
-        : `linear-gradient(45deg, ${theme.palette.neutral[200]}, ${theme.palette.neutral[300]})`,
-    transform: 'scaleX(0)',
+        ? `linear-gradient(180deg, ${theme.palette.primary[300]}, ${theme.palette.primary[400]})`
+        : `linear-gradient(180deg, ${theme.palette.neutral[200]}, ${theme.palette.neutral[300]})`,
+    transform: 'scaleY(0)',
     transition: 'transform 0.3s ease-in-out',
-    transformOrigin: 'right',
+    transformOrigin: 'top',
     zIndex: '-1',
   },
 
   ':hover:before': {
-    transform: 'scaleX(1)',
-    transformOrigin: 'left',
+    transform: 'scaleY(1)',
+    transformOrigin: 'bottom',
   },
 
   '& p': {
@@ -59,7 +59,6 @@ export function Navigation() {
           height: '100%',
           width: '100%',
           alignItems: 'center',
-          gap: 1,
         }}>
         <StyledNavElement to='/'>
           <Typography

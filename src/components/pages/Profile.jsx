@@ -10,22 +10,26 @@ import AppMeta from '../AppMeta';
 import { BreadCrumbsNav } from '../UI';
 import { Loading } from '../';
 import { ErrorComponent } from '../';
-
-const profileUrl = 'https://api.noroff.dev/api/v1/holidaze';
-const action = '/profiles/';
-const flags = '?_bookings=true&_venues=true';
-const venueFlags = '/venues?_bookings=true';
+import { StoredProfile } from '../hooks';
+import { FetchProfile } from '../../api/profile';
 
 export default function Profile({ setFilteredVenues }) {
-  const [token, setToken] = useState('');
-  const [profile, setProfile] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(true);
-  const [profileVenues, setProfileVenues] = useState([]);
-  const [selectedVenue, setSelectedVenue] = useState(null);
+  const { token, profile } = StoredProfile();
+  const {
+    profileData,
+    profileVenues: myProfileVenues,
+    error,
+    loading,
+  } = FetchProfile();
+  const [profileVenues, setProfileVenues] = useState({});
   const [slideIn, setSlideIn] = useState(false);
   const [createVenue, setCreateVenue] = useState(false);
   const [venueUpdates, setVenueUpdates] = useState(0);
+  const [selectedVenue, setSelectedVenue] = useState({});
+
+  useEffect(() => {
+    setProfileVenues(myProfileVenues);
+  }, [myProfileVenues]);
 
   useEffect(() => {
     const container = document.getElementById('bookingsContainer');
@@ -45,16 +49,6 @@ export default function Profile({ setFilteredVenues }) {
     };
   }, [selectedVenue, slideIn]);
 
-  useEffect(() => {
-    const storedProfile = localStorage.getItem('profile');
-    const storedToken = localStorage.getItem('token');
-
-    if (storedProfile && storedToken) {
-      setProfile(JSON.parse(storedProfile));
-      setToken(JSON.parse(storedToken));
-    }
-  }, []);
-
   const handleCreateSlide = () => {
     setSlideIn(true);
     setCreateVenue(true);
@@ -62,7 +56,7 @@ export default function Profile({ setFilteredVenues }) {
 
   useEffect(() => {
     setVenueUpdates((prev) => prev + 1);
-  }, [profileVenues, setProfileVenues]);
+  }, [profileVenues]);
 
   const handleBookingsSlideIn = (e) => {
     const button = e.target.closest('div[id]');
@@ -78,64 +72,6 @@ export default function Profile({ setFilteredVenues }) {
     }
   };
 
-  useEffect(() => {
-    if (token && profile.name) {
-      const fetchProfile = async () => {
-        try {
-          setLoading(true);
-          setError(false);
-          const response = await fetch(
-            profileUrl + action + profile.name + flags,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          const result = await response.json();
-          setProfile(result);
-        } catch (error) {
-          setError(true);
-          console.log(error);
-        } finally {
-          setTimeout(() => {
-            setLoading(false);
-          }, 300);
-        }
-      };
-      fetchProfile();
-    }
-  }, [token, profile.name]);
-
-  useEffect(() => {
-    if (token && profile.name) {
-      const fetchProfileVenues = async () => {
-        try {
-          setLoading(true);
-          setError(false);
-          const response = await fetch(
-            profileUrl + action + profile.name + venueFlags,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          const myVenues = await response.json();
-          setProfileVenues(myVenues);
-        } catch (error) {
-          setError(true);
-          console.log(error);
-        } finally {
-          setTimeout(() => {
-            setLoading(false);
-          }, 300);
-        }
-      };
-      fetchProfileVenues();
-    }
-  }, [token]);
-
   if (error) return <ErrorComponent />;
   if (loading) return <Loading />;
 
@@ -143,7 +79,7 @@ export default function Profile({ setFilteredVenues }) {
     return (
       <Box
         sx={{
-          paddingTop: '54px',
+          paddingTop: '54px', // height of header
           backgroundColor: (theme) =>
             theme.palette.mode === 'dark'
               ? theme.palette.primary[700]
@@ -151,15 +87,15 @@ export default function Profile({ setFilteredVenues }) {
         }}
         component={'main'}>
         <AppMeta
-          title={`Holidaze | ${profile.name} profile`}
+          title={`Holidaze | ${profileData.name} profile`}
           description='View your Holidaze profile, edit your details, view your bookings and venues.'
           tags='rent, venue, online, place to rent, holidaze.com, vacation, booking, profile, edit, bookings, venues'
         />
 
-        <BreadCrumbsNav profile={profile} />
+        <BreadCrumbsNav profile={profileData} />
 
         <ProfileDetails
-          profile={profile}
+          profile={profileData}
           handleCreateSlide={handleCreateSlide}
         />
 
@@ -183,14 +119,14 @@ export default function Profile({ setFilteredVenues }) {
           />
         )}
 
-        {profile.bookings && profile.bookings.length > 0 && (
+        {profileData.bookings && profileData.bookings.length > 0 && (
           <Container sx={{ marginTop: 2 }}>
             <Typography
               sx={{ fontWeight: 900, marginBottom: 0.5 }}
               component={'h2'}>
               Upcoming Bookings:
             </Typography>
-            <ProfileBookings profile={profile} />
+            <ProfileBookings profile={profileData} />
           </Container>
         )}
       </Box>

@@ -24,6 +24,12 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const bookingUrl = 'https://api.noroff.dev/api/v1/holidaze/bookings';
+const BookingSchema = yup.object({
+  dateFrom: yup.date().required(),
+  dateTo: yup.date().required(),
+  guests: yup.number().required(),
+  venueId: yup.string().required(),
+});
 
 export default function BookingForm({ venue }) {
   const [errorMessage, setErrorMessage] = useState('');
@@ -38,6 +44,12 @@ export default function BookingForm({ venue }) {
   const [loading, setLoading] = useState(false);
   const [bookedDates, setBookedDates] = useState([]);
   const [guests, setGuests] = useState(1);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(BookingSchema) });
 
   useEffect(() => {
     if (venue.bookings) {
@@ -54,28 +66,14 @@ export default function BookingForm({ venue }) {
         })
         .flat()
         .map((date) => new Date(date));
+
       setBookedDates(unavailableDates);
     }
   }, [venue.bookings]);
 
-  const BookingSchema = useMemo(() =>
-    yup.object({
-      dateFrom: yup.date().required(),
-      dateTo: yup.date().required(),
-      guests: yup.number().required(),
-      venueId: yup.string().required(),
-    })
-  );
-
   const onChangeGuests = (e) => {
     setGuests(e.target.value);
   };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ resolver: yupResolver(BookingSchema) });
 
   const ResetSelection = () => {
     setStartDate(null);
@@ -87,7 +85,6 @@ export default function BookingForm({ venue }) {
     setOpen(false);
     setErrorMessage('');
   };
-  console.log(guests);
 
   const submitBooking = async (data) => {
     try {
@@ -288,7 +285,7 @@ export default function BookingForm({ venue }) {
         Submit
       </Button>
       <Modal open={open} onClose={() => setOpen(false)}>
-        <ModalDialog sx={{ borderRadius: 3 }}>
+        <ModalDialog sx={{ borderRadius: 0, border: 0 }}>
           {!errorMessage ? (
             <Box>
               <Typography level='body1' sx={{ textAlign: 'center' }}>
