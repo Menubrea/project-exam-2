@@ -205,6 +205,6 @@ const ProfileContainer = styled(Box)(({ theme }) => ({
       ? theme.palette.primary[700]
       : theme.palette.neutral[200],
   gap: theme.spacing(2),
-  paddingTop: theme.spacing(14),
+  paddingTop: theme.spacing(2),
   paddingBottom: theme.spacing(2),
 }));

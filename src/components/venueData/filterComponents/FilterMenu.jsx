@@ -1,4 +1,4 @@
-import { Box, styled } from '@mui/joy';
+import { Box, Typography, styled } from '@mui/joy';
 import TuneIcon from '@mui/icons-material/Tune';
 import CloseIcon from '@mui/icons-material/Close';
 import { MainThemeButton } from '../../../styles/GlobalStyles';
@@ -7,6 +7,7 @@ const StyledFilterMenuBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1),
   display: 'flex',
   justifyContent: 'space-between',
+  alignItems: 'center',
   borderRadius: '5px',
 
   backgroundColor:
@@ -24,7 +25,7 @@ export default function FilterMenu({ ResetFilters, handleToggle, isShown }) {
         onClick={handleToggle}
         size='sm'>
         {isShown ? 'Hide Filters' : 'Show Filters'}
-      </MainThemeButton>{' '}
+      </MainThemeButton>
       <MainThemeButton
         endDecorator={<CloseIcon fontSize='sm' />}
         size='sm'

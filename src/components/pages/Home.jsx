@@ -37,6 +37,7 @@ export default function Home({ data, error, loading }) {
           description='Find a place to rent for holiday or business trips, or rent out your own venue.'
           tags='rent, venue, online, place to rent, holidaze.com, vacation, booking'
         />
+
         {data && <HeroCard venue={promotedVenue[0]} />}
         <StyledDivider />
         <Container>

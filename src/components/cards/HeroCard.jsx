@@ -99,7 +99,7 @@ export default function HeroCard({ venue }) {
                     lineHeight: 1,
                     marginTop: 1,
                   }}>
-                  Newest and hottest
+                  Latest and hottest
                 </Typography>
               </Box>
               <Box

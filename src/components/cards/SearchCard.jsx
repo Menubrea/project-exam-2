@@ -47,7 +47,7 @@ export default function SearchCard({ venue, handleClose }) {
         <Typography
           level='body1'
           fontWeight={500}
-          component={'p'}
+          component={'h2'}
           sx={{ marginBottom: 1, paddingLeft: 1 }}>
           {venue.name.length > 25
             ? venue.name.slice(0, 25) + '...'
