@@ -78,7 +78,7 @@ export default function Browse({ venues }) {
     <Box
       component={'main'}
       sx={{
-        paddingTop: '54px', // header height
+        paddingTop: '75px',
         position: 'relative',
         minHeight: '80vh',
       }}>

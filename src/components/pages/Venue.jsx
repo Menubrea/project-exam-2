@@ -74,7 +74,7 @@ export default function Venue({ venue, loading, error }) {
 
   if (venueById) {
     return (
-      <Box sx={{ paddingTop: '54px' }} component={'main'}>
+      <Box sx={{ paddingTop: '75px' }} component={'main'}>
         <AppMeta
           title={`Holidaze | ${venueById.name} venue`}
           description='Take a closer look at this venue, and book it for your next holiday or business trip.'

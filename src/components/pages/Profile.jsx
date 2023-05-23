@@ -83,7 +83,8 @@ export default function Profile({ setFilteredVenues }) {
     return (
       <Box
         sx={{
-          paddingTop: '54px', // height of header
+          paddingTop: '75px',
+          paddingBottom: 6,
           backgroundColor: (theme) =>
             theme.palette.mode === 'dark'
               ? theme.palette.primary[700]

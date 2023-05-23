@@ -56,6 +56,13 @@ export const MainThemeButton = styled(Button)(({ theme }) => ({
         ? theme.palette.common.white
         : theme.palette.primary[900],
   },
+
+  '& :focus-within, :focus': {
+    outline:
+      theme.palette.mode === 'dark'
+        ? `2px solid ${theme.palette.common.white}`
+        : `2px solid ${theme.palette.primary[700]}`,
+  },
 }));
 
 export const StyledButton = styled(Button)(({ theme }) => ({

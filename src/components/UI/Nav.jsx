@@ -61,19 +61,13 @@ export function Navigation() {
           alignItems: 'center',
         }}>
         <StyledNavElement to='/'>
-          <Typography
-            margin={'0 auto'}
-            width={'fit-content'}
-            startDecorator={<HomeIcon />}>
+          <Typography margin={'0 auto'} width={'fit-content'}>
             Home
           </Typography>
         </StyledNavElement>
 
         <StyledNavElement to='/browse'>
-          <Typography
-            margin={'0 auto'}
-            width={'fit-content'}
-            startDecorator={<GlobeIcon />}>
+          <Typography margin={'0 auto'} width={'fit-content'}>
             Browse
           </Typography>
         </StyledNavElement>
