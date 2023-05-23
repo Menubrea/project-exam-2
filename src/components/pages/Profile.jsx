@@ -111,7 +111,6 @@ export default function Profile({ setFilteredVenues }) {
           setFilteredVenues={setFilteredVenues}
           setProfileVenues={setProfileVenues}
           createVenue={createVenue}
-          setSlideIn={setSlideIn}
           profileVenues={profileVenues}
         />
 

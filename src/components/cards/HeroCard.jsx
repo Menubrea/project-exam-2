@@ -6,7 +6,7 @@ import { debounce } from 'lodash';
 import { AltMeta } from '../venueData';
 
 const HeroContainer = styled(Box)(({ theme }) => ({
-  height: 'min(calc(90vh + 50px), 1000px)',
+  height: 'min(calc(85vh + 50px), 1000px)',
   position: 'relative',
   overflow: 'hidden',
   top: 0,
@@ -90,7 +90,7 @@ export default function HeroCard({ venue }) {
                 <AltMeta venue={venue} />
                 <Typography
                   level='h6'
-                  component='p'
+                  component='h1'
                   sx={{
                     fontSize: 'clamp(1.2rem, 2vw, 1.4rem)',
                     textTransform: 'Uppercase',
@@ -98,7 +98,7 @@ export default function HeroCard({ venue }) {
                     lineHeight: 1,
                     marginTop: 1,
                   }}>
-                  Latest and hottest
+                  Latest addition
                 </Typography>
               </Box>
               <Box
@@ -109,7 +109,7 @@ export default function HeroCard({ venue }) {
                 }}>
                 <Typography
                   level='h1'
-                  component={'h1'}
+                  component={'h2'}
                   sx={{
                     fontFamily: 'amatic-sc, sans-serif',
                     fontWeight: 700,
