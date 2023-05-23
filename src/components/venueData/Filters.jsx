@@ -1,25 +1,36 @@
-import { useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/joy';
-import {
-  MainThemeButton,
-  MainThemeSelect,
-  StyledOption,
-  StyledSlider,
-} from '../../styles/GlobalStyles';
+import { useEffect } from 'react';
+import { Box, Typography, styled } from '@mui/joy';
+import { MainThemeButton } from '../../styles/GlobalStyles';
 import CloseIcon from '@mui/icons-material/Close';
+import {
+  FilterTags,
+  FilterSlider,
+  FilterGuests,
+  FilterRegion,
+  FilterSearch,
+} from './filterComponents';
+import { VenuePill } from '../cards';
 
-export default function Filters({
-  venues,
-  setFiltered,
-  search,
-  filtered,
-  setSearch,
-}) {
-  const [guests, setGuests] = useState(1);
-  const [value, setValue] = useState([0, 0]);
-  const [lowestPrice, setLowestPrice] = useState(0);
-  const [highestPrice, setHighestPrice] = useState(1);
-  const [region, setRegion] = useState('All Regions');
+export default function Filters({ filterState }) {
+  const {
+    venues,
+    setFiltered,
+    search,
+    value,
+    setValue,
+    lowestPrice,
+    setLowestPrice,
+    highestPrice,
+    setHighestPrice,
+    guests,
+    setGuests,
+    region,
+    setRegion,
+    handleToggle,
+    setSearch,
+    filtered,
+    ResetFilters,
+  } = filterState;
 
   const regionSet = new Set(venues.map((venue) => venue.location.city));
   const guestSet = new Set(venues.map((venue) => venue.maxGuests));
@@ -39,16 +50,6 @@ export default function Filters({
       }
     }
   }, [venues]);
-
-  const ResetFilters = () => {
-    setGuests(1);
-    setRegion('All Regions');
-    setValue([lowestPrice, highestPrice]);
-    setFiltered(venues);
-    setSearch('');
-    const search = document.getElementById('search-input');
-    search.value = '';
-  };
 
   useEffect(() => {
     const storedGuests = sessionStorage.getItem('guests');
@@ -92,180 +93,120 @@ export default function Filters({
     return `${value},-`;
   }
 
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
   return (
     <>
+      <StyledHeader>
+        <Typography level='body1' component={'h2'}>
+          Manage filters
+        </Typography>
+        <MainThemeButton
+          aria-label='Close Menu'
+          size='sm'
+          onClick={handleToggle}>
+          <CloseIcon />
+        </MainThemeButton>
+      </StyledHeader>
+      <ContentBox>
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <MainThemeButton onClick={ResetFilters} size='sm'>
+            Reset
+          </MainThemeButton>
+          <Typography level='body2' component={'h3'}>
+            Current filter settings:
+          </Typography>
+        </Box>
+        <FilterTags
+          search={search}
+          region={region}
+          guests={guests}
+          filtered={filtered}
+          value={value}
+        />
+      </ContentBox>
+      <Box sx={{ paddingX: 2, display: 'flex', gap: 2, marginTop: 2 }}>
+        <FilterSearch
+          search={search}
+          setSearch={setSearch}
+          handleSearch={handleSearch}
+        />
+      </Box>
       <Box
         sx={{
-          paddingY: { xs: 1 },
+          padding: 2,
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
           gap: { xs: 1, sm: 2 },
           justifyContent: 'space-between',
         }}>
         <Box>
-          <MainThemeSelect
-            value={guests}
-            id='pickGuests'
-            variant='solid'
-            color='primary'
-            aria-label='pick Guests'
-            aria-roledescription='pick Guests'
-            size='sm'
-            placeholder='Guests'>
-            <StyledOption value={'Any'} onClick={() => setGuests(1)}>
-              Any
-            </StyledOption>
-            {sortedGuests.map((guest) => (
-              <StyledOption
-                key={guest}
-                value={guest}
-                onClick={() => setGuests(guest)}>
-                {guest}
-              </StyledOption>
-            ))}
-          </MainThemeSelect>
+          <FilterGuests
+            guests={guests}
+            setGuests={setGuests}
+            sortedGuests={sortedGuests}
+          />
         </Box>
         <Box>
-          <MainThemeSelect
-            value={region}
-            id='setRegion'
-            size='sm'
-            aria-label='set Region'
-            aria-roledescription='set Region'
-            placeholder='Choose Region'>
-            <StyledOption
-              value={'All Regions'}
-              onClick={() => setRegion('All Regions')}>
-              All Regions
-            </StyledOption>
-            {regionArray.map((region) => (
-              <StyledOption
-                id={`region-${region}`}
-                key={region}
-                value={region}
-                onClick={() => setRegion(region)}>
-                {region}{' '}
-              </StyledOption>
-            ))}
-          </MainThemeSelect>
+          <FilterRegion
+            region={region}
+            setRegion={setRegion}
+            regionArray={regionArray}
+          />
         </Box>
       </Box>
-      <Box marginBottom={1}>
-        <StyledSlider
-          sx={{
-            '--Slider-thumbSize': 0,
-            marginTop: 3,
-          }}
-          id='priceRange'
-          variant='solid'
-          size='md'
-          value={value}
-          onChange={handleChange}
-          getAriaValueText={valueText}
-          valueLabelDisplay='on'
-          step={100}
-          min={lowestPrice}
-          max={highestPrice}
-          marks
-        />
-        <Typography
-          sx={{
-            backgroundColor: (theme) => theme.palette.primary[600],
-            color: (theme) => theme.palette.common.white,
-            width: 'fit-content',
-            margin: '0 auto',
-            padding: '.1em .5em',
-            borderRadius: '0 0 5px 5px',
-          }}
-          htmlFor='priceRange'
-          textAlign={'center'}
-          component={'label'}>
-          Price range:
+      <FilterSlider
+        value={value}
+        handleChange={handleChange}
+        lowestPrice={lowestPrice}
+        highestPrice={highestPrice}
+        valueText={valueText}
+      />
+
+      <HiddenDisplay>
+        <Typography marginBottom={1} level='body2' component={'h3'}>
+          Results:
         </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-        <Box
-          sx={{
-            display: { xs: 'none', sm: 'flex' },
-            flexWrap: 'wrap',
-            gap: 1,
-            width: 'fit-content',
-          }}>
-          <Typography
-            level='body3'
-            sx={{
-              backgroundColor: 'rgba(0, 0, 0, .05)',
-              padding: '.5em',
-              borderRadius: '5px 5px 0 0',
-            }}>
-            Price range: {value[0]} kr - {value[1]} kr
-          </Typography>
-          <Typography
-            level='body3'
-            sx={{
-              backgroundColor: 'rgba(0, 0, 0, .05)',
-              padding: '.5em',
-              borderRadius: '5px 5px 0 0',
-            }}>
-            Region: {region}
-          </Typography>
-          <Typography
-            level='body3'
-            sx={{
-              backgroundColor: 'rgba(0, 0, 0, .05)',
-              padding: '.5em',
-              borderRadius: '5px 5px 0 0',
-            }}>
-            Min guest(s): {guests}
-          </Typography>
-          {search && (
-            <Typography
-              level='body3'
-              sx={{
-                backgroundColor: 'rgba(0, 0, 0, .05)',
-                padding: '.5em',
-                borderRadius: '5px 5px 0 0',
-              }}>
-              Searching: {search}
-            </Typography>
-          )}
-        </Box>
-        <Box
-          sx={{
-            width: 'fit-content',
-            margin: { xs: '0 auto', sm: '0 0 0 auto' },
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1,
-          }}>
-          <Typography
-            level='body3'
-            sx={{
-              backgroundColor: 'rgba(0, 0, 0, .05)',
-              padding: '.5em',
-              borderRadius: '5px 5px 0 0',
-            }}>
-            {filtered.length} results found.
-          </Typography>
-          <MainThemeButton
-            endDecorator={<CloseIcon fontSize='sm' />}
-            sx={{
-              fontSize: '.8rem',
-              paddingY: 0,
-              paddingX: 1,
-              borderRadius: '5px 5px 0 0',
-            }}
-            size='sm'
-            onClick={ResetFilters}>
-            Reset Filters
-          </MainThemeButton>
-        </Box>
-      </Box>
+        <VenuePillBox>
+          {filtered.length > 0 &&
+            filtered.map((venue, i) => (
+              <VenuePill key={venue.id} venue={venue} />
+            ))}
+        </VenuePillBox>
+      </HiddenDisplay>
     </>
   );
 }
+
+const ContentBox = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2, 2, 0, 2),
+  borderBottom:
+    theme.palette.mode === 'dark'
+      ? `1px solid ${theme.palette.common.white}`
+      : `1px solid ${theme.palette.primary[700]}`,
+}));
+
+const HiddenDisplay = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2),
+}));
+
+const VenuePillBox = styled(Box)(() => ({
+  overflow: 'auto',
+  marginTop: 0,
+  display: 'flex',
+  flexWrap: 'wrap',
+}));
+
+const StyledHeader = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: '8px 16px',
+  backgroundColor: 'rgba(0, 0, 0, .05)',
+  borderBottom:
+    theme.palette.mode === 'dark'
+      ? `1px solid ${theme.palette.common.white}`
+      : `1px solid ${theme.palette.primary[700]}`,
+}));

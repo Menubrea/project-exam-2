@@ -13,7 +13,7 @@ const VenueWrapper = styled(Box)(({ theme }) => ({
   backgroundColor:
     theme.palette.mode === 'dark'
       ? theme.palette.primary[500]
-      : theme.palette.neutral[300],
+      : theme.palette.primary[700],
   borderTop:
     theme.palette.mode === 'dark'
       ? `1px solid ${theme.palette.common.white}`
@@ -28,7 +28,13 @@ export default function ProfileVenueList({ venues, handleBookingsSlideIn }) {
   return (
     <VenueWrapper>
       <Container component={'section'}>
-        <Typography level='h6' component={'h2'}>
+        <Typography
+          sx={{
+            fontWeight: 900,
+            marginBottom: 0.5,
+            color: (theme) => theme.palette.neutral[50],
+          }}
+          component={'h2'}>
           Manage Venues:
         </Typography>
       </Container>

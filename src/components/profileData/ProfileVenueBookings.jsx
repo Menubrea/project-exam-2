@@ -46,16 +46,17 @@ const BookingsContainer = styled(Box)(({ theme }) => ({
       : `linear-gradient(-90deg, ${theme.palette.neutral[50]} 0%, ${theme.palette.neutral[500]} 100%)`,
 }));
 
-const Overlay = styled(Box)(({ theme }) => ({
+const Overlay = styled(Box)(() => ({
   position: 'fixed',
   width: '100vw',
   height: '100vh',
   top: 0,
   left: 0,
   zIndex: 999,
-  backgroundColor: 'rgba(0,0,0,0.5)',
+  backgroundColor: 'rgba(255,255,255,0.1)',
   backdropFilter: 'blur(10px)',
   transform: 'translateX(-100%)',
+  opacity: 0,
 }));
 
 export default function ProfileVenueBookings({

@@ -4,9 +4,12 @@ import { VenueMeta, VenuePrice } from '../venueData';
 import { altImage } from '../../constants/variables';
 
 const StyledBox = styled(Box)(({ theme }) => ({
+  flexBasis: `calc(33.333% - 1em)`,
+  minWidth: 260,
+  flexGrow: 1,
   backgroundColor:
     theme.palette.mode === 'dark'
-      ? theme.palette.primary[700]
+      ? theme.palette.primary[500]
       : theme.palette.neutral[100],
   borderRadius: theme.spacing(0.5),
   overflow: 'hidden',
@@ -21,8 +24,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 export default function SearchCard({ venue, handleClose }) {
   return (
-    <LinkWrapper to={`/venue/${venue.id}`} onClick={handleClose}>
-      <StyledBox sx={{ position: 'relative' }}>
+    <StyledBox sx={{ position: 'relative' }}>
+      <LinkWrapper to={`/venue/${venue.id}`} onClick={handleClose}>
         <Box
           component={'img'}
           src={venue && venue.media[0] ? venue.media[0] : altImage}
@@ -32,6 +35,7 @@ export default function SearchCard({ venue, handleClose }) {
             width: '100%',
             objectFit: 'cover',
             height: '190px',
+            borderRadius: 5,
           }}
         />
         <VenueMeta
@@ -42,12 +46,14 @@ export default function SearchCard({ venue, handleClose }) {
         <VenuePrice venue={venue} />
         <Typography
           level='body1'
-          textAlign={'center'}
-          component={'p'}
-          sx={{ marginBottom: 1 }}>
-          {venue.name}
+          fontWeight={500}
+          component={'h2'}
+          sx={{ marginBottom: 1, paddingLeft: 1 }}>
+          {venue.name.length > 25
+            ? venue.name.slice(0, 25) + '...'
+            : venue.name}
         </Typography>
-      </StyledBox>
-    </LinkWrapper>
+      </LinkWrapper>
+    </StyledBox>
   );
 }

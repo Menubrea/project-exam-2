@@ -1,18 +1,42 @@
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Checkbox, Typography } from '@mui/joy';
-import { MainThemeButton } from '../../styles/GlobalStyles';
-import { MainThemeInput } from '../../styles/GlobalStyles';
+import {
+  Box,
+  Checkbox,
+  FormControl,
+  FormHelperText,
+  Typography,
+  FormLabel,
+} from '@mui/joy';
+import { MainThemeButton, MainThemeInput } from '../../styles/GlobalStyles';
 import { useState } from 'react';
+import { Logo } from '../UI/UI_components';
 
 const registerUrl = 'https://api.noroff.dev/api/v1/holidaze/auth/register';
 
 const registerSchema = yup.object({
-  name: yup.string().required().trim(),
-  email: yup.string().email().required().trim(),
-  avatar: yup.string().required().trim(),
-  password: yup.string().required().trim(),
+  name: yup
+    .string()
+    .required()
+    .matches(/^[\w]+$/, 'Must only contain letters, numbers or underscore.')
+    .max(20)
+    .trim(),
+  email: yup
+    .string()
+    .email()
+    .required()
+    .matches(
+      /^[\w\-.]+@(stud\.)?noroff\.no$/,
+      'Must end with @noroff.no or @stud.noroff.no'
+    )
+    .trim(),
+  avatar: yup
+    .string()
+    .required()
+    .matches(/^https?:/, 'Must be a valid url')
+    .trim(),
+  password: yup.string().required().min(8).trim(),
   venueManager: yup.boolean(),
 });
 
@@ -23,7 +47,7 @@ export default function RegisterForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(registerSchema) });
+  } = useForm({ resolver: yupResolver(registerSchema), mode: 'onChange' });
 
   const onSubmit = async (data) => {
     try {
@@ -39,7 +63,10 @@ export default function RegisterForm() {
       switch (res.status) {
         case 201:
           const result = await res.json();
-          console.log(result);
+          setErrorMessage(
+            `Welcome to Holidaze ${result.name}, you can now log in using your email and password`
+          );
+
           break;
         case 400:
           setErrorMessage('Username or email already exists');
@@ -52,60 +79,60 @@ export default function RegisterForm() {
       console.log(error);
     } finally {
       setLoading(false);
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 5000);
     }
   };
 
   return (
-    <Box onSubmit={handleSubmit(onSubmit)} component={'form'}>
-      <Box>
-        <Typography level='body1' component={'label'} htmlFor='registerEmail'>
-          Email
+    <Box
+      sx={{ padding: 2 }}
+      onSubmit={handleSubmit(onSubmit)}
+      component={'form'}>
+      <Box marginY={2}>
+        <Logo />
+        <Typography marginTop={1} textAlign={'center'}>
+          Create a new Holidaze account!
         </Typography>
-        <MainThemeInput
-          id='registerEmail'
-          type='email'
-          sx={{ paddingX: 1, borderRadius: 3 }}
-          {...register('email')}
-        />
-        <Typography level='body3'>{errors.email?.message}</Typography>
       </Box>
-      <Box>
-        <Typography level='body1' component={'label'} htmlFor='registerPass'>
-          Password
-        </Typography>
-        <MainThemeInput
-          id='registerPass'
-          sx={{ paddingX: 1 }}
-          type='password'
-          {...register('password')}
-        />
-        <Typography level='body3'>{errors.password?.message}</Typography>
-      </Box>
-      <Box>
-        <Typography level='body1' component={'label'} htmlFor='registerName'>
-          Your Name
-        </Typography>
-        <MainThemeInput
-          id='registerName'
-          sx={{ paddingX: 1 }}
-          type='text'
-          {...register('name')}
-        />
-        <Typography level='body3'>{errors.name?.message}</Typography>
-      </Box>
-      <Box>
-        <Typography level='body1' component={'label'} htmlFor='registerAvatar'>
-          Avatar
-        </Typography>
-        <MainThemeInput
-          id='registerAvatar'
-          sx={{ paddingX: 1 }}
-          type='text'
-          {...register('avatar')}
-        />
-        <Typography level='body3'>{errors.avatar?.message}</Typography>
-      </Box>
-      <Box sx={{ margin: '1em auto 0', textAlign: 'center' }}>
+      <FormControl sx={{ marginTop: 0.5 }}>
+        <FormLabel>Email</FormLabel>
+        <MainThemeInput type='email' {...register('email')} />
+        <FormHelperText sx={{ width: 'fit-content', margin: '0 auto' }}>
+          {errors.email?.message}
+        </FormHelperText>
+      </FormControl>
+
+      <FormControl sx={{ marginTop: 0.5 }}>
+        <FormLabel>Password</FormLabel>
+        <MainThemeInput type='password' {...register('password')} />
+        <FormHelperText sx={{ width: 'fit-content', margin: '0 auto' }}>
+          {errors.password?.message}
+        </FormHelperText>
+      </FormControl>
+
+      <FormControl sx={{ marginTop: 0.5 }}>
+        <FormLabel>Name</FormLabel>
+        <MainThemeInput type='text' {...register('name')} />
+        <FormHelperText sx={{ width: 'fit-content', margin: '0 auto' }}>
+          {errors.name?.message}
+        </FormHelperText>
+      </FormControl>
+
+      <FormControl sx={{ marginTop: 0.5 }}>
+        <FormLabel>Avatar</FormLabel>
+        <MainThemeInput type='text' {...register('avatar')} />
+        <FormHelperText sx={{ width: 'fit-content', margin: '0 auto' }}>
+          {errors.avatar?.message}
+        </FormHelperText>
+      </FormControl>
+
+      <Box
+        sx={{
+          margin: '1em auto 0',
+          textAlign: 'center',
+        }}>
         <Checkbox
           label='Are you a Venue Manager?'
           id='registerVenue'
@@ -120,9 +147,13 @@ export default function RegisterForm() {
         sx={{ marginTop: 2 }}>
         {errorMessage}
       </Typography>
-      <MainThemeButton sx={{ marginTop: 2 }} fullWidth type='submit'>
-        Register
-      </MainThemeButton>
+      {loading ? (
+        <MainThemeButton fullWidth aria-label='loading' type='button' loading />
+      ) : (
+        <MainThemeButton fullWidth type='submit'>
+          Create Account
+        </MainThemeButton>
+      )}
     </Box>
   );
 }

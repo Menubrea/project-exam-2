@@ -15,10 +15,9 @@ export default function Logo() {
       <Box
         component={'img'}
         src={logo}
+        alt='Holidaze logo'
         sx={{
-          marginTop: 1.2,
-          height: '35px',
-          width: '100%',
+          width: '100px',
         }}
       />
     </LinkWrapper>

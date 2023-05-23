@@ -1,6 +1,7 @@
-import { Logo } from './UI_components';
+import { Logo, Searching } from './UI_components';
 import { Container, Box, styled } from '@mui/joy';
 import { MainMenu, ChangeTheme } from './UI_components';
+import { Navigation } from './Nav';
 
 const StyledBox = styled(Box)(({ theme }) => ({
   width: '100%',
@@ -19,17 +20,38 @@ const StyledBox = styled(Box)(({ theme }) => ({
       : `4px solid ${theme.palette.neutral[200]}`,
 }));
 
-export function Header() {
+export function Header({ venues }) {
   return (
     <StyledBox component={'header'}>
+      <Box
+        sx={{
+          position: 'absolute',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          bottom: '-25px',
+        }}>
+        <Searching venues={venues} />
+      </Box>
       <Container
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          paddingX: { xs: 2, md: 1, lg: 0 },
+          paddingX: { xs: 2, md: 2, lg: 0 },
           alignItems: 'center',
+          height: 50,
+          overflow: 'hidden',
         }}>
-        <Logo />
+        <Box
+          sx={{
+            display: 'flex',
+            gap: { sm: 2 },
+            alignItems: 'center',
+          }}>
+          <Logo />
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            <Navigation />
+          </Box>
+        </Box>
         <Box sx={{ display: 'flex', gap: 1 }}>
           <ChangeTheme />
 

@@ -1,6 +1,4 @@
 export { default as AuthModal } from './AuthModal.jsx';
 export { default as ImageModal } from './ImageModal.jsx';
-export { default as ModalAction } from './ModalAction.jsx';
-export { default as VenueFormModal } from './VenueFormModal.jsx';
-export { default as EditVenueModal } from './EditVenueModal.jsx';
-export { default as SearchModal } from './SearchModal.jsx';
+export { default as UpdateAvatarModal } from './UpdateAvatarModal.jsx';
+export { default as SearchVenueModal } from './SearchVenueModal.jsx';

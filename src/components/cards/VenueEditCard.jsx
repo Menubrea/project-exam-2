@@ -87,8 +87,7 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
           level='body1'
           component={'h3'}
           sx={{
-            fontFamily: 'futura-pt, sans-serif',
-            fontWeight: 500,
+            fontWeight: 700,
             lineHeight: 1,
           }}>
           {thisVenue.name.length > 25
@@ -104,12 +103,11 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
           <Typography
             component={'p'}
             sx={{
-              fontFamily: 'futura-PT-condensed',
+              fontFamily: 'source-sans-pro, sans-serif',
               textTransform: 'uppercase',
               fontSize: '.9rem',
-              backgroundColor: 'rgba(0,0,0,.1)',
+              backgroundColor: 'rgba(0,0,0,.05)',
               padding: 0.1,
-              paddingX: 2,
               textAlign: 'center',
               borderRadius: 3,
             }}>

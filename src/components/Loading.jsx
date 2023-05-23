@@ -1,8 +1,12 @@
-import { Box, styled } from '@mui/joy';
-import iconLogo from '../assets/logo-icon.svg';
+import { Box, styled, LinearProgress, Typography } from '@mui/joy';
+import { useState, useEffect } from 'react';
+import lightLogo from '../assets/logo-light.svg';
+import darkLogo from '../assets/logo-dark.svg';
+import { useTheme } from '@mui/joy';
 
 const LoadingContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
+  flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
   height: '100vh',
@@ -10,33 +14,41 @@ const LoadingContainer = styled(Box)(({ theme }) => ({
   backgroundColor:
     theme.palette.mode === 'dark'
       ? theme.palette.primary[500]
-      : theme.palette.neutral[50],
-  animation: 'fadeOut 2s ease-in-out',
-  '@keyframes fadeOut': {
-    '0%': {
-      opacity: 1,
-    },
-    '100%': {
-      opacity: 0,
-    },
-  },
-}));
-
-const LoadingAnimation = styled(Box)(() => ({
-  width: 'clamp(50px, 20vw, 100px)',
-  height: 'clamp(50px, 20vw, 100px)',
-  animation: 'spin 2s linear infinite',
-  '@keyframes spin': {
-    '100%': {
-      transform: 'rotate(360deg)',
-    },
-  },
+      : theme.palette.neutral[100],
+  overflow: 'hidden',
+  zIndex: 999,
 }));
 
 export default function Loading() {
+  const [progress, setProgress] = useState(0);
+  const theme = useTheme();
+  const logo = theme.palette.mode === 'dark' ? lightLogo : darkLogo;
+
+  useEffect(() => {
+    document.body.style.overflowY = 'hidden';
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 0 : prevProgress + 10
+      );
+    }, 200);
+
+    return () => {
+      clearInterval(timer);
+      document.body.style.overflowY = 'auto';
+    };
+  }, []);
+
   return (
     <LoadingContainer>
-      <LoadingAnimation component={'img'} src={iconLogo} alt={'Loading...'} />
+      <Box sx={{ width: { xs: '200px', sm: '400px', md: '700px' } }}>
+        <Box
+          component={'img'}
+          src={logo}
+          alt='Holidaze Logo'
+          sx={{ width: '100px', height: '30px' }}
+        />
+        <LinearProgress determinate value={progress} />
+      </Box>
     </LoadingContainer>
   );
 }

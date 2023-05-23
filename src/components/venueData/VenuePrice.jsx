@@ -10,14 +10,14 @@ const CardPrice = styled(Typography)(({ theme }) => ({
   background: `${theme.palette.neutral[100]}`,
   color: theme.palette.common.black,
   borderRadius: theme.spacing(0.2),
-  fontSize: '0.8rem',
+  fontSize: '0.95rem',
   fontWeight: 500,
 }));
 
 export default function VenuePrice({ venue }) {
   return (
     <CardPrice aria-label='Price per night' component={'p'}>
-      Per night: {venue.price},-
+      {venue.price},- / night
     </CardPrice>
   );
 }

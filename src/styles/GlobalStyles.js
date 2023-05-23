@@ -36,28 +36,17 @@ export const MainThemeButton = styled(Button)(({ theme }) => ({
       : theme.palette.common.white,
   backgroundColor:
     theme.palette.mode === 'dark'
-      ? theme.palette.common.white
-      : theme.palette.primary[600],
-  position: 'relative',
-  transition: 'all .2s ease-in-out',
+      ? theme.palette.neutral[50]
+      : theme.palette.primary[500],
 
-  ':hover': {
-    transition: 'all .2s ease-in-out',
+  '&:hover': {
     backgroundColor:
       theme.palette.mode === 'dark'
-        ? theme.palette.primary[500]
-        : theme.palette.neutral[100],
-    color:
-      theme.palette.mode === 'dark'
-        ? theme.palette.common.white
-        : theme.palette.primary[800],
-    outline:
-      theme.palette.mode === 'dark'
-        ? `1px solid ${theme.palette.common.white}`
-        : `1px solid ${theme.palette.primary[700]}`,
+        ? theme.palette.neutral[300]
+        : theme.palette.primary[700],
   },
 
-  ':disabled': {
+  '& :disabled': {
     backgroundColor:
       theme.palette.mode === 'dark'
         ? theme.palette.primary[800]
@@ -66,6 +55,13 @@ export const MainThemeButton = styled(Button)(({ theme }) => ({
       theme.palette.mode === 'dark'
         ? theme.palette.common.white
         : theme.palette.primary[900],
+  },
+
+  '& :focus-within, :focus': {
+    outline:
+      theme.palette.mode === 'dark'
+        ? `2px solid ${theme.palette.common.white}`
+        : `2px solid ${theme.palette.primary[700]}`,
   },
 }));
 
@@ -158,14 +154,14 @@ export const MainThemeInput = styled(Input)(({ theme }) => ({
   ':hover, :focus, :focus-within': {
     boxShadow:
       theme.palette.mode === 'dark'
-        ? `inset 0 0 0 3px ${theme.palette.common.white}`
-        : `inset 0 0 0 3px ${theme.palette.primary[700]}`,
+        ? `inset 0 0 0 2px ${theme.palette.common.white}`
+        : `inset 0 0 0 2px ${theme.palette.primary[500]}`,
   },
 
   border:
     theme.palette.mode === 'dark'
       ? `1px solid ${theme.palette.common.white}`
-      : `1px solid ${theme.palette.primary[700]}`,
+      : `1px solid ${theme.palette.primary[600]}`,
 
   backgroundColor:
     theme.palette.mode === 'dark'
@@ -184,6 +180,12 @@ export const MainThemeInput = styled(Input)(({ theme }) => ({
       theme.palette.mode === 'dark'
         ? theme.palette.common.white
         : theme.palette.primary[900],
+  },
+
+  'internal-autofill-selected': {
+    transform: 'scale(1.5) !important',
+    backgroundImage: 'red !important',
+    color: 'red !important',
   },
 }));
 
@@ -248,38 +250,30 @@ export const ModalSheet = styled(Sheet)(({ theme }) => ({
 }));
 
 export const MainGrid = styled(Box)(({ theme }) => ({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-  gap: theme.spacing(4, 2),
-  maxWidth: '100%',
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: theme.spacing(2),
   margin: '0 auto 2em',
-  minHeight: '50vh',
 }));
 
 export const StyledSlider = styled(Slider)(({ theme }) => ({
-  '& .MuiSlider-rail': {
-    height: 15,
-    borderRadius: 2,
+  '& .MuiSlider-mark': {
     backgroundColor:
       theme.palette.mode === 'dark'
-        ? theme.palette.common.white
-        : theme.palette.primary[500],
-    opacity: 0.2,
-    backdropFilter: 'blur(5px)',
+        ? theme.palette.primary[400]
+        : theme.palette.neutral[50],
+    height: 8,
   },
 
-  '.MuiSlider-mark:first': {
-    height: 1,
-    color: 'red',
-    backgroundColor: 'red',
-  },
-
-  '& .MuiSlider-mark': {
-    height: 10,
+  '& .MuiSlider-markActive': {
+    border:
+      theme.palette.mode === 'dark'
+        ? `1px solid ${theme.palette.common.white}`
+        : `1px solid ${theme.palette.primary[500]} `,
   },
 
   '& .MuiSlider-track': {
-    height: 18,
+    height: 10,
     borderRadius: 100,
     backgroundColor: theme.palette.primary[600],
   },
@@ -292,18 +286,22 @@ export const StyledSlider = styled(Slider)(({ theme }) => ({
     color:
       theme.palette.mode === 'dark'
         ? theme.palette.common.white
-        : theme.palette.primary[900],
+        : theme.palette.primary[700],
   },
 
   '& .MuiSlider-valueLabel': {
     backgroundColor:
       theme.palette.mode === 'dark'
-        ? theme.palette.primary[600]
-        : theme.palette.neutral[100],
+        ? theme.palette.common.white
+        : theme.palette.primary[700],
+    color:
+      theme.palette.mode === 'dark'
+        ? theme.palette.primary[900]
+        : theme.palette.common.white,
     ':before': {
       borderColor:
         theme.palette.mode === 'dark'
-          ? theme.palette.primary[600]
+          ? theme.palette.common.white
           : theme.palette.neutral[100],
       borderLeftColor: 'transparent',
       borderBottomColor: 'transparent',

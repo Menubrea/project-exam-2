@@ -257,7 +257,7 @@ export default function CreateVenue({
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
             gap: 1,
           }}>
           {mediaArray.map((mediaItem, index) => (
@@ -278,7 +278,12 @@ export default function CreateVenue({
                   alt={`media url ${mediaItem}`}
                 />
                 <StyledButton
-                  sx={{ position: 'absolute', zIndex: 10, top: 0, right: 0 }}
+                  sx={{
+                    position: 'absolute',
+                    zIndex: 10,
+                    top: '-1px',
+                    right: '-1px',
+                  }}
                   size='sm'
                   type='button'
                   onClick={() => handleRemoveMedia(index)}>
@@ -374,30 +379,18 @@ export default function CreateVenue({
             alignItems: 'center',
             gap: { xs: 2, sm: 2, md: 1 },
           }}>
+          <Checkbox name='meta.wifi' label='wifi' {...register('meta.wifi')} />
           <Checkbox
-            variant='solid'
-            name='meta.wifi'
-            label='wifi'
-            {...register('meta.wifi')}
-          />
-          <Checkbox
-            variant='solid'
             name='meta.parking'
             label='parking'
             {...register('meta.parking')}
           />
           <Checkbox
-            variant='solid'
             name='meta.breakfast'
             label='breakfast'
             {...register('meta.breakfast')}
           />
-          <Checkbox
-            variant='solid'
-            name='meta.pets'
-            label='pets'
-            {...register('meta.pets')}
-          />
+          <Checkbox name='meta.pets' label='pets' {...register('meta.pets')} />
         </Box>
       </Box>
       <Box sx={{ padding: 2 }}>

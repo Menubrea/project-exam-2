@@ -1,51 +1,72 @@
 import { Box, Typography, styled, Container } from '@mui/joy';
-import { VenueMeta } from '../venueData';
-import { MainThemeButton, LinkWrapper } from '../../styles/GlobalStyles';
+import { LinkWrapper } from '../../styles/GlobalStyles';
 import { altImage } from '../../constants/variables';
+import { useEffect, useState } from 'react';
+import { debounce } from 'lodash';
+import { AltMeta } from '../venueData';
 
 const HeroContainer = styled(Box)(({ theme }) => ({
-  height: 'min(80vh, 1000px)',
+  height: 'min(calc(85vh + 50px), 1000px)',
   position: 'relative',
   overflow: 'hidden',
   top: 0,
-
-  ':before, :after': {
-    content: '""',
-    zIndex: 1,
-    position: 'absolute',
-    left: 0,
-    width: '100%',
-  },
-  ':after': {
-    height: 'min(40vh, 350px)',
-    bottom: 0,
-    background:
-      theme.palette.mode === 'dark'
-        ? `linear-gradient(0deg, ${theme.palette.primary[500]} 0%, rgba(255,255,255,0) 100%)`
-        : `linear-gradient(0deg, ${theme.palette.neutral[50]} 0%, rgba(255,255,255,0) 100%)`,
-  },
-  bottom: '0',
+  zIndex: 0,
 }));
 
-// Styling for hero section body.
 const HeroBody = styled(Box)(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? 'rgba(0,0,0, 0.1)'
-      : 'rgba(255,255,255, 0.1)',
-
   width: '100%',
   position: 'absolute',
   zIndex: 2,
   bottom: 0,
   display: 'flex',
-  left: '50%',
-  transform: 'translateX(-50%)',
   alignItems: 'center',
   justifyContent: 'space-between',
+  paddingBottom: theme.spacing(2),
+  zIndex: 1,
+
+  ':before': {
+    content: '""',
+    zIndex: -1,
+    position: 'absolute',
+    left: 0,
+    width: '120vw',
+    height: '170%',
+    bottom: 80,
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? theme.palette.primary[500]
+        : theme.palette.neutral[100],
+    clipPath: 'polygon(0% 53%, 100% 76%, 100% 100%, 0% 99%)',
+  },
+
+  ':hover': {
+    cursor: 'pointer',
+  },
 }));
 
 export default function HeroCard({ venue }) {
+  const [description, setDescription] = useState(venue.description);
+  const [count, setCount] = useState(0);
+
+  const handleResize = debounce(() => {
+    setCount(window.innerWidth / 3);
+  }, 100);
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [handleResize]);
+
+  useEffect(() => {
+    if (venue.description && count > 0) {
+      setDescription(venue.description.slice(0, count).concat('...'));
+    }
+  }, [count, venue.description]);
+
   return (
     <HeroContainer>
       <Box
@@ -53,56 +74,70 @@ export default function HeroCard({ venue }) {
         src={venue.media && venue.media[0] ? venue.media[0] : altImage}
         alt={venue && venue.name + ' media'}
         onError={(e) => (e.target.src = altImage)}
-        sx={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 1 }}
+        sx={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          position: 'absolute',
+          bottom: 100,
+        }}
       />
       <HeroBody>
         <Container sx={{ display: 'flex' }}>
-          <Box sx={{ paddingY: 2, width: '100%' }}>
-            <Typography
-              level='h5'
-              component='p'
-              sx={{
-                fontFamily: 'futura-PT-condensed, sans-serif',
-                textTransform: 'Uppercase',
-                fontWeight: 700,
-                lineHeight: 1,
-              }}>
-              This week's featured venue
-            </Typography>
-            <Box
-              sx={{
-                display: { xs: 'block', sm: 'flex' },
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <Typography
-                level='h1'
-                component={'h1'}
-                sx={{
-                  fontFamily: 'amatic-sc, sans-serif',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  fontSize: 'clamp(2.8rem, 5vw, 3.8rem)',
-                  lineHeight: 1,
-                  marginBottom: 1,
-                }}>
-                {venue.name}
-              </Typography>
-              <Box sx={{ margin: { xs: '0 0 0 auto' }, width: 'fit-content' }}>
-                <LinkWrapper to={`/venue/${venue.id}`}>
-                  {' '}
-                  <MainThemeButton size='sm'>Read More</MainThemeButton>
-                </LinkWrapper>
+          <LinkWrapper to={`/venue/${venue.id}`}>
+            <Box sx={{ paddingTop: 2, width: '100%' }}>
+              <Box>
+                <AltMeta venue={venue} />
+                <Typography
+                  level='h6'
+                  component='h1'
+                  sx={{
+                    fontSize: 'clamp(1.2rem, 2vw, 1.4rem)',
+                    textTransform: 'Uppercase',
+                    fontWeight: 900,
+                    lineHeight: 1,
+                    marginTop: 1,
+                  }}>
+                  Latest addition
+                </Typography>
               </Box>
-            </Box>
+              <Box
+                sx={{
+                  display: { xs: 'block', sm: 'flex' },
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <Typography
+                  level='h1'
+                  component={'h2'}
+                  sx={{
+                    fontFamily: 'amatic-sc, sans-serif',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    fontSize: 'clamp(2.8rem, 5vw, 3.8rem)',
+                    marginBottom: 1,
+                    lineHeight: 1,
+                  }}>
+                  {venue.name}
+                </Typography>
+              </Box>
 
-            <Typography
-              level='h6'
-              component={'p'}
-              sx={{ overflow: 'hidden', display: { xs: 'none', md: 'block' } }}>
-              {venue.description.slice(0, 450).concat('...')}
-            </Typography>
-          </Box>
+              <Typography
+                level='h6'
+                component={'p'}
+                sx={{
+                  overflow: 'hidden',
+                  fontSize: { xs: '.9rem', sm: '1.1rem' },
+                }}>
+                {description}
+              </Typography>
+              <Box
+                sx={{
+                  margin: { xs: '.5rem auto', sm: '0 0 0 auto' },
+                  width: 'fit-content',
+                }}></Box>
+            </Box>
+          </LinkWrapper>
         </Container>
       </HeroBody>
     </HeroContainer>

@@ -39,6 +39,13 @@ const StyledIconBox = styled(Box)(({ theme }) => ({
   ':last-of-type': {
     paddingBottom: theme.spacing(1.5),
   },
+
+  '&:hover': {
+    cursor: 'pointer',
+    svg: {
+      transform: 'scale(1.2)',
+    },
+  },
 }));
 
 export default function VenueMeta({ meta, maxGuests, ...props }) {
@@ -48,44 +55,93 @@ export default function VenueMeta({ meta, maxGuests, ...props }) {
       borderRadius={props.borderRadius}
       height={props.height}
       border={props.border}>
-      <StyledIconBox>
-        <GroupsIcon />
-        {maxGuests}
-      </StyledIconBox>
+      <Tooltip
+        color='primary'
+        arrow
+        placement='right'
+        title={`${maxGuests} guests allowed`}>
+        <StyledIconBox aria-label='guests'>
+          <GroupsIcon />
+
+          {maxGuests}
+        </StyledIconBox>
+      </Tooltip>
       <StyledIconBox>
         {meta.pets === true ? (
-          <Tooltip placement='right' title='Pets Allowed'>
-            <PetsIcon />
+          <Tooltip color='primary' arrow placement='right' title='Pets Allowed'>
+            <PetsIcon aria-label='Pets allowed' />
           </Tooltip>
         ) : (
-          <Tooltip arrow placement='right' title='No Pets Allowed'>
-            <PetsIcon sx={{ opacity: '20%' }} />
+          <Tooltip
+            color='primary'
+            arrow
+            placement='right'
+            title='No Pets Allowed'>
+            <PetsIcon aria-label='Pets not allowed' sx={{ opacity: '20%' }} />
           </Tooltip>
         )}
       </StyledIconBox>
       <StyledIconBox>
         {meta.wifi === true ? (
-          <Tooltip arrow placement='right' title='Wifi Available'>
-            <WifiIcon />
+          <Tooltip
+            color='primary'
+            arrow
+            placement='right'
+            title='Wifi is Available'>
+            <WifiIcon aria-label='Wifi is available' />
           </Tooltip>
         ) : (
-          <Tooltip arrow placement='right' title='No Wifi Available'>
-            <WifiIcon sx={{ opacity: '20%' }} />
+          <Tooltip
+            color='primary'
+            arrow
+            placement='right'
+            title='No Wifi Available'>
+            <WifiIcon aria-label='No Wifi available' sx={{ opacity: '20%' }} />
           </Tooltip>
         )}
       </StyledIconBox>
       <StyledIconBox>
         {meta.parking ? (
-          <LocalParkingIcon />
+          <Tooltip
+            title='Parking is available'
+            color='primary'
+            arrow
+            placement='right'>
+            <LocalParkingIcon aria-label='Parking is available' />
+          </Tooltip>
         ) : (
-          <LocalParkingIcon sx={{ opacity: '20%' }} />
+          <Tooltip
+            title='Parking not available'
+            color='primary'
+            arrow
+            placement='right'>
+            <LocalParkingIcon
+              aria-label='No parking is available'
+              sx={{ opacity: '20%' }}
+            />
+          </Tooltip>
         )}
       </StyledIconBox>
       <StyledIconBox>
         {meta.breakfast ? (
-          <FreeBreakfastIcon />
+          <Tooltip
+            title='Breakfast included'
+            color='primary'
+            arrow
+            placement='right'>
+            <FreeBreakfastIcon aria-label='Breakfast is included' />
+          </Tooltip>
         ) : (
-          <FreeBreakfastIcon sx={{ opacity: '20%' }} />
+          <Tooltip
+            title='Breakfast not included'
+            color='primary'
+            arrow
+            placement='right'>
+            <FreeBreakfastIcon
+              aria-label='Breakfast not included'
+              sx={{ opacity: '20%' }}
+            />
+          </Tooltip>
         )}
       </StyledIconBox>
     </VenueMetaStyle>

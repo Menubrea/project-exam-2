@@ -2,13 +2,11 @@ import { useState, useEffect } from 'react';
 import { Avatar, Box, Menu, MenuItem, styled } from '@mui/joy';
 import { AuthModal } from '../../modals';
 import { LinkWrapper, MainThemeButton } from '../../../styles/GlobalStyles';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const StyledMenu = styled(Menu)(({ theme }) => ({
-  border:
-    theme.palette.mode === 'dark'
-      ? '1px solid #fff'
-      : `1px solid ${theme.palette.primary[500]}`,
+  borderRadius: 0,
+  border: 'none',
 }));
 
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
@@ -37,6 +35,7 @@ export default function MainMenu() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [profile, setProfile] = useState(null);
   const navigate = useNavigate();
+  const path = useLocation();
 
   useEffect(() => {
     const storedProfile = localStorage.getItem('profile');
@@ -55,12 +54,15 @@ export default function MainMenu() {
   };
 
   const handleLoggedOut = () => {
+    console.log(path);
     setIsLoggedIn(false);
     localStorage.clear('token');
     localStorage.clear('profile');
     setAnchorEl(null);
 
-    navigate('/');
+    if (path.pathname.includes('/profile')) {
+      navigate('/');
+    }
 
     document.dispatchEvent(new Event('logout'));
   };

@@ -11,7 +11,7 @@ export const theme = extendTheme({
     },
   },
   fontFamily: {
-    body: 'futura-PT, var(--joy-fontFamily-fallback)',
+    body: 'source-sans-pro, var(--joy-fontFamily-fallback)',
   },
   colorSchemes: {
     light: {
@@ -42,9 +42,14 @@ export const theme = extendTheme({
         },
         text: {
           primary: 'var(--joy-palette-primary-800)',
-          body3: 'var(--joy-palette-primary-800)',
+          secondary: 'var(--joy-palette-primary-800)',
+          tertiary: 'var(--joy-palette-primary-800)',
         },
-        background: { body: 'var(--joy-palette-neutral-50)' },
+        background: {
+          body: 'var(--joy-palette-neutral-100)',
+          surface: 'var(--joy-palette-neutral-100)',
+          tooltip: 'var(--joy-palette-primary-700)',
+        },
       },
     },
     dark: {
@@ -84,7 +89,7 @@ export const theme = extendTheme({
         },
         text: {
           primary: 'var(--joy-palette-common-white)',
-          secondary: 'var(--joy-palette-primary-700)',
+          secondary: 'var(--joy-palette-neutral-100)',
           tertiary: 'var(--joy-palette-neutral-200)',
         },
       },

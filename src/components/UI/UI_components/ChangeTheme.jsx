@@ -1,4 +1,4 @@
-import { useColorScheme, Button, IconButton } from '@mui/joy';
+import { useColorScheme, Button, IconButton, Tooltip } from '@mui/joy';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 
@@ -12,11 +12,26 @@ export default function ChangeTheme() {
 
   return (
     <IconButton
+      aria-label='Change theme color'
       variant='contained'
       size='sm'
-      color='primary'
       onClick={handleThemeChange}>
-      {mode === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
+      {mode === 'light' ? (
+        <Tooltip
+          color='primary'
+          title='Change to dark mode theme'
+          arrow
+          placement='bottom'>
+          <DarkModeIcon color='primary' aria-label='Change to dark mode' />
+        </Tooltip>
+      ) : (
+        <Tooltip color='primary' title='Change to light mode theme' arrow>
+          <LightModeIcon
+            sx={{ color: 'white' }}
+            aria-label='Change to light mode'
+          />
+        </Tooltip>
+      )}
     </IconButton>
   );
 }
