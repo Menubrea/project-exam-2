@@ -34,11 +34,15 @@ export default function Profile({ setFilteredVenues }) {
   useEffect(() => {
     const container = document.getElementById('bookingsContainer');
     const overlay = document.getElementById('overlay');
-    if (container && overlay) {
-      container.style.transform = 'translateX(0)';
-      container.style.transition = 'transform 0.5s ease-in-out';
-      overlay.style.transform = 'translateX(0)';
-    }
+    setTimeout(() => {
+      if (container && overlay && slideIn) {
+        container.style.transform = 'translateX(0)';
+        container.style.transition = 'transform 0.5s ease-in-out';
+        overlay.style.transform = 'translateX(0)';
+        overlay.style.transition = 'opacity 0.5s ease-in-out';
+        overlay.style.opacity = 1;
+      }
+    }, 10);
 
     return () => {
       container && (container.style.transform = null);
