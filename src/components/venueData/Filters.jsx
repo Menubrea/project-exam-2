@@ -103,7 +103,10 @@ export default function Filters({ filterState }) {
         <Typography level='body1' component={'h2'}>
           Manage filters
         </Typography>
-        <MainThemeButton size='sm' onClick={handleToggle}>
+        <MainThemeButton
+          aria-label='Close Menu'
+          size='sm'
+          onClick={handleToggle}>
           <CloseIcon />
         </MainThemeButton>
       </StyledHeader>

@@ -21,11 +21,16 @@ export default function FilterSlider({
             ? `1px solid ${theme.palette.common.white}`
             : `1px solid ${theme.palette.primary[900]}`,
       }}>
-      <Typography htmlFor='priceRange' textAlign={'center'} component={'label'}>
+      <Typography
+        level='body3'
+        htmlFor='priceRange'
+        textAlign={'center'}
+        component={'label'}>
         Price range:
       </Typography>
       <Slider
         id='priceRange'
+        aria-label='price range'
         value={value}
         onChange={handleChange}
         getAriaValueText={valueText}
@@ -37,7 +42,6 @@ export default function FilterSlider({
           { value: lowestPrice, label: `${lowestPrice},-` },
           { value: highestPrice, label: `${highestPrice},-` },
         ]}
-        aria-label='price range'
         aria-roledescription='price range'
       />
     </Box>

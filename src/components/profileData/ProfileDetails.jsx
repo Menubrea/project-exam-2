@@ -1,66 +1,25 @@
 import { Box, Typography, styled, IconButton } from '@mui/joy';
-import { MainThemeButton, MainThemeInput } from '../../styles/GlobalStyles';
+import { MainThemeButton } from '../../styles/GlobalStyles';
 import { useEffect, useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
-import SendIcon from '@mui/icons-material/Send';
-import CloseIcon from '@mui/icons-material/Close';
-import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-
-const EditMediaSchema = yup.object({
-  avatar: yup.string().required().trim(),
-});
+import { UpdateAvatarModal } from '../modals';
+import { StoredProfile } from '../hooks';
+import { altImage } from '../../constants/variables';
 
 export default function ProfileDetails({ profile, handleCreateSlide }) {
-  const [token, setToken] = useState('');
-  const [showInput, setShowInput] = useState(false);
-  const [avatar, setAvatar] = useState(profile.avatar || '');
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(EditMediaSchema),
-    defaultValues: {
-      avatar: '',
-    },
-  });
-
-  const updateAvatar = (newAvatar) => {
-    setAvatar(newAvatar);
-  };
-
-  const submitAvatar = async (data) => {
-    if (showInput) {
-      const response = await fetch(
-        `https://api.noroff.dev/api/v1/holidaze/profiles/${profile.name}/media`,
-        {
-          method: 'PUT',
-          body: JSON.stringify(data),
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const result = await response.json();
-      setShowInput(false);
-      updateAvatar(result.avatar);
-    }
-  };
+  const { token } = StoredProfile();
+  const [avatar, setAvatar] = useState('');
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      setToken(JSON.parse(storedToken));
-    }
-  }, []);
+    setAvatar(profile.avatar);
+  }, [profile]);
 
-  const handleShowInput = () => setShowInput(true);
-  const handleCloseInput = () => setShowInput(false);
+  const handleClose = () => setOpen(false);
+
+  const updateAvatar = (prev) => {
+    setAvatar(prev !== avatar ? prev : avatar);
+  };
 
   return (
     <ProfileContainer>
@@ -69,7 +28,8 @@ export default function ProfileDetails({ profile, handleCreateSlide }) {
           sx={{ position: 'relative', margin: '0 auto', width: 'fit-content' }}>
           <Box
             component={'img'}
-            src={avatar}
+            src={avatar ? avatar : altImage}
+            alt={`${profile.name} avatar`}
             sx={{
               margin: '0 auto',
               width: 'clamp(50px, 25vh, 96px)',
@@ -79,61 +39,21 @@ export default function ProfileDetails({ profile, handleCreateSlide }) {
             }}
           />
           <Box
-            component={'form'}
-            onSubmit={handleSubmit(submitAvatar)}
             sx={{
               position: 'absolute',
               top: -12,
               left: -12,
             }}>
-            {showInput && (
-              <>
-                <EditAvatarInput
-                  aria-label='avatar-input'
-                  type='url'
-                  placeholder='Paste url'
-                  {...register('avatar')}
-                />
-                <IconButton
-                  type='button'
-                  aria-label='close-input-button'
-                  size='small'
-                  sx={{
-                    backgroundColor: 'black',
-                    color: 'white',
-                    position: 'absolute',
-                    right: '-120px',
-                    bottom: '3px',
-                    height: '25px',
-                    width: '25px',
-                    borderRadius: '100vh',
-                  }}>
-                  <CloseIcon fontSize='small' onClick={handleCloseInput} />
-                </IconButton>
-              </>
-            )}
-            {!showInput ? (
-              <IconButton
-                type='button'
-                aria-label='edit-avatar-button'
-                onClick={handleShowInput}
-                color='primary'
-                variant='solid'
-                size='sm'
-                sx={{ borderRadius: '100vh', border: '1px solid white' }}>
-                <EditIcon fontSize='sm' />
-              </IconButton>
-            ) : (
-              <IconButton
-                type='submit'
-                color='primary'
-                aria-label='submit-button'
-                variant='solid'
-                size='sm'
-                sx={{ borderRadius: '100vh', border: '1px solid white' }}>
-                <SendIcon fontSize='sm' />
-              </IconButton>
-            )}
+            <IconButton
+              aria-label='Edit Avatar'
+              aria-roledescription='button'
+              onClick={() => setOpen(true)}
+              color='primary'
+              variant='solid'
+              size='sm'
+              sx={{ borderRadius: '100vh', border: '1px solid white' }}>
+              <EditIcon fontSize='sm' />
+            </IconButton>
           </Box>
         </Box>
         <Box>
@@ -182,18 +102,17 @@ export default function ProfileDetails({ profile, handleCreateSlide }) {
           </Box>
         </Box>
       </Box>
+      <UpdateAvatarModal
+        profile={profile}
+        open={open}
+        handleClose={handleClose}
+        updateAvatar={updateAvatar}
+        token={token}
+        avatar={avatar}
+      />
     </ProfileContainer>
   );
 }
-
-const EditAvatarInput = styled(MainThemeInput)(({ theme }) => ({
-  position: 'absolute',
-  bottom: theme.spacing(-0.5),
-  left: theme.spacing(-0.5),
-  paddingLeft: theme.spacing(5),
-  borderRadius: '100vh',
-  width: 165,
-}));
 
 const ProfileContainer = styled(Box)(({ theme }) => ({
   display: 'flex',

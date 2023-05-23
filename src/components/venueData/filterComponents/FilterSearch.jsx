@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 export default function FilterSearch({ search, setSearch, handleSearch }) {
   return (
     <Box sx={{ width: '100%' }}>
-      <Typography level='body3' component={'label'}>
+      <Typography level='body3' htmlFor='search-input' component={'label'}>
         Search
       </Typography>
       <Box sx={{ display: 'flex', gap: 1 }}>

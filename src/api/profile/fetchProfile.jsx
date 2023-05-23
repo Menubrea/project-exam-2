@@ -31,6 +31,7 @@ export default function FetchProfile() {
         options
       );
       if (resProfile && resVenues) {
+        setLoading(false);
         const resultProfile = await resProfile.json();
         const resultVenues = await resVenues.json();
         setProfileData(resultProfile);
@@ -40,9 +41,7 @@ export default function FetchProfile() {
       setError(true);
       console.log(error);
     } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 300);
+      setLoading(false);
     }
   };
   useEffect(() => {
