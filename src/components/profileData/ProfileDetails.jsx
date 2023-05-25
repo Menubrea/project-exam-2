@@ -23,16 +23,20 @@ export default function ProfileDetails({ profile, handleCreateSlide }) {
 
   return (
     <ProfileContainer>
-      <Box sx={{ display: { xs: 'block', sm: 'flex' }, gap: 2 }}>
+      <Box sx={{ display: { xs: 'block', sm: 'flex' } }}>
         <Box
           sx={{ position: 'relative', margin: '0 auto', width: 'fit-content' }}>
           <Box
             component={'img'}
             src={avatar ? avatar : altImage}
             alt={`${profile.name} avatar`}
+            onError={(e) => (e.target.src = altImage)}
             sx={{
-              margin: '0 auto',
-              width: 'clamp(50px, 25vh, 96px)',
+              width: '100%',
+              height: '100%',
+              maxHeight: 180,
+              minWidth: 180,
+
               aspectRatio: '1 / 1',
               objectFit: 'cover',
               borderRadius: 3,
@@ -56,7 +60,7 @@ export default function ProfileDetails({ profile, handleCreateSlide }) {
             </IconButton>
           </Box>
         </Box>
-        <Box>
+        <Box sx={{ padding: 2 }}>
           <Typography
             level='h2'
             component={'h1'}
@@ -77,14 +81,10 @@ export default function ProfileDetails({ profile, handleCreateSlide }) {
             gap={2}
             sx={{
               paddingY: 0.5,
-              borderBlock: (theme) =>
-                theme.palette.mode === 'dark'
-                  ? `1px solid ${theme.palette.common.white}`
-                  : `1px solid ${theme.palette.primary[900]}`,
             }}>
             {profile.bookings && (
               <Typography level='body3' component={'span'}>
-                Bookings: {profile.bookings.length}
+                Lifetime bookings: {profile.bookings.length}
               </Typography>
             )}
             {profile.venues && (
@@ -116,14 +116,9 @@ export default function ProfileDetails({ profile, handleCreateSlide }) {
 
 const ProfileContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
-  alignItems: 'center',
   flexDirection: 'column',
+  alignItems: 'center',
   justifyContent: 'center',
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.primary[700]
-      : theme.palette.neutral[200],
   gap: theme.spacing(2),
-  paddingTop: theme.spacing(2),
-  paddingBottom: theme.spacing(2),
+  padding: theme.spacing(2),
 }));

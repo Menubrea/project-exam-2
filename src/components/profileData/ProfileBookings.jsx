@@ -1,5 +1,5 @@
 import { VenueBookingCard } from '../cards';
-import { Box, styled } from '@mui/joy';
+import { Box, styled, Typography } from '@mui/joy';
 import { useEffect, useState } from 'react';
 
 const BookingsContainer = styled(Box)(({ theme }) => ({
@@ -28,12 +28,17 @@ export default function ProfileBookings({ profile }) {
   }, [profile.bookings]);
 
   return (
-    <BookingsContainer>
-      {Array.isArray(profileBookings) &&
-        profileBookings.length > 0 &&
-        profileBookings.map((booking) => (
-          <VenueBookingCard key={booking.id} bookings={booking} />
-        ))}
-    </BookingsContainer>
+    <>
+      <Typography sx={{ marginBottom: 0.5 }} component={'h2'}>
+        You have {profileBookings.length} booking(s)
+      </Typography>
+      <BookingsContainer>
+        {Array.isArray(profileBookings) &&
+          profileBookings.length > 0 &&
+          profileBookings.map((booking) => (
+            <VenueBookingCard key={booking.id} bookings={booking} />
+          ))}
+      </BookingsContainer>
+    </>
   );
 }
