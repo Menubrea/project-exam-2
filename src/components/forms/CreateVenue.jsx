@@ -76,6 +76,12 @@ export default function CreateVenue({
     }
   };
 
+  const handleImageSetMain = (index) => {
+    const mainImage = mediaArray[index];
+    const newMediaArray = mediaArray.filter((item, i) => i !== index);
+    setMediaArray([mainImage, ...newMediaArray]);
+  };
+
   const handleRemoveMedia = (index) => {
     setMediaArray(mediaArray.filter((item, i) => i !== index));
   };
@@ -254,6 +260,11 @@ export default function CreateVenue({
               ? `1px solid ${theme.palette.common.white}`
               : `1px solid ${theme.palette.primary[900]}`,
         }}>
+        {mediaArray.length > 1 && (
+          <Typography sx={{ textAlign: 'center', marginBottom: 1 }}>
+            Click image to set as new main image (image 1).
+          </Typography>
+        )}
         <Box
           sx={{
             display: 'grid',
@@ -267,11 +278,16 @@ export default function CreateVenue({
               </Typography>
               <Box position={'relative'}>
                 <Box
+                  onClick={() => handleImageSetMain(index)}
                   sx={{
                     width: '100%',
                     height: '200px',
                     overflow: 'hidden',
                     objectFit: 'cover',
+                    cursor: 'pointer',
+                    '&:hover': {
+                      opacity: 0.8,
+                    },
                   }}
                   component={'img'}
                   src={mediaItem}

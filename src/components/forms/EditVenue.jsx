@@ -14,6 +14,25 @@ import {
 
 import CloseIcon from '@mui/icons-material/Close';
 
+const defaultValues = {
+  name: '',
+  description: '',
+  price: 0,
+  maxGuests: 1,
+  meta: {
+    wifi: false,
+    parking: false,
+    breakfast: false,
+    pets: false,
+  },
+  location: {
+    address: '',
+    city: '',
+    country: '',
+    continent: '',
+  },
+};
+
 export default function EditVenue({
   venue,
   setProfileVenues,
@@ -21,6 +40,7 @@ export default function EditVenue({
   setFilteredVenues,
 }) {
   const [mediaArray, setMediaArray] = useState([]);
+  const [mediaMessage, setMediaMessage] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -35,18 +55,31 @@ export default function EditVenue({
     setInputValue(e.target.value);
   };
 
-  const handleAddMedia = () => {
-    setMediaArray([...mediaArray, inputValue]);
-    const input = document.getElementById('addMedia');
-    input.value = '';
-  };
-
   const handleRemoveMedia = (index) => {
     setMediaArray(mediaArray.filter((item, i) => i !== index));
   };
 
+  const handleAddMedia = () => {
+    const input = document.getElementById('addMedia');
+    input.value = '';
+
+    const regex = /^https?:\/\/.*/;
+
+    if (regex.test(inputValue)) {
+      setMediaArray([...mediaArray, inputValue]);
+      setFormData({ ...formData, media: [...mediaArray, inputValue] });
+      setInputValue('');
+    } else {
+      setMediaMessage('Please provide a valid image url');
+      setTimeout(() => {
+        setMediaMessage('');
+      }, 3000);
+    }
+  };
+
   const editForm = useForm({
     resolver: yupResolver(EditVenueSchema),
+    mode: 'onChange',
     defaultValues: {
       name: venue.name,
       description: venue.description,
@@ -67,17 +100,37 @@ export default function EditVenue({
     },
   });
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = editForm;
+
+  const { meta } = watch();
+  const handleSwitchChange = (event) => {
+    const { name, checked } = event.target;
+    reset({
+      ...watch(),
+      meta: {
+        ...meta,
+        [name]: checked,
+      },
+    });
+  };
+
   useEffect(() => {
-    editForm.reset({
+    reset({
       name: venue.name,
       description: venue.description,
       price: venue.price,
       maxGuests: venue.maxGuests,
       meta: {
-        wifi: venue.meta.wifi,
-        parking: venue.meta.parking,
-        breakfast: venue.meta.breakfast,
-        pets: venue.meta.pets,
+        wifi: venue.meta.wifi || defaultValues.meta.wifi,
+        parking: venue.meta.parking || defaultValues.meta.parking,
+        breakfast: venue.meta.breakfast || defaultValues.meta.breakfast,
+        pets: venue.meta.pets || defaultValues.meta.pets,
       },
       location: {
         address: venue.location.address,
@@ -86,17 +139,11 @@ export default function EditVenue({
         continent: venue.location.continent,
       },
     });
-  }, [venue, editForm]);
+  }, [venue, editForm, reset]);
 
   useEffect(() => {
     editForm.setValue('media', mediaArray);
   }, [editForm, mediaArray]);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = editForm;
 
   const submitEdit = async (data) => {
     try {
@@ -144,6 +191,12 @@ export default function EditVenue({
         setMessage('');
       }, 3000);
     }
+  };
+
+  const handleImageSetMain = (index) => {
+    const mainImage = mediaArray[index];
+    const newMediaArray = mediaArray.filter((item, i) => i !== index);
+    setMediaArray([mainImage, ...newMediaArray]);
   };
 
   return (
@@ -234,6 +287,11 @@ export default function EditVenue({
               ? `1px solid ${theme.palette.common.white}`
               : `1px solid ${theme.palette.primary[900]}`,
         }}>
+        {mediaArray.length > 1 && (
+          <Typography sx={{ textAlign: 'center', marginBottom: 1 }}>
+            Click image to set as new main image (image 1).
+          </Typography>
+        )}
         <Box
           sx={{
             display: 'grid',
@@ -248,11 +306,16 @@ export default function EditVenue({
                 </Typography>
                 <Box position={'relative'}>
                   <Box
+                    onClick={() => handleImageSetMain(index)}
                     sx={{
                       width: '100%',
                       height: '200px',
                       overflow: 'hidden',
                       objectFit: 'cover',
+                      cursor: 'pointer',
+                      '&:hover': {
+                        opacity: 0.8,
+                      },
                     }}
                     component={'img'}
                     src={mediaItem}
@@ -273,11 +336,15 @@ export default function EditVenue({
                     />
                   </StyledButton>
                 </Box>
-                <Typography>{errors.media?.message}</Typography>
               </Box>
             ))
           ) : (
             <Typography>No media</Typography>
+          )}
+        </Box>
+        <Box>
+          {mediaMessage && (
+            <Typography textAlign={'center'}>{mediaMessage}</Typography>
           )}
         </Box>
         <Box marginTop={1}>
@@ -286,6 +353,8 @@ export default function EditVenue({
             <MainThemeInput
               id='addMedia'
               onChange={handleInputChange}
+              name='addMedia'
+              placeholder='Add image url'
               fullWidth
               type='text'
             />
@@ -334,18 +403,34 @@ export default function EditVenue({
             alignItems: 'center',
             gap: 1,
           }}>
-          <Checkbox name='meta.wifi' label='wifi' {...register('meta.wifi')} />
+          <Checkbox
+            name='meta.wifi'
+            label='wifi'
+            {...register('meta.wifi')}
+            checked={venue.meta.wifi || false}
+            onChange={handleSwitchChange}
+          />
           <Checkbox
             name='meta.parking'
             label='parking'
             {...register('meta.parking')}
+            checked={venue.meta.parking || false}
+            onChange={handleSwitchChange}
           />
           <Checkbox
             name='meta.breakfast'
             label='breakfast'
             {...register('meta.breakfast')}
+            checked={venue.meta.breakfast || false}
+            onChange={handleSwitchChange}
           />
-          <Checkbox name='meta.pets' label='pets' {...register('meta.pets')} />
+          <Checkbox
+            name='meta.pets'
+            label='pets'
+            {...register('meta.pets')}
+            checked={venue.meta.pets || false}
+            onChange={handleSwitchChange}
+          />
         </Box>
       </Box>
       {message && (
