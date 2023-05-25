@@ -4,6 +4,11 @@ import { SearchVenueModal } from '../../modals';
 import { useState } from 'react';
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
+  '--size': '2.5rem',
+
+  width: 'var(--size)',
+  height: 'var(--size)',
+
   color:
     theme.palette.mode === 'dark'
       ? theme.palette.primary[700]
@@ -34,10 +39,7 @@ export default function Searching({ venues }) {
 
   return (
     <Box>
-      <StyledIconButton
-        size='lg'
-        aria-label='Search venues'
-        onClick={handleOpen}>
+      <StyledIconButton aria-label='Search venues' onClick={handleOpen}>
         <SearchIcon />
       </StyledIconButton>
 

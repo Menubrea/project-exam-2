@@ -4,18 +4,21 @@ import { Footer } from './Footer';
 import { Box, styled } from '@mui/joy';
 import { Navigation } from './Nav';
 import Loading from '../Loading';
+import { useLocation } from 'react-router-dom';
 
 export default function Layout({ venues, loading }) {
+  const path = useLocation();
+
   return (
     <>
       <Header venues={venues} />
       <Outlet />
-      {loading && <Loading />}
+      {loading && path.pathname !== '/profile' && <Loading />}
       <StyledBox
         sx={{ display: { xs: 'block', sm: 'none', position: 'fixed' } }}>
         <Navigation />
       </StyledBox>
-      <Footer />
+      {<Footer />}
     </>
   );
 }

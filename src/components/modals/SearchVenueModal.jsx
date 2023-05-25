@@ -56,10 +56,9 @@ export default function SearchVenueModal({ open, handleClose, venues }) {
           padding: 0,
           borderRadius: 0,
           border: 0,
-          minWidth: '80%',
-          minHeight: '60vh',
-          maxHeight: '90vh',
-          overFlowY: 'auto',
+          width: 'clamp(300px, 90vw, 100vw)',
+          height: 'clamp(50vh, 90vh, 100vh)',
+          overflow: 'auto',
         }}>
         <Box
           sx={{
@@ -134,10 +133,10 @@ export default function SearchVenueModal({ open, handleClose, venues }) {
         <Box
           sx={{
             paddingX: 2,
+            paddingBottom: 2,
             display: 'flex',
             gap: 1,
             flexWrap: 'wrap',
-            maxHeight: '60vh',
           }}>
           {filtered &&
             filtered.map((venue) => (
@@ -169,6 +168,7 @@ const StyledCard = styled(Box)(({ theme }) => ({
   },
   borderRadius: 5,
   padding: theme.spacing(1),
+  minWidth: 220,
   flexGrow: 1,
   cursor: 'pointer',
 
@@ -178,7 +178,6 @@ const StyledCard = styled(Box)(({ theme }) => ({
     height: 50,
     aspectRatio: '1 / 1',
     objectFit: 'cover',
-    borderRadius: 100,
     right: -7,
     top: -7,
     zIndex: 1,
