@@ -1,7 +1,7 @@
 import { Box, Typography, styled } from '@mui/material';
 import { VenueEditCard } from '../cards';
-import { MainThemeInput } from '../../styles/GlobalStyles';
-import { useEffect, useState } from 'react';
+import { MainThemeInput, MainThemeButton } from '../../styles/GlobalStyles';
+import { useEffect, useState, useRef } from 'react';
 
 const VenueContainer = styled(Box)(({ theme }) => ({
   marginTop: theme.spacing(1),
@@ -18,9 +18,17 @@ const VenueWrapper = styled(Box)(({ theme }) => ({
 export default function ProfileVenueList({ venues, handleBookingsSlideIn }) {
   const [input, setInput] = useState('');
   const [filteredVenues, setFilteredVenues] = useState([]);
+  const inputRef = useRef();
 
   const handleInput = (e) => {
     setInput(e.target.value);
+  };
+
+  const clearInput = () => {
+    const input = document.querySelector('#searchYourVenues');
+    input.value = '';
+    input.focus();
+    setInput('');
   };
 
   useEffect(() => {
@@ -42,7 +50,7 @@ export default function ProfileVenueList({ venues, handleBookingsSlideIn }) {
     <VenueWrapper component={'section'}>
       <Box
         sx={{
-          display: 'flex',
+          display: { xs: 'block', sm: 'flex' },
           alignItems: 'flex-end',
           justifyContent: 'space-between',
           width: '100%',
@@ -56,50 +64,28 @@ export default function ProfileVenueList({ venues, handleBookingsSlideIn }) {
           component={'h2'}>
           You have {venues.length} venue(s)
         </Typography>
-        <MainThemeInput
-          sx={{ borderRadius: 4 }}
-          onChange={handleInput}
-          size='sm'
-          type={'search'}
-          placeholder={'Search your venues'}
-        />
-        <Box
-          sx={{
-            position: 'absolute',
-            zIndex: 1,
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'dark'
-                ? theme.palette.primary[700]
-                : theme.palette.neutral[50],
-            cursor: 'pointer',
-            boxShadow: '0 0 10px 1px rgba(0,0 ,0, 0.1)',
-            top: 40,
-            right: 0,
-            width: '50%',
-          }}>
-          {input.length > 0 &&
-            filteredVenues.map((venue) => {
-              return (
-                <Box
-                  id={venue.id}
-                  onClick={handleBookingsSlideIn}
-                  key={venue.id}
-                  sx={{
-                    padding: 2,
-                    ':hover': {
-                      backgroundColor: 'rgba(0,0,0,0.05)',
-                    },
-                  }}>
-                  <Typography>{venue.name}</Typography>
-                </Box>
-              );
-            })}
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <MainThemeInput
+            sx={{ borderRadius: 4 }}
+            onChange={handleInput}
+            size='sm'
+            ref={inputRef}
+            aria-label='Search your venues'
+            id={'searchYourVenues'}
+            type={'text'}
+            placeholder={'Search your venues'}
+          />
+          {input.length > 0 && (
+            <MainThemeButton size='sm' onClick={clearInput}>
+              Clear
+            </MainThemeButton>
+          )}
         </Box>
       </Box>
 
       <VenueContainer>
-        {venues.length > 0 ? (
-          venues.map((singleVenue, i) => (
+        {filteredVenues.length > 0 ? (
+          filteredVenues.map((singleVenue, i) => (
             <VenueEditCard
               key={i}
               venue={singleVenue}
