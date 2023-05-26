@@ -82,14 +82,8 @@ export default function RenderBookings({ profileVenues }) {
                       borderRadius: 3,
                       width: 60,
                     }}>
-                    <Tooltip
-                      placement='right-end'
-                      sx={{
-                        color: (theme) => theme.palette.common.white,
-                        backgroundColor: (theme) => theme.palette.primary[600],
-                      }}
-                      variant='solid'
-                      title='Number of guests'>
+                    <Box>
+                      <Typography>Guests</Typography>
                       <Typography
                         sx={{
                           display: 'flex',
@@ -101,7 +95,7 @@ export default function RenderBookings({ profileVenues }) {
                         <GroupsIcon aria-label='Number of guests' />
                         {booking.guests}
                       </Typography>
-                    </Tooltip>
+                    </Box>
                   </Box>
                   <Box
                     sx={{
@@ -116,18 +110,24 @@ export default function RenderBookings({ profileVenues }) {
                       padding: 1,
                       borderRadius: 3,
                     }}>
-                    <Typography
-                      textAlign={'left'}
-                      sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <CalendarTodayIcon />
-                      {formatDate(booking.dateFrom)}
-                    </Typography>
-                    <Typography
-                      textAlign={'right'}
-                      sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <CalendarTodayIcon />
-                      {formatDate(booking.dateTo)}
-                    </Typography>
+                    <Box>
+                      <Typography textAlign={'center'}>From:</Typography>
+                      <Typography
+                        textAlign={'left'}
+                        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <CalendarTodayIcon />
+                        {formatDate(booking.dateFrom)}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography textAlign={'center'}>To:</Typography>
+                      <Typography
+                        textAlign={'right'}
+                        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <CalendarTodayIcon />
+                        {formatDate(booking.dateTo)}
+                      </Typography>
+                    </Box>
                   </Box>
                 </Box>
               ))}

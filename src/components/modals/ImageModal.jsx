@@ -1,11 +1,4 @@
-import {
-  IconButton,
-  Modal,
-  Box,
-  ModalDialog,
-  Typography,
-  styled,
-} from '@mui/joy';
+import { Modal, Box, ModalDialog, Typography, styled } from '@mui/joy';
 import { useState } from 'react';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
@@ -18,13 +11,17 @@ const StyledModal = styled(ModalDialog)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
-const StyledGrid = styled(Box)(({ theme }) => ({
+const StyledGrid = styled(Box)(({ theme, toggle }) => ({
   position: 'relative',
   overflowY: 'auto',
   display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(500px, 1fr))',
   gap: theme.spacing(1),
-  height: `calc(100% - ${theme.spacing(10)})`,
+  height: toggle ? `calc(100% - ${theme.spacing(10)})` : '100%',
+
+  '@media (max-width: 600px)': {
+    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+  },
 }));
 
 export default function ImageModal({ venue, open, handleClose }) {
@@ -63,15 +60,16 @@ export default function ImageModal({ venue, open, handleClose }) {
             alignItems: 'flex-start',
             height: (theme) => theme.spacing(6),
           }}>
-          <Typography
-            id='modal-title'
-            aria-label='modal-title'
-            sx={{ margin: 0, padding: 0 }}
-            level='h6'
-            component={'p'}>
-            Viewing images for {venue.name}
-          </Typography>
-          <MainThemeButton size='sm' onClick={handleClose}>
+          <MainThemeButton
+            aria-label='Change image view mode'
+            size='sm'
+            onClick={ToggleMediaView}>
+            {toggle ? 'Slide Mode' : 'Gallery Mode'}
+          </MainThemeButton>
+          <MainThemeButton
+            aria-label='Close image modal'
+            size='sm'
+            onClick={handleClose}>
             Close
           </MainThemeButton>
         </Box>
@@ -113,6 +111,7 @@ export default function ImageModal({ venue, open, handleClose }) {
                 sx={{
                   width: '100%',
                   height: '100%',
+
                   objectFit: 'contain',
                   borderRadius: 10,
                 }}
@@ -135,6 +134,7 @@ export default function ImageModal({ venue, open, handleClose }) {
             {venue.media.map((image, index) => (
               <Box
                 key={index}
+                id='modal-description'
                 component={'img'}
                 src={image || altImage}
                 alt={`${venue.name} media`}
@@ -149,17 +149,6 @@ export default function ImageModal({ venue, open, handleClose }) {
             ))}
           </StyledGrid>
         )}
-        <MainThemeButton
-          sx={{
-            position: 'absolute',
-            bottom: 60,
-            left: '50%',
-            transform: 'translateX(-50%)',
-          }}
-          size='sm'
-          onClick={ToggleMediaView}>
-          {toggle ? 'Slide Mode' : 'Gallery Mode'}
-        </MainThemeButton>
       </StyledModal>
     </Modal>
   );

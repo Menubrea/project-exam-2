@@ -1,4 +1,4 @@
-import { Box, Container, Typography, styled } from '@mui/joy';
+import { Box, Container, styled } from '@mui/joy';
 import { useState, useEffect } from 'react';
 import {
   ProfileBookings,
@@ -56,8 +56,10 @@ export default function Profile({ setFilteredVenues }) {
   useEffect(() => {
     const container = document.getElementById('bookingsContainer');
     const overlay = document.getElementById('overlay');
+
     setTimeout(() => {
       if (container && overlay && slideIn) {
+        document.body.style.overflowY = 'hidden';
         container.style.transform = 'translateX(0)';
         container.style.transition = 'transform 0.5s ease-in-out';
         overlay.style.transform = 'translateX(0)';
@@ -67,6 +69,7 @@ export default function Profile({ setFilteredVenues }) {
     }, 10);
 
     return () => {
+      document.body.style.overflowY = 'auto';
       container && (container.style.transform = null);
       container && (container.style.transition = null);
       overlay && (overlay.style.transform = null);

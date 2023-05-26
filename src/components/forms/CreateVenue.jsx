@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 
-import { Box, Typography, Checkbox, styled, Button } from '@mui/joy';
+import { Box, Typography, Checkbox, styled } from '@mui/joy';
 import {
   MainThemeButton,
   MainThemeInput,
@@ -302,6 +302,7 @@ export default function CreateVenue({
                   }}
                   size='sm'
                   type='button'
+                  aria-label='Remove image'
                   onClick={() => handleRemoveMedia(index)}>
                   <CloseIcon
                     sx={{ position: 'absolute', top: 15, right: 15 }}
