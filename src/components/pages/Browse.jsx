@@ -32,6 +32,10 @@ const FilterMenuBox = styled(Box)(({ theme }) => ({
     theme.palette.mode === 'dark'
       ? theme.palette.primary[700]
       : theme.palette.neutral[100],
+
+  '@media (max-width: 600px)': {
+    paddingBottom: '54px',
+  },
 }));
 
 export default function Browse({ venues }) {

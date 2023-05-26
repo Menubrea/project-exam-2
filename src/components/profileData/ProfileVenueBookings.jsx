@@ -44,6 +44,10 @@ const BookingsContainer = styled(Box)(({ theme }) => ({
     theme.palette.mode === 'dark'
       ? `linear-gradient(-90deg, ${theme.palette.primary[500]} 0%, ${theme.palette.primary[700]} 100%)`
       : `linear-gradient(-90deg, ${theme.palette.neutral[50]} 0%, ${theme.palette.neutral[500]} 100%)`,
+
+  '@media (max-width: 600px)': {
+    paddingBottom: '65px',
+  },
 }));
 
 const Overlay = styled(Box)(() => ({
