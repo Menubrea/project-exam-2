@@ -104,21 +104,17 @@ export default function EditVenue({
     register,
     handleSubmit,
     watch,
+    setValue,
     reset,
     formState: { errors },
   } = editForm;
 
-  const { meta } = watch();
   const handleSwitchChange = (event) => {
     const { name, checked } = event.target;
-    reset({
-      ...watch(),
-      meta: {
-        ...meta,
-        [name]: checked,
-      },
-    });
+    setValue(name, checked);
   };
+
+  const handleCheckBox = (event) => {};
 
   useEffect(() => {
     reset({
@@ -318,6 +314,7 @@ export default function EditVenue({
                       },
                     }}
                     component={'img'}
+                    aria-label='Remove image'
                     src={mediaItem}
                     alt={`media url ${mediaItem}`}
                   />
@@ -407,28 +404,28 @@ export default function EditVenue({
             name='meta.wifi'
             label='wifi'
             {...register('meta.wifi')}
-            checked={venue.meta.wifi || false}
+            checked={watch('meta.wifi')}
             onChange={handleSwitchChange}
           />
           <Checkbox
             name='meta.parking'
             label='parking'
             {...register('meta.parking')}
-            checked={venue.meta.parking || false}
+            checked={watch('meta.parking')}
             onChange={handleSwitchChange}
           />
           <Checkbox
             name='meta.breakfast'
             label='breakfast'
             {...register('meta.breakfast')}
-            checked={venue.meta.breakfast || false}
+            checked={watch('meta.breakfast')}
             onChange={handleSwitchChange}
           />
           <Checkbox
             name='meta.pets'
             label='pets'
             {...register('meta.pets')}
-            checked={venue.meta.pets || false}
+            checked={watch('meta.pets')}
             onChange={handleSwitchChange}
           />
         </Box>
