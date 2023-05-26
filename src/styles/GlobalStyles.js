@@ -63,6 +63,8 @@ export const MainThemeButton = styled(Button)(({ theme }) => ({
         ? `2px solid ${theme.palette.common.white}`
         : `2px solid ${theme.palette.primary[700]}`,
   },
+
+  touchAction: 'none',
 }));
 
 export const StyledButton = styled(Button)(({ theme }) => ({

@@ -66,7 +66,7 @@ export default function ProfileVenueList({ venues, handleBookingsSlideIn }) {
         </Typography>
         <Box sx={{ display: 'flex', gap: 1 }}>
           <MainThemeInput
-            sx={{ borderRadius: 4, touchAction: 'manipulation' }}
+            sx={{ borderRadius: 4, touchAction: 'none' }}
             onChange={handleInput}
             size='sm'
             ref={inputRef}
@@ -85,10 +85,12 @@ export default function ProfileVenueList({ venues, handleBookingsSlideIn }) {
           <Box
             sx={{
               position: 'absolute',
-              top: 40,
-              right: 0,
+              top: { xs: 65, sm: 40 },
+              right: { xs: 'auto', md: '0' },
+              left: { xs: '0', md: 'auto' },
+              boxShadow: '0 0 10px 1px rgba(0, 0, 0, .2)',
 
-              width: 'calc(50% - 4px)',
+              width: { xs: '100%', md: 'calc(50% - 4px)' },
               zIndex: 1,
               backgroundColor: (theme) =>
                 theme.palette.mode === 'dark'
