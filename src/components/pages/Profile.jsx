@@ -33,6 +33,10 @@ const StyledMain = styled(Box)(({ theme }) => ({
       ? theme.palette.primary[700]
       : theme.palette.neutral[200],
   animation: `${fadeIn} 1s ease-in-out`,
+
+  '@media (max-width: 600px)': {
+    animation: `${fadeIn} .5s ease-in-out`,
+  },
 }));
 
 export default function Profile({ setFilteredVenues }) {

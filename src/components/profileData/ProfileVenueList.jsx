@@ -66,7 +66,7 @@ export default function ProfileVenueList({ venues, handleBookingsSlideIn }) {
         </Typography>
         <Box sx={{ display: 'flex', gap: 1 }}>
           <MainThemeInput
-            sx={{ borderRadius: 4 }}
+            sx={{ borderRadius: 4, touchAction: 'manipulation' }}
             onChange={handleInput}
             size='sm'
             ref={inputRef}
@@ -81,11 +81,54 @@ export default function ProfileVenueList({ venues, handleBookingsSlideIn }) {
             </MainThemeButton>
           )}
         </Box>
+        {input.length > 0 && (
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 40,
+              right: 0,
+
+              width: 'calc(50% - 4px)',
+              zIndex: 1,
+              backgroundColor: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? theme.palette.primary[700]
+                  : theme.palette.neutral[50],
+            }}>
+            {filteredVenues.length > 0 ? (
+              filteredVenues.map((venue) => (
+                <Typography
+                  tabIndex={0}
+                  aria-label={`Your venue ${venue.name}`}
+                  id={venue.id}
+                  on
+                  onClick={handleBookingsSlideIn}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleBookingsSlideIn(e);
+                    }
+                  }}
+                  sx={{
+                    cursor: 'pointer',
+                    padding: 1,
+                    '&:hover': {
+                      backgroundColor: 'rgba(0,0,0,0.05)',
+                    },
+                  }}
+                  key={venue.id}>
+                  {venue.name}
+                </Typography>
+              ))
+            ) : (
+              <Typography sx={{ padding: 1 }}>No venues found</Typography>
+            )}
+          </Box>
+        )}
       </Box>
 
       <VenueContainer>
-        {filteredVenues.length > 0 ? (
-          filteredVenues.map((singleVenue, i) => (
+        {venues.length > 0 ? (
+          venues.map((singleVenue, i) => (
             <VenueEditCard
               key={i}
               venue={singleVenue}

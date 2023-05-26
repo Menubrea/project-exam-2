@@ -57,9 +57,15 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
 
   return (
     <StyledVenueCard
+      tabIndex={0}
       id={venue.id}
       sx={{ display: 'flex', gap: 1 }}
-      onClick={handleBookingsSlideIn}>
+      onClick={handleBookingsSlideIn}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          handleBookingsSlideIn(e);
+        }
+      }}>
       {venue && (
         <Box
           component={'img'}
@@ -90,7 +96,7 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
         </Typography>
         {venue && filteredBookings.length > 0 && (
           <Typography level='body1' component={'p'}>
-            Upcoming booking(s): {filteredBookings.length}
+            Booking(s): {filteredBookings.length}
           </Typography>
         )}
         {filteredBookings.length > 0 && (
