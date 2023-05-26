@@ -58,7 +58,7 @@ export default function Profile({ setFilteredVenues }) {
     const overlay = document.getElementById('overlay');
 
     setTimeout(() => {
-      if (container && overlay && slideIn) {
+      if (container && overlay) {
         document.body.style.overflowY = 'hidden';
         container.style.transform = 'translateX(0)';
         container.style.transition = 'transform 0.5s ease-in-out';

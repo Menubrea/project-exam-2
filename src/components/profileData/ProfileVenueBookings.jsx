@@ -81,6 +81,12 @@ export default function ProfileVenueBookings({
         setCreateVenue(false);
       }, 500);
     }
+
+    return () => {
+      bookingsContainer.style.transform = 'translateX(-100%)';
+      overlay.style.transform = 'translateX(-1000%)';
+      document.body.style.overflowY = 'auto';
+    };
   };
 
   return (
@@ -103,7 +109,7 @@ export default function ProfileVenueBookings({
                     ? `1px solid ${theme.palette.common.white}`
                     : `1px solid ${theme.palette.primary[900]}`,
               }}>
-              <Typography level='h6' component={'p'} sx={{ paddingX: 1 }}>
+              <Typography level='h6' component={'h2'} sx={{ paddingX: 1 }}>
                 Managing {venue.name}
               </Typography>
               <MainThemeButton
