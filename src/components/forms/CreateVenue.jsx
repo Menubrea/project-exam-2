@@ -170,8 +170,8 @@ export default function CreateVenue({
           Create a new Venue
         </Typography>
         <Typography>
-          Create a new venue by filling out the form below, keep in mind we only
-          allow locations currently located in Norway.
+          Create a new venue by filling out the form below. All fields are
+          required.
         </Typography>
       </Box>
       <StyledDivider />

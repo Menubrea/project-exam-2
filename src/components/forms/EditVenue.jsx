@@ -114,8 +114,6 @@ export default function EditVenue({
     setValue(name, checked);
   };
 
-  const handleCheckBox = (event) => {};
-
   useEffect(() => {
     reset({
       name: venue.name,
@@ -166,6 +164,7 @@ export default function EditVenue({
             venue.id === editedVenue.id ? editedVenue : venue
           );
         });
+
         setFilteredVenues((prev) => {
           return prev.map((venue) =>
             venue.id === editedVenue.id ? editedVenue : venue
@@ -174,6 +173,7 @@ export default function EditVenue({
         setTimeout(() => {
           handleCloseSlideOut();
         }, 1000);
+
         setLoading(false);
       } else {
         setMessage('Something went wrong, please try again');
@@ -202,8 +202,8 @@ export default function EditVenue({
       component={'form'}
       onSubmit={handleSubmit(submitEdit)}>
       <Box sx={{ padding: 2 }}>
-        <Typography level='h6' component={'h3'}>
-          Updating your venue
+        <Typography level='h6' component={'h2'}>
+          Update your venue
         </Typography>
         <Typography>
           Here you can make adjustments to your venue, you may find that some
@@ -226,6 +226,14 @@ export default function EditVenue({
             size='sm'
             id='venueName'
             required
+            slotProps={{
+              input: {
+                minLength: 1,
+                maxLength: 50,
+                pattern: '[a-zA-Z\\s]+',
+                title: 'Only letters and spaces are allowed',
+              },
+            }}
             type='text'
             name='name'
             {...register('name')}
@@ -244,7 +252,7 @@ export default function EditVenue({
             slotProps={{
               input: {
                 inputMode: 'numeric',
-                pattern: '[0-9]*',
+                pattern: '[1-9]*',
                 min: 1,
               },
             }}
@@ -265,7 +273,8 @@ export default function EditVenue({
             slotProps={{
               input: {
                 inputMode: 'numeric',
-                pattern: '[0-9]*',
+                pattern: '[1-9]*',
+                defaultValue: 1,
                 min: 1,
                 max: 100,
               },
@@ -381,7 +390,11 @@ export default function EditVenue({
           size='lg'
           {...register('description')}
         />
+        <Typography textAlign={'center'}>
+          {errors.description?.message}
+        </Typography>
       </Box>
+
       <Box
         sx={{
           paddingX: 2,
@@ -444,17 +457,23 @@ export default function EditVenue({
           {message}
         </Typography>
       )}
-      <Box padding={1} marginTop={0}>
-        {loading ? (
-          <MainThemeButton loading loadingPosition='start' fullWidth>
-            Updating Venue
-          </MainThemeButton>
-        ) : (
-          <MainThemeButton fullWidth type='submit'>
-            Update Venue
-          </MainThemeButton>
-        )}
-      </Box>
+      {mediaArray.length >= 1 ? (
+        <Box padding={1} marginTop={0}>
+          {loading ? (
+            <MainThemeButton loading loadingPosition='start' fullWidth>
+              Updating Venue
+            </MainThemeButton>
+          ) : (
+            <MainThemeButton fullWidth type='submit'>
+              Update Venue
+            </MainThemeButton>
+          )}
+        </Box>
+      ) : (
+        <MainThemeButton disabled textAlign={'center'}>
+          Please add at least one image
+        </MainThemeButton>
+      )}
     </EditFormContainer>
   );
 }
@@ -484,12 +503,32 @@ const EditFormContainer = styled(Box)(({ theme }) => ({
 }));
 
 const EditVenueSchema = yup.object({
-  name: yup.string().required().trim(),
-  description: yup.string().required().trim(),
+  name: yup
+    .string()
+    .required('Name is required')
+    .matches(/^[a-zA-Z\s]*$/, 'Must only contain letters and spaces')
+    .trim(),
+  description: yup
+    .string()
+    .required('Description is required')
+    .min(1, 'Must at least be 1 character')
+    .max(480, 'Must be less than 480 characters')
+    .trim(),
+
   media: yup.array().of(yup.string().trim()),
 
-  price: yup.number().required().min(1),
-  maxGuests: yup.number().required().min(1).max(100),
+  price: yup
+    .number()
+    .required('Price is required')
+    .typeError('Price must be a number greater than 1')
+    .min(1, 'Price must be a number greater than 1'),
+
+  maxGuests: yup
+    .number()
+    .required('Guests is required')
+    .typeError('Guests must be a number between 1-100')
+    .min(1)
+    .max(100),
 
   meta: yup.object().shape({
     wifi: yup.boolean(),
