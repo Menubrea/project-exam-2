@@ -3,7 +3,15 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 
-import { Box, Typography, Checkbox, styled } from '@mui/joy';
+import {
+  Box,
+  Typography,
+  Checkbox,
+  styled,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+} from '@mui/joy';
 import {
   MainThemeButton,
   MainThemeInput,
@@ -67,7 +75,6 @@ export default function EditVenue({
 
     if (regex.test(inputValue)) {
       setMediaArray([...mediaArray, inputValue]);
-      setFormData({ ...formData, media: [...mediaArray, inputValue] });
       setInputValue('');
     } else {
       setMediaMessage('Please provide a valid image url');
@@ -220,10 +227,10 @@ export default function EditVenue({
               ? `1px solid ${theme.palette.common.white}`
               : `1px solid ${theme.palette.primary[900]}`,
         }}>
-        <Box sx={{ width: '100%' }}>
-          <Typography htmlFor='venueName'>Name</Typography>
+        <FormControl sx={{ width: '100%' }}>
+          <FormLabel>Name</FormLabel>
           <MainThemeInput
-            size='sm'
+            size='md'
             id='venueName'
             required
             slotProps={{
@@ -238,13 +245,13 @@ export default function EditVenue({
             name='name'
             {...register('name')}
           />
-          <Typography level='body3'>{errors.name?.message}</Typography>
-        </Box>
-        <Box>
-          <Typography htmlFor='venuePrice'>Price</Typography>
+          <FormHelperText>{errors.name?.message}</FormHelperText>
+        </FormControl>
+        <FormControl>
+          <FormLabel>Price</FormLabel>
           <MainThemeInput
             sx={{ maxWidth: { xs: '100%', sm: '100px' } }}
-            size='sm'
+            size='md'
             id='venuePrice'
             required
             type='number'
@@ -258,14 +265,14 @@ export default function EditVenue({
             }}
             {...register('price')}
           />
-          <Typography level='body3'>{errors.price?.message}</Typography>
-        </Box>
+          <FormHelperText level='body3'>{errors.price?.message}</FormHelperText>
+        </FormControl>
 
-        <Box>
-          <Typography htmlFor='venueMaxGuests'>Guests</Typography>
+        <FormControl>
+          <FormLabel>Guests</FormLabel>
           <MainThemeInput
             sx={{ maxWidth: { xs: '100%', sm: '100px' } }}
-            size='sm'
+            size='md'
             id='venueMaxGuests'
             required
             type='number'
@@ -281,8 +288,8 @@ export default function EditVenue({
             }}
             {...register('maxGuests')}
           />
-          <Typography level='body3'>{errors.maxGuests?.message}</Typography>
-        </Box>
+          <FormHelperText>{errors.maxGuests?.message}</FormHelperText>
+        </FormControl>
       </FlexContainer>
       <Box
         sx={{
@@ -323,7 +330,6 @@ export default function EditVenue({
                       },
                     }}
                     component={'img'}
-                    aria-label='Remove image'
                     src={mediaItem}
                     alt={`media url ${mediaItem}`}
                   />
@@ -334,7 +340,8 @@ export default function EditVenue({
                       top: '-1px',
                       right: '-1px',
                     }}
-                    size='sm'
+                    aria-label='Remove image'
+                    size='md'
                     type='button'
                     onClick={() => handleRemoveMedia(index)}>
                     <CloseIcon
@@ -354,13 +361,16 @@ export default function EditVenue({
           )}
         </Box>
         <Box marginTop={1}>
-          <Typography>Add images</Typography>
+          <Typography htmlFor='addMedia' component={'label'}>
+            Add images
+          </Typography>
           <Box sx={{ display: 'flex', gap: 1 }}>
             <MainThemeInput
               id='addMedia'
               onChange={handleInputChange}
               name='addMedia'
               placeholder='Add image url'
+              aria-description='Add image url'
               fullWidth
               type='text'
             />
@@ -373,7 +383,7 @@ export default function EditVenue({
         </Box>
       </Box>
 
-      <Box
+      <FormControl
         sx={{
           padding: 2,
           borderBottom: (theme) =>
@@ -381,7 +391,7 @@ export default function EditVenue({
               ? `1px solid ${theme.palette.common.white}`
               : `1px solid ${theme.palette.primary[900]}`,
         }}>
-        <Typography htmlFor='venueDescription'>Description</Typography>
+        <FormLabel>Description</FormLabel>
         <MainThemeTextArea
           minRows={2}
           required
@@ -390,10 +400,10 @@ export default function EditVenue({
           size='lg'
           {...register('description')}
         />
-        <Typography textAlign={'center'}>
+        <FormHelperText textAlign={'center'}>
           {errors.description?.message}
-        </Typography>
-      </Box>
+        </FormHelperText>
+      </FormControl>
 
       <Box
         sx={{
@@ -404,7 +414,7 @@ export default function EditVenue({
               ? `1px solid ${theme.palette.common.white}`
               : `1px solid ${theme.palette.primary[900]}`,
         }}>
-        <Typography htmlFor='venueMeta'>Change access to:</Typography>
+        <Typography>Change access to:</Typography>
         <Box
           sx={{
             display: 'flex',

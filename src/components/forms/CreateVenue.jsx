@@ -3,7 +3,15 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 
-import { Box, Typography, Checkbox, styled } from '@mui/joy';
+import {
+  Box,
+  Typography,
+  Checkbox,
+  styled,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+} from '@mui/joy';
 import {
   MainThemeButton,
   MainThemeInput,
@@ -183,10 +191,10 @@ export default function CreateVenue({
               ? `1px solid ${theme.palette.common.white}`
               : `1px solid ${theme.palette.primary[900]}`,
         }}>
-        <Box sx={{ width: '100%' }}>
-          <Typography htmlFor='venueName'>Name</Typography>
+        <FormControl sx={{ width: '100%' }}>
+          <FormLabel>Name</FormLabel>
           <MainThemeInput
-            size='sm'
+            size='md'
             id='venueName'
             required
             onKeyUp={(e) => {
@@ -204,17 +212,17 @@ export default function CreateVenue({
             }}
             {...register('name')}
           />
-          <Typography padding={0.5} level='body3' textAlign={'right'}>
+          <FormHelperText padding={0.5} level='body3' textAlign={'right'}>
             {formData.name.length === 0
               ? `Please provide a name`
               : formData.name.length + '/50'}
-          </Typography>
-        </Box>
-        <Box>
-          <Typography htmlFor='venuePrice'>Price</Typography>
+          </FormHelperText>
+        </FormControl>
+        <FormControl>
+          <FormLabel>Price</FormLabel>
           <MainThemeInput
             sx={{ maxWidth: { xs: '100%', sm: '100px' } }}
-            size='sm'
+            size='md'
             id='venuePrice'
             required
             type='number'
@@ -228,13 +236,12 @@ export default function CreateVenue({
             }}
             {...register('price')}
           />
-        </Box>
-
-        <Box>
-          <Typography htmlFor='venueMaxGuests'>Guests</Typography>
+        </FormControl>
+        <FormControl>
+          <FormLabel>Guests</FormLabel>
           <MainThemeInput
             sx={{ maxWidth: { xs: '100%', sm: '100px' } }}
-            size='sm'
+            size='md'
             id='venueMaxGuests'
             required
             title='Max guests'
@@ -250,7 +257,7 @@ export default function CreateVenue({
             }}
             {...register('maxGuests')}
           />
-        </Box>
+        </FormControl>
       </FlexContainer>
       <Box
         sx={{
@@ -300,7 +307,7 @@ export default function CreateVenue({
                     top: '-1px',
                     right: '-1px',
                   }}
-                  size='sm'
+                  size='md'
                   type='button'
                   aria-label='Remove image'
                   onClick={() => handleRemoveMedia(index)}>
@@ -319,32 +326,32 @@ export default function CreateVenue({
           )}
         </Box>
         <Box marginTop={1}>
-          <Typography aria-label='addMedia' component={'label'}>
+          <Typography htmlFor='addMedia' component={'label'}>
             Add images
           </Typography>
           <Box sx={{ display: 'flex', gap: 1 }}>
             <MainThemeInput
               id='addMedia'
               onChange={handleInputChange}
-              size='sm'
+              size='md'
               fullWidth
               type='text'
             />
             <MainThemeButton
               type='button'
-              size='sm'
+              size='md'
               onClick={handleAddMedia}
               aria-label='add more images'>
               Add
             </MainThemeButton>
           </Box>
-          <Typography padding={0.5} level='body3' textAlign={'right'}>
+          <FormHelperText padding={0.5} level='body3' textAlign={'right'}>
             {mediaMessage}
-          </Typography>
+          </FormHelperText>
         </Box>
       </Box>
 
-      <Box
+      <FormControl
         sx={{
           padding: 2,
           borderBottom: (theme) =>
@@ -352,7 +359,7 @@ export default function CreateVenue({
               ? `1px solid ${theme.palette.common.white}`
               : `1px solid ${theme.palette.primary[900]}`,
         }}>
-        <Typography htmlFor='venueDescription'>Description</Typography>
+        <FormLabel>Description</FormLabel>
         <MainThemeTextArea
           minRows={2}
           id='venueDescription'
@@ -370,12 +377,12 @@ export default function CreateVenue({
           }}
           {...register('description')}
         />
-        <Typography padding={0.5} level='body3' textAlign={'right'}>
+        <FormHelperText padding={0.5} level='body3' textAlign={'right'}>
           {formData.description.length === 0
             ? `Please provide a description`
             : formData.description.length + '/480'}
-        </Typography>
-      </Box>
+        </FormHelperText>
+      </FormControl>
       <Box
         sx={{
           paddingX: 2,
@@ -422,10 +429,11 @@ export default function CreateVenue({
             gap: 1,
             justifyContent: 'space-between',
           }}>
-          <Box width={'100%'}>
-            <Typography htmlFor='venueAddress'>Address</Typography>
+          <FormControl sx={{ width: '100%' }}>
+            <FormLabel>Address</FormLabel>
             <MainThemeInput
-              size='sm'
+              fullWidth
+              size='md'
               required
               onKeyUp={(e) => {
                 setFormData({
@@ -440,14 +448,15 @@ export default function CreateVenue({
               type='text'
               {...register('location.address')}
             />
-            <Typography padding={0.5} level='body3' textAlign={'right'}>
+            <FormHelperText padding={0.5} level='body3' textAlign={'right'}>
               {formData.location.address === '' && `Please provide an address`}
-            </Typography>
-          </Box>
-          <Box width={'100%'}>
-            <Typography htmlFor='venueRegion'>Region</Typography>
+            </FormHelperText>
+          </FormControl>
+          <FormControl sx={{ width: '100%' }}>
+            <FormLabel>Region</FormLabel>
             <MainThemeSelect
-              size='sm'
+              fullWidth
+              size='md'
               required={true}
               id='venueRegion'
               placeholder={'Select a region'}
@@ -476,10 +485,10 @@ export default function CreateVenue({
               ))}
             </MainThemeSelect>
 
-            <Typography padding={0.5} level='body3' textAlign={'right'}>
+            <FormHelperText padding={0.5} level='body3' textAlign={'right'}>
               {formData.location.city === '' && `Please select a region`}
-            </Typography>
-          </Box>
+            </FormHelperText>
+          </FormControl>
         </Box>
       </Box>
 

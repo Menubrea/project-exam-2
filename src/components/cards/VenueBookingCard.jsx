@@ -30,7 +30,7 @@ const TextStyle = styled(Typography)(({ theme, ...props }) => ({
     theme.palette.mode === 'dark'
       ? theme.palette.primary[500]
       : theme.palette.neutral[50],
-  zIndex: 99,
+  zIndex: 1,
 }));
 
 export default function VenueBookingCard({ bookings }) {

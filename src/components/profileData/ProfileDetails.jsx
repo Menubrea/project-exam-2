@@ -26,22 +26,24 @@ export default function ProfileDetails({ profile, handleCreateSlide }) {
       <Box sx={{ display: { xs: 'block', sm: 'flex' } }}>
         <Box
           sx={{ position: 'relative', margin: '0 auto', width: 'fit-content' }}>
-          <Box
-            component={'img'}
-            src={avatar ? avatar : altImage}
-            alt={`${profile.name} avatar`}
-            onError={(e) => (e.target.src = altImage)}
-            sx={{
-              width: '100%',
-              height: '100%',
-              maxHeight: 180,
-              minWidth: 180,
+          {avatar && (
+            <Box
+              component={'img'}
+              src={avatar ? avatar : null}
+              alt={`${profile.name} avatar`}
+              onError={(e) => (e.target.src = altImage)}
+              sx={{
+                width: '100%',
+                height: '100%',
+                maxHeight: 180,
+                minWidth: 180,
 
-              aspectRatio: '1 / 1',
-              objectFit: 'cover',
-              borderRadius: 3,
-            }}
-          />
+                aspectRatio: '1 / 1',
+                objectFit: 'cover',
+                borderRadius: 3,
+              }}
+            />
+          )}
           <Box
             sx={{
               position: 'absolute',

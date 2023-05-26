@@ -14,7 +14,7 @@ export default function FilterGuests({ guests, setGuests, sortedGuests }) {
         color='primary'
         aria-label='pick Guests'
         aria-roledescription='pick Guests'
-        size='sm'
+        size='md'
         placeholder='Guests'>
         <StyledOption value={'Any'} onClick={() => setGuests(1)}>
           Any

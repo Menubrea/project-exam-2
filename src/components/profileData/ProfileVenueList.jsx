@@ -68,7 +68,7 @@ export default function ProfileVenueList({ venues, handleBookingsSlideIn }) {
           <MainThemeInput
             sx={{ borderRadius: 4, touchAction: 'none' }}
             onChange={handleInput}
-            size='sm'
+            size='md'
             ref={inputRef}
             aria-label='Search your venues'
             id={'searchYourVenues'}

@@ -65,9 +65,9 @@ export default function Profile({ setFilteredVenues }) {
       if (container && overlay) {
         document.body.style.overflowY = 'hidden';
         container.style.transform = 'translateX(0)';
-        container.style.transition = 'transform 0.5s ease-in-out';
+        container.style.transition = 'transform 0.3s ease-in-out';
         overlay.style.transform = 'translateX(0)';
-        overlay.style.transition = 'opacity 0.5s ease-in-out';
+        overlay.style.transition = 'opacity 0.3s ease-in-out';
         overlay.style.opacity = 1;
       }
     }, 10);

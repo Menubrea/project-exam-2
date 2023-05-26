@@ -31,12 +31,12 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 }));
 
 const BookingsContainer = styled(Box)(({ theme }) => ({
-  height: '100vh',
+  height: 'calc(100vh - 54px)',
   overflowY: 'scroll',
   position: 'fixed',
-  top: 0,
   left: 0,
-  zIndex: 1000,
+  bottom: 0,
+  zIndex: 10,
   transform: 'translateX(-100%)',
   padding: theme.spacing(2),
 
@@ -52,7 +52,7 @@ const Overlay = styled(Box)(() => ({
   height: '100vh',
   top: 0,
   left: 0,
-  zIndex: 999,
+  zIndex: 9,
   backgroundColor: 'rgba(0,0,0,0.1)',
   backdropFilter: 'blur(10px)',
   transform: 'translateX(-100%)',
@@ -73,7 +73,7 @@ export default function ProfileVenueBookings({
     const overlay = document.getElementById('overlay');
     overlay.style.transform = 'translateX(-100%)';
     bookingsContainer.style.transform = 'translateX(-100%)';
-    bookingsContainer.style.transition = 'transform 0.5s ease-in-out';
+    bookingsContainer.style.transition = 'transform 0.3s ease-in-out';
     document.body.style.overflowY = 'auto';
 
     if (createVenue) {
