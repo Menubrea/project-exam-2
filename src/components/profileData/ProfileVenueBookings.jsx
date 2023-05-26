@@ -74,6 +74,7 @@ export default function ProfileVenueBookings({
     overlay.style.transform = 'translateX(-100%)';
     bookingsContainer.style.transform = 'translateX(-100%)';
     bookingsContainer.style.transition = 'transform 0.5s ease-in-out';
+    document.body.style.overflowY = 'auto';
 
     if (createVenue) {
       setTimeout(() => {
