@@ -31,6 +31,7 @@ export default function SearchCard({ venue, handleClose }) {
           src={venue && venue.media[0] ? venue.media[0] : altImage}
           alt={`${venue.name} media`}
           onError={(e) => (e.target.src = altImage)}
+          loading='lazy'
           sx={{
             width: '100%',
             objectFit: 'cover',

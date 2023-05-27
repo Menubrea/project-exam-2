@@ -50,6 +50,7 @@ export default function VenueCard({ venue }) {
       <LinkWrapper to={`/venue/${venue.id}`}>
         <Box
           component={'img'}
+          loading='lazy'
           src={venue && venue.media[0] ? venue.media[0] : altImage}
           alt={`${venue.name} media`}
           onError={(e) => (e.target.src = altImage)}

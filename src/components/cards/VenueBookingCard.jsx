@@ -26,10 +26,8 @@ const TextStyle = styled(Typography)(({ theme, ...props }) => ({
   right: props.right ? props.right : 'auto',
   padding: props.padding ? props.padding : theme.spacing(0.5),
   width: '100%' || props.width,
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.primary[500]
-      : theme.palette.neutral[50],
+  backgroundColor: theme.palette.primary[600],
+  color: theme.palette.neutral[50],
   zIndex: 1,
 }));
 
@@ -51,6 +49,7 @@ export default function VenueBookingCard({ bookings }) {
           {formatDate(bookings.dateTo)}
         </TextStyle>
         <Box
+          loading='lazy'
           component={'img'}
           src={
             bookings.venue && bookings.venue.media[0]
