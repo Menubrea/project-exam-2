@@ -3,6 +3,12 @@ import { LinkWrapper } from '../../styles/GlobalStyles';
 import { useLocation } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 
+/**
+ * Component for displaying the breadcrumbs navigation.
+ * @param {Object} venue - The venue object.
+ * @param {Object} profile - The profile object.
+ * @returns {JSX.Element}
+ */
 export default function BreadCrumbsNav({ venue, profile }) {
   const location = useLocation();
 

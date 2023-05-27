@@ -24,6 +24,13 @@ const StyledGrid = styled(Box)(({ theme, toggle }) => ({
   },
 }));
 
+/**
+ * Modal component for displaying images of a venue
+ * @param {object} venue - venue object
+ * @param {boolean} open - boolean for opening modal
+ * @param {function} handleClose - function for closing modal
+ * @returns {JSX.Element}
+ */
 export default function ImageModal({ venue, open, handleClose }) {
   const [count, setCount] = useState(0);
   const [toggle, setToggle] = useState(false);

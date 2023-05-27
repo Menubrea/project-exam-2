@@ -22,6 +22,12 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }));
 
+/**
+ * Component for displaying a venue card in filtered results
+ * @param {object} venue - venue object
+ * @param {function} handleClose - function to close the search modal
+ * @returns {JSX.Element}
+ */
 export default function SearchCard({ venue, handleClose }) {
   return (
     <StyledBox sx={{ position: 'relative' }}>

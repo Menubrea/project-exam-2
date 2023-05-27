@@ -15,7 +15,7 @@ import {
   MainThemeButton,
   MainThemeInput,
 } from '../../styles/GlobalStyles';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -31,6 +31,11 @@ const BookingSchema = yup.object({
   venueId: yup.string().required(),
 });
 
+/**
+ * Component Form for booking a venue
+ * @param {venue} venue - venue object
+ * @returns {JSX.Element}
+ */
 export default function BookingForm({ venue }) {
   const [errorMessage, setErrorMessage] = useState('');
   const token = localStorage.getItem('token');

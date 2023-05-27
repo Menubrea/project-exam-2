@@ -22,6 +22,16 @@ const EditMediaSchema = yup.object({
     .trim(),
 });
 
+/**
+ * Component for displaying a modal for updating a user's avatar
+ * @param {object} profile - the user's profile
+ * @param {boolean} open - whether the modal is open or not
+ * @param {function} handleClose - function for closing the modal
+ * @param {function} updateAvatar - function for updating the user's avatar
+ * @param {string} token - the user's token
+ * @param {string} avatar - the user's avatar
+ * @returns {JSX.Element}
+ */
 export default function UpdateAvatarModal({
   profile,
   open,

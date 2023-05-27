@@ -8,6 +8,13 @@ import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { AltMeta } from '../venueData';
 import CloseIcon from '@mui/icons-material/Close';
 
+/**
+ * Modal component for searching venues
+ * @param {boolean} open - boolean for opening modal
+ * @param {function} handleClose - function for closing modal
+ * @param {array} venues - array of venue objects
+ * @returns {JSX.Element}
+ */
 export default function SearchVenueModal({ open, handleClose, venues }) {
   const [search, setSearch] = useState('');
   const [filtered, setFiltered] = useState([]);

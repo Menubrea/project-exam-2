@@ -63,6 +63,17 @@ const Overlay = styled(Box)(() => ({
   opacity: 0,
 }));
 
+/**
+ * A modal to display the user's bookings, with tabs to display the user's selected Venue, or create a new Venue depending on state.
+ * @param {Object} venue - The venue object to be passed to the CreateVenue form
+ * @param {string} token - The user's token
+ * @param {function} setCreateVenue - A function to set the state of the CreateVenue form
+ * @param {boolean} createVenue - The state of the CreateVenue form
+ * @param {function} setProfileVenues - A function to set the state of the user's venues
+ * @param {function} setFilteredVenues - A function to set the state of the filtered venues
+ * @param {Object[]} profileVenues - The user's venues
+ * @returns {JSX.Element} - A modal to display the user's bookings
+ */
 export default function ProfileVenueBookings({
   venue,
   token,

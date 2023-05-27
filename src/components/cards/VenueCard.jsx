@@ -44,6 +44,11 @@ const StyledCard = styled(Box)(({ theme }) => ({
   },
 }));
 
+/**
+ * Primary Card for displaying a venue in the venue list
+ * @param {object} venue - venue object
+ * @returns {JSX.Element}
+ */
 export default function VenueCard({ venue }) {
   return (
     <StyledCard>

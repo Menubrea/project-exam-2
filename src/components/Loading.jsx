@@ -1,10 +1,4 @@
-import {
-  Box,
-  styled,
-  LinearProgress,
-  Typography,
-  CircularProgress,
-} from '@mui/joy';
+import { Box, styled, CircularProgress } from '@mui/joy';
 import { useState, useEffect } from 'react';
 import lightLogo from '../assets/logo-light.svg';
 import darkLogo from '../assets/logo-dark.svg';
@@ -36,6 +30,10 @@ const LoadingContainer = styled(Box)(({ theme }) => ({
   animation: `${fadeOut} 1.5s ease-in-out`,
 }));
 
+/**
+ * Component for displaying the loading screen.
+ * @returns {JSX.Element} Loading component
+ */
 export default function Loading() {
   const [progress, setProgress] = useState(0);
   const theme = useTheme();

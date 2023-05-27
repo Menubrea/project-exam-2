@@ -33,6 +33,11 @@ const StyledIconBox = styled(Box)(({ theme }) => ({
   },
 }));
 
+/**
+ * Component for displaying the alternative meta data.
+ * @param {Object} venue - venue object
+ * @returns {JSX.Element} AltMeta component
+ */
 export default function AltMeta({ venue }) {
   const { meta, maxGuests } = venue;
 

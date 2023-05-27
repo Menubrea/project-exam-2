@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 
+/**
+ * Custom hook for handling the storage listener
+ * @returns {Object} token and profile
+ */
 export default function HandleStorageListener() {
   const [token, setToken] = useState('');
   const [profile, setProfile] = useState({ name: '' });

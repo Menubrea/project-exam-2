@@ -1,6 +1,11 @@
 import { Typography } from '@mui/joy';
 import { LinkWrapper } from '../../styles/GlobalStyles';
 
+/**
+ * Component for displaying a pill for venue, used in filter menu
+ * @param {object} venue - venue object
+ * @returns {JSX.Element}
+ */
 export default function VenuePill({ venue }) {
   return (
     <LinkWrapper to={`/venue/${venue.id}`}>

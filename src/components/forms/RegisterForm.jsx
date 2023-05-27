@@ -43,6 +43,10 @@ const registerSchema = yup.object({
   venueManager: yup.boolean(),
 });
 
+/**
+ * Component for displaying a register form
+ * @returns {JSX.Element}
+ */
 export default function RegisterForm() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);

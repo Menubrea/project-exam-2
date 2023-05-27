@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import {
   Box,
   Typography,
-  Checkbox,
   styled,
   FormControl,
   FormLabel,
@@ -26,6 +25,14 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { NorwegianCounties } from '../../constants/counties';
 
+/**
+ * Component for creating a new venue
+ * @param {string} token - token for authorization
+ * @param {function} setProfileVenues - function for setting venues in profile
+ * @param {function} setFilteredVenues - function for setting filtered venues
+ * @param {function} handleCloseSlideOut - function for closing slideout
+ * @returns {JSX.Element} - JSX component for creating a new venue
+ */
 export default function CreateVenue({
   token,
   setProfileVenues,

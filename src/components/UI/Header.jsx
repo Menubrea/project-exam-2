@@ -20,6 +20,11 @@ const StyledBox = styled(Box)(({ theme }) => ({
       : `4px solid ${theme.palette.neutral[200]}`,
 }));
 
+/**
+ * Header component
+ * @param {Array} venues - array of venues
+ * @returns {JSX.Element} Header component
+ */
 export function Header({ venues }) {
   return (
     <StyledBox component={'header'}>

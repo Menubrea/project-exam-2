@@ -15,6 +15,10 @@ const ErrorContainer = styled(Box)(({ theme }) => ({
   zIndex: 1000,
 }));
 
+/**
+ * Component for displaying the error page.
+ * @returns {JSX.Element} Error component
+ */
 export default function ErrorComponent() {
   const location = useLocation();
   let logo;

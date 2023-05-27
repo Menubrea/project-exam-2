@@ -12,6 +12,9 @@ import {
 } from '@mui/joy';
 import { Link } from 'react-router-dom';
 
+/**
+ * Global Styles
+ */
 export const LinkWrapper = styled(Link)(() => ({
   textDecoration: 'none',
   color: 'inherit',

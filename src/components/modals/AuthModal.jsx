@@ -3,6 +3,13 @@ import { Modal, Box, Typography, ModalDialog, ModalClose } from '@mui/joy';
 import { LoginForm, RegisterForm } from '../forms';
 import { MainThemeButton } from '../../styles/GlobalStyles';
 
+/**
+ * Modal component for handling authentication
+ * @param {boolean} open - boolean for opening modal
+ * @param {function} handleClose - function for closing modal
+ * @param {function} handleLoggedIn - function for handling login
+ * @returns {JSX.Element}
+ */
 export default function AuthModal({ open, handleClose, handleLoggedIn }) {
   const [hasAccount, setHasAccount] = useState(true);
 

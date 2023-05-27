@@ -31,6 +31,11 @@ const TextStyle = styled(Typography)(({ theme, ...props }) => ({
   zIndex: 1,
 }));
 
+/**
+ * Component for displaying a card for venue bookings
+ * @param {array} bookings - array of bookings
+ * @returns {JSX.Element}
+ */
 export default function VenueBookingCard({ bookings }) {
   const formatDate = (date) => {
     let formatDate = new Date(date).toLocaleDateString('en-UK', {

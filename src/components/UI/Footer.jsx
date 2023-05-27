@@ -45,6 +45,10 @@ const StyledIconContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
+/**
+ * A footer with social media links
+ * @returns {JSX.Element}
+ */
 export function Footer() {
   return (
     <Box

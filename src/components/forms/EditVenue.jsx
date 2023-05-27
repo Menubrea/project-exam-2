@@ -41,6 +41,14 @@ const defaultValues = {
   },
 };
 
+/**
+ * Component for editing a venue
+ * @param {object} venue - venue object
+ * @param {function} setProfileVenues - function for setting venues in profile
+ * @param {function} handleCloseSlideOut - function for closing slide out
+ * @param {function} setFilteredVenues - function for setting filtered venues
+ * @returns {JSX.Element}
+ */
 export default function EditVenue({
   venue,
   setProfileVenues,

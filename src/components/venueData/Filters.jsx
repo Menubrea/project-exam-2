@@ -11,6 +11,11 @@ import {
 } from './filterComponents';
 import { VenuePill } from '../cards';
 
+/**
+ * Component for rendering the filters menu
+ * @param {Object} filterState - The filter state.
+ * @returns {JSX.Element}
+ */
 export default function Filters({ filterState }) {
   const {
     venues,

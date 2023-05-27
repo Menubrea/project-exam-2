@@ -98,6 +98,11 @@ const ImageContainer = styled(Box)(({}) => ({
   },
 }));
 
+/**
+ * JSX Component for Hero Section card
+ * @param { object } venue - venue object
+ * @returns JSX Element for HeroCard
+ */
 export default function HeroCard({ venue }) {
   const [description, setDescription] = useState(venue.description);
   const [count, setCount] = useState(0);
