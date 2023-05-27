@@ -129,14 +129,17 @@ export default function CreateVenue({
   const submitEdit = async (data) => {
     try {
       setLoading(true);
-      const res = await fetch(`https://api.noroff.dev/api/v1/holidaze/venues`, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await fetch(
+        `https://api.noroff.dev/api/v1/holidaze/venues?_owner=true`,
+        {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       switch (res.status) {
         case 201:
@@ -212,7 +215,7 @@ export default function CreateVenue({
             }}
             {...register('name')}
           />
-          <FormHelperText padding={0.5} level='body3' textAlign={'right'}>
+          <FormHelperText padding={0.5} level='body3'>
             {formData.name.length === 0
               ? `Please provide a name`
               : formData.name.length + '/50'}
@@ -345,7 +348,7 @@ export default function CreateVenue({
               Add
             </MainThemeButton>
           </Box>
-          <FormHelperText padding={0.5} level='body3' textAlign={'right'}>
+          <FormHelperText padding={0.5} level='body3'>
             {mediaMessage}
           </FormHelperText>
         </Box>
@@ -377,7 +380,7 @@ export default function CreateVenue({
           }}
           {...register('description')}
         />
-        <FormHelperText padding={0.5} level='body3' textAlign={'right'}>
+        <FormHelperText padding={0.5} level='body3'>
           {formData.description.length === 0
             ? `Please provide a description`
             : formData.description.length + '/480'}
@@ -448,14 +451,13 @@ export default function CreateVenue({
               type='text'
               {...register('location.address')}
             />
-            <FormHelperText padding={0.5} level='body3' textAlign={'right'}>
+            <FormHelperText padding={0.5} level='body3'>
               {formData.location.address === '' && `Please provide an address`}
             </FormHelperText>
           </FormControl>
           <FormControl sx={{ width: '100%' }}>
             <FormLabel>Region</FormLabel>
             <MainThemeSelect
-              fullWidth
               size='md'
               required={true}
               id='venueRegion'
@@ -485,7 +487,7 @@ export default function CreateVenue({
               ))}
             </MainThemeSelect>
 
-            <FormHelperText padding={0.5} level='body3' textAlign={'right'}>
+            <FormHelperText padding={0.5} level='body3'>
               {formData.location.city === '' && `Please select a region`}
             </FormHelperText>
           </FormControl>

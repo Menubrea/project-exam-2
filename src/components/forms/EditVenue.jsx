@@ -150,7 +150,7 @@ export default function EditVenue({
     try {
       setLoading(true);
       const res = await fetch(
-        `https://api.noroff.dev/api/v1/holidaze/venues/${venue.id}`,
+        `https://api.noroff.dev/api/v1/holidaze/venues/${venue.id}?_bookings=true&_owner=true`,
         {
           method: 'PUT',
           body: JSON.stringify(data),
@@ -400,9 +400,7 @@ export default function EditVenue({
           size='lg'
           {...register('description')}
         />
-        <FormHelperText textAlign={'center'}>
-          {errors.description?.message}
-        </FormHelperText>
+        <FormHelperText>{errors.description?.message}</FormHelperText>
       </FormControl>
 
       <Box
@@ -480,9 +478,11 @@ export default function EditVenue({
           )}
         </Box>
       ) : (
-        <MainThemeButton disabled textAlign={'center'}>
-          Please add at least one image
-        </MainThemeButton>
+        <Box padding={1}>
+          <MainThemeButton type='button' fullWidth disabled>
+            Please add at least one image
+          </MainThemeButton>
+        </Box>
       )}
     </EditFormContainer>
   );
