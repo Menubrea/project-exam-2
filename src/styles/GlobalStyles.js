@@ -8,6 +8,7 @@ import {
   Select,
   Option,
   Slider,
+  Checkbox,
 } from '@mui/joy';
 import { Link } from 'react-router-dom';
 
@@ -144,6 +145,15 @@ export const MainThemeSelect = styled(Select)(({ theme }) => ({
       theme.palette.mode === 'dark'
         ? theme.palette.common.white
         : theme.palette.common.black,
+  },
+}));
+
+export const StyledCheckbox = styled(Checkbox)(({ theme }) => ({
+  '& .MuiCheckbox-checkbox': {
+    border:
+      theme.palette.mode === 'dark'
+        ? `1px solid ${theme.palette.common.white}`
+        : `1px solid ${theme.palette.primary[900]}`,
   },
 }));
 

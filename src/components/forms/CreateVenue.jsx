@@ -20,6 +20,7 @@ import {
   MainThemeSelect,
   StyledOption,
   StyledButton,
+  StyledCheckbox,
 } from '../../styles/GlobalStyles';
 
 import CloseIcon from '@mui/icons-material/Close';
@@ -406,18 +407,26 @@ export default function CreateVenue({
             alignItems: 'center',
             gap: { xs: 2, sm: 2, md: 1 },
           }}>
-          <Checkbox name='meta.wifi' label='wifi' {...register('meta.wifi')} />
-          <Checkbox
+          <StyledCheckbox
+            name='meta.wifi'
+            label='wifi'
+            {...register('meta.wifi')}
+          />
+          <StyledCheckbox
             name='meta.parking'
             label='parking'
             {...register('meta.parking')}
           />
-          <Checkbox
+          <StyledCheckbox
             name='meta.breakfast'
             label='breakfast'
             {...register('meta.breakfast')}
           />
-          <Checkbox name='meta.pets' label='pets' {...register('meta.pets')} />
+          <StyledCheckbox
+            name='meta.pets'
+            label='pets'
+            {...register('meta.pets')}
+          />
         </Box>
       </Box>
       <Box sx={{ padding: 2 }}>

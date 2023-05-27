@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import {
   Box,
   Typography,
-  Checkbox,
   styled,
   FormControl,
   FormLabel,
@@ -18,6 +17,7 @@ import {
   MainThemeTextArea,
   StyledDivider,
   StyledButton,
+  StyledCheckbox,
 } from '../../styles/GlobalStyles';
 
 import CloseIcon from '@mui/icons-material/Close';
@@ -421,28 +421,28 @@ export default function EditVenue({
             alignItems: 'center',
             gap: 1,
           }}>
-          <Checkbox
+          <StyledCheckbox
             name='meta.wifi'
             label='wifi'
             {...register('meta.wifi')}
             checked={watch('meta.wifi')}
             onChange={handleSwitchChange}
           />
-          <Checkbox
+          <StyledCheckbox
             name='meta.parking'
             label='parking'
             {...register('meta.parking')}
             checked={watch('meta.parking')}
             onChange={handleSwitchChange}
           />
-          <Checkbox
+          <StyledCheckbox
             name='meta.breakfast'
             label='breakfast'
             {...register('meta.breakfast')}
             checked={watch('meta.breakfast')}
             onChange={handleSwitchChange}
           />
-          <Checkbox
+          <StyledCheckbox
             name='meta.pets'
             label='pets'
             {...register('meta.pets')}

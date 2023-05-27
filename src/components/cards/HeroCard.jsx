@@ -6,7 +6,7 @@ import { debounce } from 'lodash';
 import { AltMeta } from '../venueData';
 import { keyframes } from '@emotion/react';
 
-const HeroContainer = styled(Box)(({ theme }) => ({
+const HeroContainer = styled(Box)(() => ({
   height: 'min(calc(85vh + 50px), 1000px)',
   position: 'relative',
   overflow: 'hidden',
@@ -162,7 +162,7 @@ export default function HeroCard({ venue }) {
                   level='h6'
                   component='h1'
                   sx={{
-                    fontSize: 'clamp(1.2rem, 2vw, 1.4rem)',
+                    fontSize: 'clamp(1.2rem, 2vw, 1.6rem)',
                     textTransform: 'Uppercase',
                     fontWeight: 900,
                     lineHeight: 1,
