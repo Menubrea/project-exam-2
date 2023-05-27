@@ -12,7 +12,12 @@ const VenueContainer = styled(Box)(({ theme }) => ({
 }));
 
 const VenueWrapper = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(4),
   width: '100%',
+
+  '@media (max-width: 600px)': {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 export default function ProfileVenueList({ venues, handleBookingsSlideIn }) {
@@ -39,7 +44,7 @@ export default function ProfileVenueList({ venues, handleBookingsSlideIn }) {
   useEffect(() => {
     const searchedVenues = venues.filter((venue) => {
       if (venue.name.toLowerCase().includes(input.toLowerCase())) {
-        return true;
+        return venue;
       }
       return false;
     });

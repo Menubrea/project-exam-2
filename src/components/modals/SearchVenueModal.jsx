@@ -168,7 +168,7 @@ const StyledCard = styled(Box)(({ theme }) => ({
   },
   borderRadius: 5,
   padding: theme.spacing(1),
-  minWidth: 220,
+  minWidth: 235,
   flexGrow: 1,
   cursor: 'pointer',
 

@@ -113,6 +113,7 @@ export default function Venue({ venue, loading, error }) {
             <Box
               sx={{
                 position: 'relative',
+                height: 'fit-content',
               }}>
               <Box
                 component={'img'}

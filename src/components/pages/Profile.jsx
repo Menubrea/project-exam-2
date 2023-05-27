@@ -127,10 +127,12 @@ export default function Profile({ setFilteredVenues }) {
             marginTop: 2,
             gap: 2,
           }}>
-          <ProfileDetails
-            profile={profileData}
-            handleCreateSlide={handleCreateSlide}
-          />
+          {profileData && (
+            <ProfileDetails
+              profile={profileData}
+              handleCreateSlide={handleCreateSlide}
+            />
+          )}
 
           {profile.venueManager &&
             profileVenues &&
@@ -144,7 +146,7 @@ export default function Profile({ setFilteredVenues }) {
         </Container>
 
         {profileData.bookings && profileData.bookings.length > 0 && (
-          <Container sx={{ marginY: 2 }}>
+          <Container sx={{ marginY: { xs: 4, md: 10 } }}>
             <ProfileBookings profile={profileData} />
           </Container>
         )}

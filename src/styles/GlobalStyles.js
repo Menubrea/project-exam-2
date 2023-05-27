@@ -46,7 +46,7 @@ export const MainThemeButton = styled(Button)(({ theme }) => ({
         : theme.palette.primary[700],
   },
 
-  '& :disabled': {
+  '&:disabled': {
     backgroundColor:
       theme.palette.mode === 'dark'
         ? theme.palette.primary[800]
@@ -57,7 +57,7 @@ export const MainThemeButton = styled(Button)(({ theme }) => ({
         : theme.palette.primary[900],
   },
 
-  '& :focus-within, :focus': {
+  '&:focus-within, :focus': {
     outline:
       theme.palette.mode === 'dark'
         ? `2px solid ${theme.palette.common.white}`

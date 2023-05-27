@@ -31,7 +31,7 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
   const [filteredBookings, setFilteredBookings] = useState([]);
 
   useEffect(() => {
-    if (venue && venue.bookings) {
+    if (venue && venue.bookings && venue.bookings.length > 0) {
       const filtered = venue.bookings.filter((booking) => {
         const bookingDate = new Date(booking.dateFrom);
         const date = new Date();
@@ -43,6 +43,8 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
       });
 
       setFilteredBookings(filtered);
+    } else {
+      setFilteredBookings([]);
     }
   }, [venue]);
 
@@ -69,6 +71,7 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
       {venue && (
         <Box
           component={'img'}
+          loading='lazy'
           src={venue && venue.media[0] ? venue.media[0] : altImage}
           alt={venue.name}
           onError={(e) => (e.target.src = altImage)}
@@ -106,7 +109,8 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
               fontFamily: 'source-sans-pro, sans-serif',
               textTransform: 'uppercase',
               fontSize: '.9rem',
-              backgroundColor: 'rgba(0,0,0,.05)',
+              backgroundColor: (theme) => theme.palette.primary[600],
+              color: 'white',
               padding: 0.1,
               textAlign: 'center',
               borderRadius: 3,

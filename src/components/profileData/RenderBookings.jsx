@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Box, Tooltip, Typography } from '@mui/joy';
+import { Box, Typography } from '@mui/joy';
 import GroupsIcon from '@mui/icons-material/Groups';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 export default function RenderBookings({ profileVenues }) {
   const [profileBookings, setProfileBookings] = useState([]);
+  console.log(profileBookings);
 
   useEffect(() => {
     let date = new Date();
@@ -77,22 +78,29 @@ export default function RenderBookings({ profileVenues }) {
                       backgroundColor: (theme) =>
                         theme.palette.mode === 'dark'
                           ? theme.palette.primary[500]
-                          : theme.palette.neutral[200],
+                          : theme.palette.primary[700],
+
                       padding: 1,
                       borderRadius: 3,
                       width: 60,
                     }}>
                     <Box>
-                      <Typography>Guests</Typography>
+                      <Typography
+                        sx={{ color: (theme) => theme.palette.neutral[50] }}>
+                        Guests
+                      </Typography>
                       <Typography
                         sx={{
+                          color: 'white',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           gap: 1,
                         }}>
-                        {' '}
-                        <GroupsIcon aria-label='Number of guests' />
+                        <GroupsIcon
+                          sx={{ color: 'white' }}
+                          aria-label='Number of guests'
+                        />
                         {booking.guests}
                       </Typography>
                     </Box>
@@ -135,13 +143,24 @@ export default function RenderBookings({ profileVenues }) {
           ))}
         </Box>
       )}
-      {profileVenues.bookings && profileVenues.bookings.length === 0 && (
-        <Typography
-          level='h6'
-          component={'p'}
-          sx={{ padding: 2, textAlign: 'center' }}>
-          No bookings have been made yet.
-        </Typography>
+      {profileBookings.length === 0 && (
+        <>
+          <Typography
+            level='h6'
+            component={'p'}
+            sx={{ padding: 2, textAlign: 'center' }}>
+            No bookings have been made yet.
+          </Typography>
+          <Typography
+            sx={{
+              padding: 2,
+              backgroundColor: 'rgba(0, 0, 0, .03)',
+              borderRadius: 5,
+            }}>
+            Providing details about your venue and good images of the location
+            and surrounding areas will help attract bookings.
+          </Typography>
+        </>
       )}
     </Box>
   );
