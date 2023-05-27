@@ -4,6 +4,7 @@ import { altImage } from '../../constants/variables';
 import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 import { AltMeta } from '../venueData';
+import { keyframes } from '@emotion/react';
 
 const HeroContainer = styled(Box)(({ theme }) => ({
   height: 'min(calc(85vh + 50px), 1000px)',
@@ -13,16 +14,27 @@ const HeroContainer = styled(Box)(({ theme }) => ({
   zIndex: 0,
 }));
 
+const slideIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
 const HeroBody = styled(Box)(({ theme }) => ({
   width: '100%',
   position: 'absolute',
-  zIndex: 2,
   bottom: 0,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
   paddingBottom: theme.spacing(2),
   zIndex: 1,
+  animation: `${slideIn} .5s ease-in-out`,
 
   ':before': {
     content: '""',
@@ -42,15 +54,66 @@ const HeroBody = styled(Box)(({ theme }) => ({
   ':hover': {
     cursor: 'pointer',
   },
+
+  '@media (prefers-reduced-motion: reduce)': {
+    animation: 'none',
+  },
+}));
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const ImageContainer = styled(Box)(({}) => ({
+  '--speed': '.6s',
+  width: '100%',
+  height: 'calc(100% - 100px)',
+  position: 'absolute',
+  display: 'flex',
+  gap: '8px',
+
+  '& img': {
+    opacity: 0,
+    ':nth-of-type(1)': {
+      animation: `${fadeIn} var(--speed) ease-in-out`,
+      animationFillMode: 'forwards',
+    },
+    ':nth-of-type(2)': {
+      animation: `${fadeIn} var(--speed) ease-in-out`,
+      animationDelay: '.2s',
+      animationFillMode: 'forwards',
+    },
+  },
+
+  '@media (prefers-reduced-motion: reduce)': {
+    '& img': {
+      opacity: 1,
+      animation: 'none',
+    },
+  },
 }));
 
 export default function HeroCard({ venue }) {
   const [description, setDescription] = useState(venue.description);
   const [count, setCount] = useState(0);
+  const [imageCount, setImageCount] = useState(0);
 
   const handleResize = debounce(() => {
+    if (window.innerWidth < 800) {
+      setImageCount(1);
+    } else {
+      setImageCount(2);
+    }
     setCount(window.innerWidth / 3);
   }, 100);
+
+  const slicedImages =
+    venue.media.length > 0 && venue.media.slice(0, imageCount);
 
   useEffect(() => {
     handleResize();
@@ -69,19 +132,26 @@ export default function HeroCard({ venue }) {
 
   return (
     <HeroContainer>
-      <Box
-        component={'img'}
-        src={venue.media && venue.media[0] ? venue.media[0] : altImage}
-        alt={venue && venue.name + ' media'}
-        onError={(e) => (e.target.src = altImage)}
-        sx={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          position: 'absolute',
-          bottom: 100,
-        }}
-      />
+      <ImageContainer>
+        {slicedImages.map((image, i) => {
+          return (
+            <Box
+              key={i}
+              component={'img'}
+              src={venue.media && image ? image : altImage}
+              alt={venue && venue.name + ' media'}
+              onError={(e) => (e.target.src = altImage)}
+              sx={{
+                flexBasis: `calc(100% / ${imageCount} - (8px * ${imageCount})))`,
+                height: '100%',
+                width: '100%',
+                flex: 1,
+                objectFit: 'cover',
+              }}
+            />
+          );
+        })}
+      </ImageContainer>
       <HeroBody>
         <Container sx={{ display: 'flex' }}>
           <LinkWrapper to={`/venue/${venue.id}`}>

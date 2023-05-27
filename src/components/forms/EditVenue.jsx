@@ -3,7 +3,15 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 
-import { Box, Typography, Checkbox, styled } from '@mui/joy';
+import {
+  Box,
+  Typography,
+  Checkbox,
+  styled,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+} from '@mui/joy';
 import {
   MainThemeButton,
   MainThemeInput,
@@ -14,6 +22,25 @@ import {
 
 import CloseIcon from '@mui/icons-material/Close';
 
+const defaultValues = {
+  name: '',
+  description: '',
+  price: 0,
+  maxGuests: 1,
+  meta: {
+    wifi: false,
+    parking: false,
+    breakfast: false,
+    pets: false,
+  },
+  location: {
+    address: '',
+    city: '',
+    country: '',
+    continent: '',
+  },
+};
+
 export default function EditVenue({
   venue,
   setProfileVenues,
@@ -21,6 +48,7 @@ export default function EditVenue({
   setFilteredVenues,
 }) {
   const [mediaArray, setMediaArray] = useState([]);
+  const [mediaMessage, setMediaMessage] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -35,18 +63,30 @@ export default function EditVenue({
     setInputValue(e.target.value);
   };
 
-  const handleAddMedia = () => {
-    setMediaArray([...mediaArray, inputValue]);
-    const input = document.getElementById('addMedia');
-    input.value = '';
-  };
-
   const handleRemoveMedia = (index) => {
     setMediaArray(mediaArray.filter((item, i) => i !== index));
   };
 
+  const handleAddMedia = () => {
+    const input = document.getElementById('addMedia');
+    input.value = '';
+
+    const regex = /^https?:\/\/.*/;
+
+    if (regex.test(inputValue)) {
+      setMediaArray([...mediaArray, inputValue]);
+      setInputValue('');
+    } else {
+      setMediaMessage('Please provide a valid image url');
+      setTimeout(() => {
+        setMediaMessage('');
+      }, 3000);
+    }
+  };
+
   const editForm = useForm({
     resolver: yupResolver(EditVenueSchema),
+    mode: 'onChange',
     defaultValues: {
       name: venue.name,
       description: venue.description,
@@ -67,17 +107,31 @@ export default function EditVenue({
     },
   });
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    formState: { errors },
+  } = editForm;
+
+  const handleSwitchChange = (event) => {
+    const { name, checked } = event.target;
+    setValue(name, checked);
+  };
+
   useEffect(() => {
-    editForm.reset({
+    reset({
       name: venue.name,
       description: venue.description,
       price: venue.price,
       maxGuests: venue.maxGuests,
       meta: {
-        wifi: venue.meta.wifi,
-        parking: venue.meta.parking,
-        breakfast: venue.meta.breakfast,
-        pets: venue.meta.pets,
+        wifi: venue.meta.wifi || defaultValues.meta.wifi,
+        parking: venue.meta.parking || defaultValues.meta.parking,
+        breakfast: venue.meta.breakfast || defaultValues.meta.breakfast,
+        pets: venue.meta.pets || defaultValues.meta.pets,
       },
       location: {
         address: venue.location.address,
@@ -86,23 +140,17 @@ export default function EditVenue({
         continent: venue.location.continent,
       },
     });
-  }, [venue, editForm]);
+  }, [venue, editForm, reset]);
 
   useEffect(() => {
     editForm.setValue('media', mediaArray);
   }, [editForm, mediaArray]);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = editForm;
-
   const submitEdit = async (data) => {
     try {
       setLoading(true);
       const res = await fetch(
-        `https://api.noroff.dev/api/v1/holidaze/venues/${venue.id}`,
+        `https://api.noroff.dev/api/v1/holidaze/venues/${venue.id}?_bookings=true&_owner=true`,
         {
           method: 'PUT',
           body: JSON.stringify(data),
@@ -123,6 +171,7 @@ export default function EditVenue({
             venue.id === editedVenue.id ? editedVenue : venue
           );
         });
+
         setFilteredVenues((prev) => {
           return prev.map((venue) =>
             venue.id === editedVenue.id ? editedVenue : venue
@@ -131,6 +180,7 @@ export default function EditVenue({
         setTimeout(() => {
           handleCloseSlideOut();
         }, 1000);
+
         setLoading(false);
       } else {
         setMessage('Something went wrong, please try again');
@@ -146,6 +196,12 @@ export default function EditVenue({
     }
   };
 
+  const handleImageSetMain = (index) => {
+    const mainImage = mediaArray[index];
+    const newMediaArray = mediaArray.filter((item, i) => i !== index);
+    setMediaArray([mainImage, ...newMediaArray]);
+  };
+
   return (
     <EditFormContainer
       id='editVenueForm'
@@ -153,8 +209,8 @@ export default function EditVenue({
       component={'form'}
       onSubmit={handleSubmit(submitEdit)}>
       <Box sx={{ padding: 2 }}>
-        <Typography level='h6' component={'h3'}>
-          Updating your venue
+        <Typography level='h6' component={'h2'}>
+          Update your venue
         </Typography>
         <Typography>
           Here you can make adjustments to your venue, you may find that some
@@ -171,23 +227,31 @@ export default function EditVenue({
               ? `1px solid ${theme.palette.common.white}`
               : `1px solid ${theme.palette.primary[900]}`,
         }}>
-        <Box sx={{ width: '100%' }}>
-          <Typography htmlFor='venueName'>Name</Typography>
+        <FormControl sx={{ width: '100%' }}>
+          <FormLabel>Name</FormLabel>
           <MainThemeInput
-            size='sm'
+            size='md'
             id='venueName'
             required
+            slotProps={{
+              input: {
+                minLength: 1,
+                maxLength: 50,
+                pattern: '[a-zA-Z\\s]+',
+                title: 'Only letters and spaces are allowed',
+              },
+            }}
             type='text'
             name='name'
             {...register('name')}
           />
-          <Typography level='body3'>{errors.name?.message}</Typography>
-        </Box>
-        <Box>
-          <Typography htmlFor='venuePrice'>Price</Typography>
+          <FormHelperText>{errors.name?.message}</FormHelperText>
+        </FormControl>
+        <FormControl>
+          <FormLabel>Price</FormLabel>
           <MainThemeInput
             sx={{ maxWidth: { xs: '100%', sm: '100px' } }}
-            size='sm'
+            size='md'
             id='venuePrice'
             required
             type='number'
@@ -195,20 +259,20 @@ export default function EditVenue({
             slotProps={{
               input: {
                 inputMode: 'numeric',
-                pattern: '[0-9]*',
+                pattern: '[1-9]*',
                 min: 1,
               },
             }}
             {...register('price')}
           />
-          <Typography level='body3'>{errors.price?.message}</Typography>
-        </Box>
+          <FormHelperText level='body3'>{errors.price?.message}</FormHelperText>
+        </FormControl>
 
-        <Box>
-          <Typography htmlFor='venueMaxGuests'>Guests</Typography>
+        <FormControl>
+          <FormLabel>Guests</FormLabel>
           <MainThemeInput
             sx={{ maxWidth: { xs: '100%', sm: '100px' } }}
-            size='sm'
+            size='md'
             id='venueMaxGuests'
             required
             type='number'
@@ -216,15 +280,16 @@ export default function EditVenue({
             slotProps={{
               input: {
                 inputMode: 'numeric',
-                pattern: '[0-9]*',
+                pattern: '[1-9]*',
+                defaultValue: 1,
                 min: 1,
                 max: 100,
               },
             }}
             {...register('maxGuests')}
           />
-          <Typography level='body3'>{errors.maxGuests?.message}</Typography>
-        </Box>
+          <FormHelperText>{errors.maxGuests?.message}</FormHelperText>
+        </FormControl>
       </FlexContainer>
       <Box
         sx={{
@@ -234,6 +299,11 @@ export default function EditVenue({
               ? `1px solid ${theme.palette.common.white}`
               : `1px solid ${theme.palette.primary[900]}`,
         }}>
+        {mediaArray.length > 1 && (
+          <Typography sx={{ textAlign: 'center', marginBottom: 1 }}>
+            Click image to set as new main image (image 1).
+          </Typography>
+        )}
         <Box
           sx={{
             display: 'grid',
@@ -248,11 +318,16 @@ export default function EditVenue({
                 </Typography>
                 <Box position={'relative'}>
                   <Box
+                    onClick={() => handleImageSetMain(index)}
                     sx={{
                       width: '100%',
                       height: '200px',
                       overflow: 'hidden',
                       objectFit: 'cover',
+                      cursor: 'pointer',
+                      '&:hover': {
+                        opacity: 0.8,
+                      },
                     }}
                     component={'img'}
                     src={mediaItem}
@@ -265,7 +340,8 @@ export default function EditVenue({
                       top: '-1px',
                       right: '-1px',
                     }}
-                    size='sm'
+                    aria-label='Remove image'
+                    size='md'
                     type='button'
                     onClick={() => handleRemoveMedia(index)}>
                     <CloseIcon
@@ -273,19 +349,28 @@ export default function EditVenue({
                     />
                   </StyledButton>
                 </Box>
-                <Typography>{errors.media?.message}</Typography>
               </Box>
             ))
           ) : (
             <Typography>No media</Typography>
           )}
         </Box>
+        <Box>
+          {mediaMessage && (
+            <Typography textAlign={'center'}>{mediaMessage}</Typography>
+          )}
+        </Box>
         <Box marginTop={1}>
-          <Typography>Add images</Typography>
+          <Typography htmlFor='addMedia' component={'label'}>
+            Add images
+          </Typography>
           <Box sx={{ display: 'flex', gap: 1 }}>
             <MainThemeInput
               id='addMedia'
               onChange={handleInputChange}
+              name='addMedia'
+              placeholder='Add image url'
+              aria-description='Add image url'
               fullWidth
               type='text'
             />
@@ -298,7 +383,7 @@ export default function EditVenue({
         </Box>
       </Box>
 
-      <Box
+      <FormControl
         sx={{
           padding: 2,
           borderBottom: (theme) =>
@@ -306,7 +391,7 @@ export default function EditVenue({
               ? `1px solid ${theme.palette.common.white}`
               : `1px solid ${theme.palette.primary[900]}`,
         }}>
-        <Typography htmlFor='venueDescription'>Description</Typography>
+        <FormLabel>Description</FormLabel>
         <MainThemeTextArea
           minRows={2}
           required
@@ -315,7 +400,9 @@ export default function EditVenue({
           size='lg'
           {...register('description')}
         />
-      </Box>
+        <FormHelperText>{errors.description?.message}</FormHelperText>
+      </FormControl>
+
       <Box
         sx={{
           paddingX: 2,
@@ -325,7 +412,7 @@ export default function EditVenue({
               ? `1px solid ${theme.palette.common.white}`
               : `1px solid ${theme.palette.primary[900]}`,
         }}>
-        <Typography htmlFor='venueMeta'>Change access to:</Typography>
+        <Typography>Change access to:</Typography>
         <Box
           sx={{
             display: 'flex',
@@ -334,18 +421,34 @@ export default function EditVenue({
             alignItems: 'center',
             gap: 1,
           }}>
-          <Checkbox name='meta.wifi' label='wifi' {...register('meta.wifi')} />
+          <Checkbox
+            name='meta.wifi'
+            label='wifi'
+            {...register('meta.wifi')}
+            checked={watch('meta.wifi')}
+            onChange={handleSwitchChange}
+          />
           <Checkbox
             name='meta.parking'
             label='parking'
             {...register('meta.parking')}
+            checked={watch('meta.parking')}
+            onChange={handleSwitchChange}
           />
           <Checkbox
             name='meta.breakfast'
             label='breakfast'
             {...register('meta.breakfast')}
+            checked={watch('meta.breakfast')}
+            onChange={handleSwitchChange}
           />
-          <Checkbox name='meta.pets' label='pets' {...register('meta.pets')} />
+          <Checkbox
+            name='meta.pets'
+            label='pets'
+            {...register('meta.pets')}
+            checked={watch('meta.pets')}
+            onChange={handleSwitchChange}
+          />
         </Box>
       </Box>
       {message && (
@@ -362,17 +465,25 @@ export default function EditVenue({
           {message}
         </Typography>
       )}
-      <Box padding={1} marginTop={0}>
-        {loading ? (
-          <MainThemeButton loading loadingPosition='start' fullWidth>
-            Updating Venue
+      {mediaArray.length >= 1 ? (
+        <Box padding={1} marginTop={0}>
+          {loading ? (
+            <MainThemeButton loading loadingPosition='start' fullWidth>
+              Updating Venue
+            </MainThemeButton>
+          ) : (
+            <MainThemeButton fullWidth type='submit'>
+              Update Venue
+            </MainThemeButton>
+          )}
+        </Box>
+      ) : (
+        <Box padding={1}>
+          <MainThemeButton type='button' fullWidth disabled>
+            Please add at least one image
           </MainThemeButton>
-        ) : (
-          <MainThemeButton fullWidth type='submit'>
-            Update Venue
-          </MainThemeButton>
-        )}
-      </Box>
+        </Box>
+      )}
     </EditFormContainer>
   );
 }
@@ -402,12 +513,32 @@ const EditFormContainer = styled(Box)(({ theme }) => ({
 }));
 
 const EditVenueSchema = yup.object({
-  name: yup.string().required().trim(),
-  description: yup.string().required().trim(),
+  name: yup
+    .string()
+    .required('Name is required')
+    .matches(/^[a-zA-Z\s]*$/, 'Must only contain letters and spaces')
+    .trim(),
+  description: yup
+    .string()
+    .required('Description is required')
+    .min(1, 'Must at least be 1 character')
+    .max(480, 'Must be less than 480 characters')
+    .trim(),
+
   media: yup.array().of(yup.string().trim()),
 
-  price: yup.number().required().min(1),
-  maxGuests: yup.number().required().min(1).max(100),
+  price: yup
+    .number()
+    .required('Price is required')
+    .typeError('Price must be a number greater than 1')
+    .min(1, 'Price must be a number greater than 1'),
+
+  maxGuests: yup
+    .number()
+    .required('Guests is required')
+    .typeError('Guests must be a number between 1-100')
+    .min(1)
+    .max(100),
 
   meta: yup.object().shape({
     wifi: yup.boolean(),

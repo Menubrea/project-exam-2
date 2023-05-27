@@ -4,14 +4,19 @@ import { altImage } from '../../constants/variables';
 
 const StyledVenueCard = styled(Box)(({ theme }) => ({
   display: 'flex',
-  gap: theme.spacing(2),
+  gap: theme.spacing(1),
   backgroundColor:
     theme.palette.mode === 'dark'
-      ? theme.palette.primary[700]
+      ? theme.palette.primary[500]
       : theme.palette.neutral[100],
+
   padding: theme.spacing(1),
   borderRadius: theme.spacing(0.5),
   position: 'relative',
+  flexGrow: 1,
+  flexBasis: 'calc(50% - 16px)',
+  minWidth: '280px',
+  maxHeight: '80px',
 
   '&:hover': {
     cursor: 'pointer',
@@ -19,26 +24,15 @@ const StyledVenueCard = styled(Box)(({ theme }) => ({
       theme.palette.mode === 'dark'
         ? `linear-gradient(-125deg, ${theme.palette.primary[500]} 0%, ${theme.palette.primary[800]} 100%)`
         : `linear-gradient(-125deg, ${theme.palette.neutral[50]} 0%, ${theme.palette.neutral[500]} 100%)`,
-    outline:
-      theme.palette.mode === 'dark'
-        ? `1px solid ${theme.palette.common.white}`
-        : `1px solid ${theme.palette.primary[900]}`,
   },
 }));
 
 export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
-  const [thisVenue, setThisVenue] = useState({ ...venue, bookings: [] });
   const [filteredBookings, setFilteredBookings] = useState([]);
 
   useEffect(() => {
-    if (venue) {
-      setThisVenue(venue);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (thisVenue && thisVenue.bookings) {
-      const filtered = thisVenue.bookings.filter((booking) => {
+    if (venue && venue.bookings && venue.bookings.length > 0) {
+      const filtered = venue.bookings.filter((booking) => {
         const bookingDate = new Date(booking.dateFrom);
         const date = new Date();
         return bookingDate >= date;
@@ -49,8 +43,10 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
       });
 
       setFilteredBookings(filtered);
+    } else {
+      setFilteredBookings([]);
     }
-  }, [thisVenue]);
+  }, [venue]);
 
   const formatDate = (date) => {
     let formatDate = new Date(date).toLocaleDateString('en-UK', {
@@ -63,14 +59,21 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
 
   return (
     <StyledVenueCard
-      id={thisVenue.id}
+      tabIndex={0}
+      id={venue.id}
       sx={{ display: 'flex', gap: 1 }}
-      onClick={handleBookingsSlideIn}>
-      {thisVenue && (
+      onClick={handleBookingsSlideIn}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          handleBookingsSlideIn(e);
+        }
+      }}>
+      {venue && (
         <Box
           component={'img'}
-          src={thisVenue && thisVenue.media[0] ? thisVenue.media[0] : altImage}
-          alt={thisVenue.name}
+          loading='lazy'
+          src={venue && venue.media[0] ? venue.media[0] : altImage}
+          alt={venue.name}
           onError={(e) => (e.target.src = altImage)}
           sx={{
             width: '100%',
@@ -90,13 +93,13 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
             fontWeight: 700,
             lineHeight: 1,
           }}>
-          {thisVenue.name.length > 25
-            ? thisVenue.name.slice(0, 25) + '...'
-            : thisVenue.name}
+          {venue.name.length > 25
+            ? venue.name.slice(0, 25) + '...'
+            : venue.name}
         </Typography>
-        {thisVenue && thisVenue.bookings && (
+        {venue && filteredBookings.length > 0 && (
           <Typography level='body1' component={'p'}>
-            Upcoming booking(s): {filteredBookings.length}
+            Booking(s): {filteredBookings.length}
           </Typography>
         )}
         {filteredBookings.length > 0 && (
@@ -106,7 +109,8 @@ export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
               fontFamily: 'source-sans-pro, sans-serif',
               textTransform: 'uppercase',
               fontSize: '.9rem',
-              backgroundColor: 'rgba(0,0,0,.05)',
+              backgroundColor: (theme) => theme.palette.primary[600],
+              color: 'white',
               padding: 0.1,
               textAlign: 'center',
               borderRadius: 3,

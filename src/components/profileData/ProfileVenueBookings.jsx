@@ -31,12 +31,12 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 }));
 
 const BookingsContainer = styled(Box)(({ theme }) => ({
-  height: '100vh',
+  height: 'calc(100vh - 54px)',
   overflowY: 'scroll',
   position: 'fixed',
-  top: 0,
   left: 0,
-  zIndex: 1000,
+  bottom: 0,
+  zIndex: 10,
   transform: 'translateX(-100%)',
   padding: theme.spacing(2),
 
@@ -44,6 +44,10 @@ const BookingsContainer = styled(Box)(({ theme }) => ({
     theme.palette.mode === 'dark'
       ? `linear-gradient(-90deg, ${theme.palette.primary[500]} 0%, ${theme.palette.primary[700]} 100%)`
       : `linear-gradient(-90deg, ${theme.palette.neutral[50]} 0%, ${theme.palette.neutral[500]} 100%)`,
+
+  '@media (max-width: 600px)': {
+    paddingBottom: '65px',
+  },
 }));
 
 const Overlay = styled(Box)(() => ({
@@ -52,8 +56,8 @@ const Overlay = styled(Box)(() => ({
   height: '100vh',
   top: 0,
   left: 0,
-  zIndex: 999,
-  backgroundColor: 'rgba(255,255,255,0.1)',
+  zIndex: 9,
+  backgroundColor: 'rgba(0,0,0,0.1)',
   backdropFilter: 'blur(10px)',
   transform: 'translateX(-100%)',
   opacity: 0,
@@ -73,13 +77,20 @@ export default function ProfileVenueBookings({
     const overlay = document.getElementById('overlay');
     overlay.style.transform = 'translateX(-100%)';
     bookingsContainer.style.transform = 'translateX(-100%)';
-    bookingsContainer.style.transition = 'transform 0.5s ease-in-out';
+    bookingsContainer.style.transition = 'transform 0.3s ease-in-out';
+    document.body.style.overflowY = 'auto';
 
     if (createVenue) {
       setTimeout(() => {
         setCreateVenue(false);
       }, 500);
     }
+
+    return () => {
+      bookingsContainer.style.transform = 'translateX(-100%)';
+      overlay.style.transform = 'translateX(-1000%)';
+      document.body.style.overflowY = 'auto';
+    };
   };
 
   return (
@@ -102,7 +113,7 @@ export default function ProfileVenueBookings({
                     ? `1px solid ${theme.palette.common.white}`
                     : `1px solid ${theme.palette.primary[900]}`,
               }}>
-              <Typography level='h6' component={'p'} sx={{ paddingX: 1 }}>
+              <Typography level='h6' component={'h2'} sx={{ paddingX: 1 }}>
                 Managing {venue.name}
               </Typography>
               <MainThemeButton

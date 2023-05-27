@@ -1,7 +1,5 @@
 import { Typography, Box, styled } from '@mui/joy';
 import { Link } from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/Home';
-import GlobeIcon from '@mui/icons-material/Public';
 
 const StyledNavElement = styled(Link)(({ theme }) => ({
   textDecoration: 'none',
@@ -15,24 +13,19 @@ const StyledNavElement = styled(Link)(({ theme }) => ({
   ':before': {
     content: '""',
     position: 'absolute',
-    bottom: '0',
-    left: 0,
-    width: '3px',
-    height: '100%',
-    borderRadius: '5px',
-    background:
-      theme.palette.mode === 'dark'
-        ? `linear-gradient(180deg, ${theme.palette.primary[300]}, ${theme.palette.primary[400]})`
-        : `linear-gradient(180deg, ${theme.palette.neutral[200]}, ${theme.palette.neutral[300]})`,
-    transform: 'scaleY(0)',
+    bottom: 2,
+    width: '100%',
+    height: '3px',
+    background: `linear-gradient(180deg, ${theme.palette.primary[300]}, ${theme.palette.primary[400]})`,
+    transform: 'scaleX(0)',
     transition: 'transform 0.3s ease-in-out',
-    transformOrigin: 'top',
+    transformOrigin: 'right',
     zIndex: '-1',
   },
 
   ':hover:before': {
-    transform: 'scaleY(1)',
-    transformOrigin: 'bottom',
+    transform: 'scaleX(1)',
+    transformOrigin: 'left',
   },
 
   '& p': {

@@ -10,7 +10,7 @@ export default function FilterRegion({ region, setRegion, regionArray }) {
       <MainThemeSelect
         value={region}
         id='setRegion'
-        size='sm'
+        size='md'
         aria-label='Choose Region'
         aria-roledescription='Choose Region'
         placeholder='Choose Region'>

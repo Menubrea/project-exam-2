@@ -84,7 +84,7 @@ export default function MainMenu() {
         id='login-button'
         size='sm'
         onClick={handleMenu}>
-        {!isLoggedIn ? 'Login' : 'My Account'}
+        {!isLoggedIn ? 'Login' : 'Account'}
       </MainThemeButton>
       <LoggedInMenu
         anchorEl={anchorEl}

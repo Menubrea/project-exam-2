@@ -28,7 +28,7 @@ export function Header({ venues }) {
           position: 'absolute',
           left: '50%',
           transform: 'translateX(-50%)',
-          bottom: '-25px',
+          bottom: '-21px',
         }}>
         <Searching venues={venues} />
       </Box>
@@ -52,7 +52,7 @@ export function Header({ venues }) {
             <Navigation />
           </Box>
         </Box>
-        <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box sx={{ display: 'flex', gap: { xs: 0.5, sm: 1 } }}>
           <ChangeTheme />
 
           <MainMenu />

@@ -3,6 +3,20 @@ import Twitter from '@mui/icons-material/Twitter';
 import Facebook from '@mui/icons-material/Facebook';
 import Instagram from '@mui/icons-material/Instagram';
 import Github from '@mui/icons-material/GitHub';
+import { keyframes } from '@emotion/react';
+
+const fadeIn = keyframes`
+ 0% {
+  opacity: 0;
+  
+}
+ 50% {
+  opacity: 0;
+ }
+  100% {
+    opacity: 1;
+  }
+`;
 
 const StyledIconContainer = styled(Box)(({ theme }) => ({
   overflow: 'hidden',
@@ -33,7 +47,13 @@ const StyledIconContainer = styled(Box)(({ theme }) => ({
 
 export function Footer() {
   return (
-    <Box sx={{ paddingTop: 4, paddingBottom: '75px' }} component={'footer'}>
+    <Box
+      sx={{
+        paddingTop: 4,
+        paddingBottom: { xs: '75px', sm: 4 },
+        animation: `${fadeIn} 3s ease-in-out`,
+      }}
+      component={'footer'}>
       <StyledIconContainer>
         <Twitter /> <Facebook /> <Instagram /> <Github />
       </StyledIconContainer>

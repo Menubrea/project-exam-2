@@ -77,8 +77,6 @@ export default function LoginForm({ onLoginSuccess }) {
     }
   };
 
-  console.log(errors);
-
   return (
     <Box
       sx={{ padding: 2 }}

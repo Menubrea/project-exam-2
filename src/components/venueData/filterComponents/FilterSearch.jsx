@@ -14,7 +14,7 @@ export default function FilterSearch({ search, setSearch, handleSearch }) {
           fullWidth
           id='search-input'
           onChange={handleSearch}
-          size='sm'
+          size='md'
           placeholder={'Search by name'}
         />
         {search.length > 0 && (

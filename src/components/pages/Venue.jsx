@@ -4,11 +4,16 @@ import { useParams } from 'react-router-dom';
 import { BookingForm } from '../forms';
 import { AltMeta, LocationMeta } from '../venueData';
 import { ImageModal } from '../modals';
-import { MainThemeButton } from '../../styles/GlobalStyles';
+import {
+  MainGrid,
+  MainThemeButton,
+  StyledDivider,
+} from '../../styles/GlobalStyles';
 import { AuthContainer } from '../UI/UI_components';
 import { altImage } from '../../constants/variables';
 import AppMeta from '../AppMeta';
 import { BreadCrumbsNav } from '../UI';
+import { VenueCard } from '../cards';
 
 const StyledMainGrid = styled(Container)(() => ({
   display: 'grid',
@@ -26,6 +31,7 @@ const VenueDetails = styled(Box)(({ theme }) => ({
 export default function Venue({ venue, loading, error }) {
   const { id } = useParams();
   const [venueById, setVenueById] = useState();
+  const [similarVenues, setSimilarVenues] = useState([]);
   const [open, setOpen] = useState(false);
   const [profile, setProfile] = useState({ name: '' });
 
@@ -43,6 +49,20 @@ export default function Venue({ venue, loading, error }) {
     );
     setVenueById(selectedVenue);
   }, [venue, id]);
+
+  useEffect(() => {
+    if (venueById) {
+      const similar = venue.filter((filteredVenue) => {
+        if (
+          filteredVenue.location.city.includes(venueById.location.city) &&
+          filteredVenue.id !== venueById.id
+        ) {
+          return true;
+        }
+      });
+      setSimilarVenues(similar);
+    }
+  }, [venue, venueById]);
 
   useEffect(() => {
     const storedProfile = localStorage.getItem('profile');
@@ -89,46 +109,51 @@ export default function Venue({ venue, loading, error }) {
             paddingX: { xs: 0, md: 2, lg: 0 },
             gap: { xs: 0, sm: 0, md: 2 },
           }}>
-          <Box
-            sx={{
-              gridColumn: { xs: '-1 / -1', md: ' 1 / 8' },
-              position: 'relative',
-            }}>
+          <Box sx={{ gridColumn: { xs: '-1 / -1', md: ' 1 / 8' } }}>
             <Box
-              component={'img'}
-              src={
-                venueById && venueById.media[0] ? venueById.media[0] : altImage
-              }
-              alt={venueById && venueById.name}
-              onError={(e) => (e.target.src = { altImage })}
               sx={{
-                width: '100%',
-                height: '100%',
-                maxHeight: 'max(550px, 50vh)',
-
-                objectFit: 'cover',
-                borderRadius: { xs: 0, sm: 0, md: '.5rem' },
-              }}
-              onClick={handleOpen}
-            />
-
-            {venueById && venueById.media.length > 1 && (
-              <MainThemeButton
-                onClick={handleOpen}
+                position: 'relative',
+                height: 'fit-content',
+              }}>
+              <Box
+                component={'img'}
+                src={
+                  venueById && venueById.media[0]
+                    ? venueById.media[0]
+                    : altImage
+                }
+                alt={venueById && venueById.name}
+                onError={(e) => (e.target.src = { altImage })}
                 sx={{
-                  position: 'absolute',
-                  top: { xs: 60, sm: 60, md: 20 },
-                  right: 20,
-                  display: { xs: 'none', sm: 'block' },
-                }}>
-                View Gallery of all {venueById.media.length} images
-              </MainThemeButton>
-            )}
-            <ImageModal
-              venue={venueById}
-              open={open}
-              handleClose={handleClose}
-            />
+                  width: '100%',
+                  height: '100%',
+                  maxHeight: 'max(550px, 50vh)',
+
+                  objectFit: 'cover',
+                  borderRadius: { xs: 0, sm: 0, md: '.5rem' },
+                }}
+                onClick={handleOpen}
+              />
+
+              {venueById && venueById.media.length > 1 && (
+                <MainThemeButton
+                  size='sm'
+                  onClick={handleOpen}
+                  sx={{
+                    position: 'absolute',
+                    top: 20,
+                    right: 20,
+                    display: 'block',
+                  }}>
+                  {venueById.media.length} more images
+                </MainThemeButton>
+              )}
+              <ImageModal
+                venue={venueById}
+                open={open}
+                handleClose={handleClose}
+              />
+            </Box>
           </Box>
 
           <VenueDetails
@@ -173,6 +198,27 @@ export default function Venue({ venue, loading, error }) {
             {venueById && profile.name === '' && <AuthContainer />}
           </VenueDetails>
         </StyledMainGrid>
+
+        {similarVenues.length > 0 && (
+          <Box
+            maxWidth={1200}
+            sx={{
+              paddingTop: 4,
+              margin: '2em auto',
+              padding: { xs: '0 1em', lg: 0 },
+            }}
+            component={'section'}>
+            <Typography level='h4' component={'h2'}>
+              Other venues in the area:
+            </Typography>
+            <MainGrid>
+              {similarVenues &&
+                similarVenues.map((venue) => (
+                  <VenueCard key={venue.id} venue={venue} />
+                ))}
+            </MainGrid>
+          </Box>
+        )}
       </Box>
     );
   }

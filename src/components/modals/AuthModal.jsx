@@ -26,10 +26,9 @@ export default function AuthModal({ open, handleClose, handleLoggedIn }) {
             theme.palette.mode === 'dark'
               ? theme.palette.primary[500]
               : theme.palette.neutral[50],
-        }}
-        aria-labelledby='modal-title'
-        aria-describedby='modal-description'>
+        }}>
         <ModalClose
+          aria-label='close menu'
           variant='solid'
           color='primary'
           size='sm'

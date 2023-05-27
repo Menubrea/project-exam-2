@@ -1,8 +1,24 @@
-import { Box, styled, LinearProgress, Typography } from '@mui/joy';
+import {
+  Box,
+  styled,
+  LinearProgress,
+  Typography,
+  CircularProgress,
+} from '@mui/joy';
 import { useState, useEffect } from 'react';
 import lightLogo from '../assets/logo-light.svg';
 import darkLogo from '../assets/logo-dark.svg';
 import { useTheme } from '@mui/joy';
+import { keyframes } from '@emotion/react';
+
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
 
 const LoadingContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -17,6 +33,7 @@ const LoadingContainer = styled(Box)(({ theme }) => ({
       : theme.palette.neutral[100],
   overflow: 'hidden',
   zIndex: 999,
+  animation: `${fadeOut} 1.5s ease-in-out`,
 }));
 
 export default function Loading() {
@@ -40,15 +57,13 @@ export default function Loading() {
 
   return (
     <LoadingContainer>
-      <Box sx={{ width: { xs: '200px', sm: '400px', md: '700px' } }}>
-        <Box
-          component={'img'}
-          src={logo}
-          alt='Holidaze Logo'
-          sx={{ width: '100px', height: '30px' }}
-        />
-        <LinearProgress determinate value={progress} />
-      </Box>
+      <Box
+        component={'img'}
+        src={logo}
+        alt='Holidaze Logo'
+        sx={{ width: '100px', height: '30px', marginBottom: 2 }}
+      />
+      <CircularProgress />
     </LoadingContainer>
   );
 }
