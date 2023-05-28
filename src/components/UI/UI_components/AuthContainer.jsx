@@ -4,11 +4,12 @@ import { MainThemeButton } from '../../../styles/GlobalStyles';
 const AuthBox = styled(Box)(({ theme }) => ({
   backgroundColor:
     theme.palette.mode === 'dark'
-      ? theme.palette.primary[800]
+      ? theme.palette.primary[500]
       : theme.palette.neutral[100],
   padding: theme.spacing(2),
   borderRadius: 5,
-  margin: theme.spacing(5),
+  margin: theme.spacing(5, 0, 0),
+  boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
 }));
 
 /**
