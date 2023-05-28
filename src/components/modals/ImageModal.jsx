@@ -148,6 +148,7 @@ export default function ImageModal({ venue, open, handleClose }) {
                 onError={(e) => (e.target.src = altImage)}
                 sx={{
                   height: '100%',
+                  width: '100%',
                   flexBasis: 'calc(50% - 4px)',
                   flexGrow: 1,
                   objectFit: 'cover',
