@@ -7,19 +7,16 @@ const StyledTitle = styled(Typography)(({ theme }) => ({
   fontFamily: 'amatic-sc, sans-serif',
   fontWeight: 700,
   padding: theme.spacing(0.5, 2, 1),
-  width: '100%',
+  width: '105%',
   textAlign: 'left',
   position: 'absolute',
   borderTop: `1px solid ${theme.palette.common.white}`,
-  borderBottom: 0,
-  left: '50%',
-  transform: 'translateX(-50%)',
   bottom: 0,
   background: `linear-gradient(-90deg, ${theme.palette.primary[500]} 0%, ${theme.palette.primary[700]} 100%)`,
   color: theme.palette.common.white,
 }));
 
-const StyledCard = styled(Box)(({ theme }) => ({
+const StyledCard = styled(Box)(() => ({
   flexBasis: `calc(33.333% - 1em)`,
   minWidth: 260,
   maxWidth: 575,
