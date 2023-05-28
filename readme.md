@@ -22,6 +22,7 @@ const demoAccount = 'SuperMarker'; // Change this string value to the name of yo
 ```
 
 ### Getting started
+Clone repository from `main`.
 
 #### Install dependencies with CLI command:
 
