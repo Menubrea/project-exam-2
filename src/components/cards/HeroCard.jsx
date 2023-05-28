@@ -12,6 +12,10 @@ const HeroContainer = styled(Box)(() => ({
   overflow: 'hidden',
   top: 0,
   zIndex: 0,
+
+  '@media (max-width: 600px)': {
+    height: '600px',
+  },
 }));
 
 const slideIn = keyframes`
@@ -41,9 +45,9 @@ const HeroBody = styled(Box)(({ theme }) => ({
     zIndex: -1,
     position: 'absolute',
     left: 0,
-    width: '120vw',
-    height: '170%',
-    bottom: 80,
+    width: '100vw',
+    height: '150%',
+    bottom: 40,
     backgroundColor:
       theme.palette.mode === 'dark'
         ? theme.palette.primary[500]
@@ -71,6 +75,10 @@ const HeroBody = styled(Box)(({ theme }) => ({
 
   '@media (max-width: 800px)': {
     padding: theme.spacing(2, 0),
+    ':before': {
+      height: '170%',
+      bottom: 80,
+    },
   },
 }));
 
@@ -123,7 +131,7 @@ export default function HeroCard({ venue }) {
   const [imageCount, setImageCount] = useState(0);
 
   const handleResize = debounce(() => {
-    if (window.innerWidth < 800) {
+    if (window.innerWidth < 1000) {
       setImageCount(1);
     } else {
       setImageCount(2);
@@ -161,9 +169,8 @@ export default function HeroCard({ venue }) {
               alt={venue && venue.name + ' media'}
               onError={(e) => (e.target.src = altImage)}
               sx={{
-                flexBasis: `calc(100% / ${imageCount} - (8px * ${imageCount})))`,
-                height: '100%',
-                width: '100%',
+                flexBasis: 100,
+                width: `calc(100% / ${imageCount} - 8px)`,
                 flex: 1,
                 objectFit: 'cover',
               }}
@@ -181,7 +188,7 @@ export default function HeroCard({ venue }) {
                   level='h6'
                   component='h1'
                   sx={{
-                    fontSize: 'clamp(1.2rem, 2vw, 1.6rem)',
+                    fontSize: 'clamp(1.2rem, 2vw, 1.5rem)',
                     textTransform: 'Uppercase',
                     fontWeight: 900,
                     lineHeight: 1,
