@@ -118,7 +118,6 @@ export default function BookingForm({ venue }) {
           );
           break;
         default:
-          console.log('error');
           setErrorMessage('Something went wrong, please try again');
           throw new Error('Something went wrong, please try again');
       }

@@ -4,11 +4,7 @@ import { useParams } from 'react-router-dom';
 import { BookingForm } from '../forms';
 import { AltMeta, LocationMeta } from '../venueData';
 import { ImageModal } from '../modals';
-import {
-  MainGrid,
-  MainThemeButton,
-  StyledDivider,
-} from '../../styles/GlobalStyles';
+import { MainGrid, MainThemeButton } from '../../styles/GlobalStyles';
 import { AuthContainer } from '../UI/UI_components';
 import { altImage } from '../../constants/variables';
 import AppMeta from '../AppMeta';

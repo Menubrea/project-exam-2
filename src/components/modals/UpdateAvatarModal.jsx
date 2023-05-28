@@ -12,7 +12,7 @@ import { MainThemeButton, MainThemeInput } from '../../styles/GlobalStyles';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const EditMediaSchema = yup.object({
   avatar: yup
