@@ -9,7 +9,7 @@ import { MainThemeButton, LinkWrapper } from '../styles/GlobalStyles';
  */
 export default function Redirect({ link, text }) {
   return (
-    <Box sx={{ width: 'fit-content', margin: '0 auto' }}>
+    <Box sx={{ width: 'fit-content', margin: '2em auto' }}>
       <Typography level='h4' component={'h2'}>
         You've reached the bottom
       </Typography>

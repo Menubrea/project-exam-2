@@ -14,8 +14,8 @@ const StyledModal = styled(ModalDialog)(({ theme }) => ({
 const StyledGrid = styled(Box)(({ theme, toggle }) => ({
   position: 'relative',
   overflowY: 'auto',
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(500px, 1fr))',
+  display: 'flex',
+  flexWrap: 'wrap',
   gap: theme.spacing(1),
   height: toggle ? `calc(100% - ${theme.spacing(10)})` : '100%',
 
@@ -147,8 +147,9 @@ export default function ImageModal({ venue, open, handleClose }) {
                 alt={`${venue.name} media`}
                 onError={(e) => (e.target.src = altImage)}
                 sx={{
-                  width: '100%',
                   height: '100%',
+                  flexBasis: 'calc(50% - 4px)',
+                  flexGrow: 1,
                   objectFit: 'cover',
                   borderRadius: '.2rem',
                 }}

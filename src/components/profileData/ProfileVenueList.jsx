@@ -96,7 +96,7 @@ export default function ProfileVenueList({ venues, handleBookingsSlideIn }) {
           <Box
             sx={{
               position: 'absolute',
-              top: { xs: 65, sm: 40 },
+              top: { xs: 65, sm: 48 },
               right: { xs: 'auto', md: '0' },
               left: { xs: '0', md: 'auto' },
               boxShadow: '0 0 10px 1px rgba(0, 0, 0, .2)',

@@ -21,10 +21,7 @@ export const LinkWrapper = styled(Link)(() => ({
 }));
 
 export const StyledDivider = styled(Box)(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? theme.palette.primary[300]
-      : theme.palette.primary[700],
+  backgroundColor: theme.palette.primary[300],
   width: 'max(30vw, 30%)',
   minWidth: '100px',
   height: '5px',

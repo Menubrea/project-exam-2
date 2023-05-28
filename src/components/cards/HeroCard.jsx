@@ -32,7 +32,7 @@ const HeroBody = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  paddingBottom: theme.spacing(2),
+  padding: theme.spacing(3, 0, 2),
   zIndex: 1,
   animation: `${slideIn} .5s ease-in-out`,
 
@@ -58,8 +58,19 @@ const HeroBody = styled(Box)(({ theme }) => ({
     },
   },
 
+  '& h1, & h2': {
+    color:
+      theme.palette.mode === 'dark'
+        ? theme.palette.neutral[50]
+        : theme.palette.primary[500],
+  },
+
   '@media (prefers-reduced-motion: reduce)': {
     animation: 'none',
+  },
+
+  '@media (max-width: 800px)': {
+    padding: theme.spacing(2, 0),
   },
 }));
 
