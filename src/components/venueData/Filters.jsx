@@ -116,14 +116,9 @@ export default function Filters({ filterState }) {
         </MainThemeButton>
       </StyledHeader>
       <ContentBox>
-        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-          <MainThemeButton onClick={ResetFilters} size='sm'>
-            Reset
-          </MainThemeButton>
-          <Typography level='body2' component={'h3'}>
-            Current filter settings:
-          </Typography>
-        </Box>
+        <Typography level='body2' component={'h3'}>
+          Current filter settings:
+        </Typography>
         <FilterTags
           search={search}
           region={region}
@@ -169,10 +164,32 @@ export default function Filters({ filterState }) {
         highestPrice={highestPrice}
         valueText={valueText}
       />
-
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          padding: 1,
+          paddingX: 2,
+          borderBottom: (theme) =>
+            `1px solid ${
+              theme.palette.mode === 'dark'
+                ? theme.palette.common.white
+                : theme.palette.primary[700]
+            }`,
+        }}>
+        <MainThemeButton
+          startDecorator={<CloseIcon />}
+          onClick={ResetFilters}
+          size='sm'>
+          Clear
+        </MainThemeButton>
+        <MainThemeButton size='sm' onClick={handleToggle}>
+          Show {filtered.length} results
+        </MainThemeButton>
+      </Box>
       <HiddenDisplay>
         <Typography marginBottom={1} level='body2' component={'h3'}>
-          Results:
+          Quick view:
         </Typography>
         <VenuePillBox>
           {filtered.length > 0 &&
