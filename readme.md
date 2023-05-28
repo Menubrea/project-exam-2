@@ -12,9 +12,9 @@ All locations and pictures are of course entirely fictional, as this isn't meant
 
 ## How to use
 
-Since the API is accessed by dozens of other students to make their applications, I've decided to filter venue `objects` based on names. As a consequence of this, the application becomes harder to demo for someone without access.
+Since the API is accessed by dozens of other students to make their applications, I've decided to filter venue `objects` based on name to ensure the integrity of aesthetics, theme and features. Unfortunately this also means it's harder to demo all `user stories` without access to an account that is included within the filtering. Most interactions should be stored in state, so it's possible it maintains stability within the same session, but it can not be guranteed.  
 
-You can [contact] me for access to a demo account, or create your own by cloning the repository and opening up `src/app.jsx`.
+You can [contact] me for access to a demo account, or change the string variable by cloning the repository and opening up `src/app.jsx`. This will allow you to include your own account in a local environmnet running `localhost`.
 
 ```jsx
 // On line 14 you'll find:
@@ -31,6 +31,10 @@ Clone repository from `main`.
 #### Run Vite dev server with:
 
 `npm run dev`
+
+#### Open dev server
+
+`cmd / control O`
 
 #### Create JSDocs with:
 
