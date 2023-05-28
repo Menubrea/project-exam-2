@@ -241,24 +241,25 @@ const StyledCard = styled(Box)(({ theme }) => ({
   },
   borderRadius: 5,
   padding: theme.spacing(1),
-  minWidth: 235,
-  flexBasis: '30%',
+  minWidth: 245,
+  flexBasis: 'calc(33.333% - 1em)',
   flexGrow: 1,
   cursor: 'pointer',
 
   '& img': {
     position: 'absolute',
-    width: 40,
-    height: 40,
+    width: 54,
+    height: 54,
     aspectRatio: '1 / 1',
     objectFit: 'cover',
-    right: -5,
-    top: -5,
+    borderRadius: '0 3px 3px 0',
+    right: 5,
+    top: 5,
     zIndex: 1,
     border:
       theme.palette.mode === 'dark'
-        ? `2px solid ${theme.palette.primary[500]}`
-        : `2px solid ${theme.palette.neutral[100]}`,
+        ? `1px solid ${theme.palette.primary[300]}`
+        : `1px solid ${theme.palette.neutral[100]}`,
   },
 
   '& div > *': {
