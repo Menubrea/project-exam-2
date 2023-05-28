@@ -1,6 +1,13 @@
 import { Typography, Box } from '@mui/joy';
 import { MainThemeSelect, StyledOption } from '../../../styles/GlobalStyles';
 
+/**
+ * Component for filtering the region.
+ * @param {String} region - The region state.
+ * @param {Function} setRegion - The setRegion state.
+ * @param {Array} regionArray - The regionArray state.
+ * @returns {JSX.Element}
+ */
 export default function FilterRegion({ region, setRegion, regionArray }) {
   return (
     <Box>

@@ -7,7 +7,30 @@ import {
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { AltMeta } from '../venueData';
 import CloseIcon from '@mui/icons-material/Close';
+import { NorwegianCounties } from '../../constants/counties';
 
+const PopularSearches = [
+  {
+    value: 'cabin',
+  },
+  {
+    value: 'cottage',
+  },
+  {
+    value: 'glamping',
+  },
+  {
+    value: 'lake',
+  },
+];
+
+/**
+ * Modal component for searching venues
+ * @param {boolean} open - boolean for opening modal
+ * @param {function} handleClose - function for closing modal
+ * @param {array} venues - array of venue objects
+ * @returns {JSX.Element}
+ */
 export default function SearchVenueModal({ open, handleClose, venues }) {
   const [search, setSearch] = useState('');
   const [filtered, setFiltered] = useState([]);
@@ -15,6 +38,12 @@ export default function SearchVenueModal({ open, handleClose, venues }) {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
+  };
+
+  const handleSetSearch = (e) => {
+    const input = inputRef.current;
+    setSearch(e.target.innerText);
+    input.value = e.target.innerText;
   };
 
   const handleClear = (e) => {
@@ -138,7 +167,7 @@ export default function SearchVenueModal({ open, handleClose, venues }) {
             gap: 1,
             flexWrap: 'wrap',
           }}>
-          {filtered &&
+          {search.length > 0 && filtered ? (
             filtered.map((venue) => (
               <StyledCard onClick={handleClose} key={venue.id}>
                 <LinkWrapper to={`/venue/${venue.id}`}>
@@ -147,16 +176,60 @@ export default function SearchVenueModal({ open, handleClose, venues }) {
                     src={venue.media[0]}
                     alt={`Image of ${venue.name}`}
                   />
-                  <Typography fontWeight={600}>{venue.name}</Typography>
+                  <Typography fontWeight={600}>
+                    {venue.name.length > 25
+                      ? venue.name.slice(0, 25).concat('...')
+                      : venue.name}
+                  </Typography>
                   <AltMeta venue={venue} />
                 </LinkWrapper>
               </StyledCard>
-            ))}
+            ))
+          ) : (
+            <Box>
+              <Typography marginBottom={1}>Popular searches:</Typography>
+              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                {NorwegianCounties.map((county, index) => (
+                  <SearchPill key={index} onClick={handleSetSearch}>
+                    {county.name}
+                  </SearchPill>
+                ))}
+                {PopularSearches.map((search, index) => (
+                  <SearchPill key={index} onClick={handleSetSearch}>
+                    {search.value}
+                  </SearchPill>
+                ))}
+              </Box>
+            </Box>
+          )}
         </Box>
       </ModalDialog>
     </Modal>
   );
 }
+
+const SearchPill = styled(Typography)(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === 'dark'
+      ? theme.palette.primary[600]
+      : theme.palette.neutral[100],
+
+  border:
+    theme.palette.mode === 'dark'
+      ? `1px solid ${theme.palette.primary[400]}`
+      : `1px solid ${theme.palette.neutral[400]}`,
+  padding: theme.spacing(0.5, 1.5),
+  maxWidth: 'fit-content',
+  flexGrow: 1,
+  borderRadius: 50,
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? theme.palette.primary[700]
+        : theme.palette.neutral[200],
+  },
+}));
 
 const StyledCard = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -169,17 +242,18 @@ const StyledCard = styled(Box)(({ theme }) => ({
   borderRadius: 5,
   padding: theme.spacing(1),
   minWidth: 235,
+  flexBasis: '30%',
   flexGrow: 1,
   cursor: 'pointer',
 
   '& img': {
     position: 'absolute',
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     aspectRatio: '1 / 1',
     objectFit: 'cover',
-    right: -7,
-    top: -7,
+    right: -5,
+    top: -5,
     zIndex: 1,
     border:
       theme.palette.mode === 'dark'

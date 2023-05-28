@@ -6,7 +6,7 @@ import { debounce } from 'lodash';
 import { AltMeta } from '../venueData';
 import { keyframes } from '@emotion/react';
 
-const HeroContainer = styled(Box)(({ theme }) => ({
+const HeroContainer = styled(Box)(() => ({
   height: 'min(calc(85vh + 50px), 1000px)',
   position: 'relative',
   overflow: 'hidden',
@@ -53,6 +53,9 @@ const HeroBody = styled(Box)(({ theme }) => ({
 
   ':hover': {
     cursor: 'pointer',
+    '& h2': {
+      textDecoration: '3px solid underline',
+    },
   },
 
   '@media (prefers-reduced-motion: reduce)': {
@@ -98,6 +101,11 @@ const ImageContainer = styled(Box)(({}) => ({
   },
 }));
 
+/**
+ * JSX Component for Hero Section card
+ * @param { object } venue - venue object
+ * @returns JSX Element for HeroCard
+ */
 export default function HeroCard({ venue }) {
   const [description, setDescription] = useState(venue.description);
   const [count, setCount] = useState(0);
@@ -162,7 +170,7 @@ export default function HeroCard({ venue }) {
                   level='h6'
                   component='h1'
                   sx={{
-                    fontSize: 'clamp(1.2rem, 2vw, 1.4rem)',
+                    fontSize: 'clamp(1.2rem, 2vw, 1.6rem)',
                     textTransform: 'Uppercase',
                     fontWeight: 900,
                     lineHeight: 1,

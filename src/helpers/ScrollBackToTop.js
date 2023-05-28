@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
+/**
+ * Scrolls back to top on route change
+ * @return {null}
+ */
 export default function ScrollBackToTop() {
   const { pathname } = useLocation();
 

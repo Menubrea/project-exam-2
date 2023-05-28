@@ -6,6 +6,12 @@ import { Navigation } from './Nav';
 import Loading from '../Loading';
 import { useLocation } from 'react-router-dom';
 
+/**
+ * Component for handling the layout of the app.
+ * @param {Object} venues - The venues object.
+ * @param {Boolean} loading - The loading state.
+ * @returns {JSX.Element}
+ */
 export default function Layout({ venues, loading }) {
   const path = useLocation();
 

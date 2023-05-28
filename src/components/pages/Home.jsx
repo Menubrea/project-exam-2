@@ -3,12 +3,13 @@ import { HeroCard, VenueCard } from '../cards';
 import { MainGrid, StyledDivider } from '../../styles/GlobalStyles';
 import Loading from '../Loading';
 import AppMeta from '../AppMeta';
+import ErrorComponent from '../Error';
+import { Redirect } from '../';
 
-export default function Home({ data, error, loading }) {
-  if (!data || data.length === 0 || loading)
-    return <Loading>Loading...</Loading>;
+export default function Home({ data, loading, error }) {
+  if (!data || data.length === 0 || loading) return <Loading />;
 
-  if (error) return <div>Error</div>;
+  if (error) return <ErrorComponent />;
 
   const sortedByRegion = data.reduce((acc, venue) => {
     const region = venue.location.city;
@@ -74,6 +75,7 @@ export default function Home({ data, error, loading }) {
                 <StyledDivider />
               </Box>
             ))}
+          <Redirect link={'/browse'} text={'Proceed to browse'} />
         </Container>
       </Box>
     );

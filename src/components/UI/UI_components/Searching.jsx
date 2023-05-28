@@ -31,6 +31,12 @@ const StyledIconButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
+/**
+ * A button that opens a modal to search for venues
+ * @component
+ * @param {Object} venues
+ * @returns {JSX.Element} A button that opens a modal to search for venues
+ */
 export default function Searching({ venues }) {
   const [open, setOpen] = useState(false);
 

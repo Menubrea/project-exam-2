@@ -14,6 +14,11 @@ const CardPrice = styled(Typography)(({ theme }) => ({
   fontWeight: 500,
 }));
 
+/**
+ * Component for displaying the venue price.
+ * @param {Object} venue - venue object
+ * @returns {JSX.Element} VenuePrice component
+ */
 export default function VenuePrice({ venue }) {
   return (
     <CardPrice aria-label='Price per night' component={'p'}>

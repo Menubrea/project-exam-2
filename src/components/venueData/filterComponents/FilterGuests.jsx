@@ -1,6 +1,13 @@
 import { Typography, Box } from '@mui/joy';
 import { MainThemeSelect, StyledOption } from '../../../styles/GlobalStyles';
 
+/**
+ * Component for filtering the guests.
+ * @param {Number} guests - The guests state.
+ * @param {Function} setGuests - The setGuests state.
+ * @param {Array} sortedGuests - The sortedGuests state.
+ * @returns {JSX.Element}
+ */
 export default function FilterGuests({ guests, setGuests, sortedGuests }) {
   return (
     <Box>

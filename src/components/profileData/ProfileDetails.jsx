@@ -6,6 +6,12 @@ import { UpdateAvatarModal } from '../modals';
 import { StoredProfile } from '../hooks';
 import { altImage } from '../../constants/variables';
 
+/**
+ * Profile details component
+ * @param {object} profile - profile object
+ * @param {function} handleCreateSlide - function for creating a slide
+ * @returns {JSX.Element}
+ */
 export default function ProfileDetails({ profile, handleCreateSlide }) {
   const { token } = StoredProfile();
   const [avatar, setAvatar] = useState('');

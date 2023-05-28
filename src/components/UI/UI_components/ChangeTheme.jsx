@@ -2,7 +2,11 @@ import { useColorScheme, Button, IconButton, Tooltip } from '@mui/joy';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 
-// Component for changing the theme of the app
+/**
+ * Change theme component
+ * @component
+ * @returns {JSX.Element}
+ */
 export default function ChangeTheme() {
   const { mode, setMode } = useColorScheme();
 

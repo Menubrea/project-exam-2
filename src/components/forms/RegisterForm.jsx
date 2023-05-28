@@ -3,13 +3,16 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
-  Checkbox,
   FormControl,
   FormHelperText,
   Typography,
   FormLabel,
 } from '@mui/joy';
-import { MainThemeButton, MainThemeInput } from '../../styles/GlobalStyles';
+import {
+  MainThemeButton,
+  MainThemeInput,
+  StyledCheckbox,
+} from '../../styles/GlobalStyles';
 import { useState } from 'react';
 import { Logo } from '../UI/UI_components';
 
@@ -40,6 +43,10 @@ const registerSchema = yup.object({
   venueManager: yup.boolean(),
 });
 
+/**
+ * Component for displaying a register form
+ * @returns {JSX.Element}
+ */
 export default function RegisterForm() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -64,7 +71,7 @@ export default function RegisterForm() {
         case 201:
           const result = await res.json();
           setErrorMessage(
-            `Welcome to Holidaze ${result.name}, you can now log in using your email and password`
+            `Welcome to Holidaze ${result.name}! Log in to continue.`
           );
 
           break;
@@ -133,7 +140,7 @@ export default function RegisterForm() {
           margin: '1em auto 0',
           textAlign: 'center',
         }}>
-        <Checkbox
+        <StyledCheckbox
           label='Are you a Venue Manager?'
           id='registerVenue'
           {...register('venueManager')}
@@ -143,8 +150,14 @@ export default function RegisterForm() {
         variant='h6'
         component={'p'}
         textAlign={'center'}
-        color='error'
-        sx={{ marginTop: 2 }}>
+        sx={{
+          margin: '16px auto',
+          maxWidth: '280px',
+          color: (theme) =>
+            theme.palette.mode === 'dark'
+              ? theme.palette.common.white
+              : theme.palette.common.black,
+        }}>
         {errorMessage}
       </Typography>
       {loading ? (

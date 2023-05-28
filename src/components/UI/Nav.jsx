@@ -42,6 +42,10 @@ const StyledNavElement = styled(Link)(({ theme }) => ({
   },
 }));
 
+/**
+ * Main navigation component
+ * @returns {JSX.Element} Navigation component
+ */
 export function Navigation() {
   return (
     <Box component={'nav'} sx={{ width: '100%' }}>

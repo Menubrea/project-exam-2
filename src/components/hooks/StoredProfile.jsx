@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 
+/**
+ * Function for getting the token and profile from local storage
+ * @returns {object} - token and profile object
+ */
 export default function StoredProfile() {
   const [token, setToken] = useState('');
   const [profile, setProfile] = useState({ name: '' });

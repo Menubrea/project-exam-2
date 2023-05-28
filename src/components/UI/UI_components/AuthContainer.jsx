@@ -11,6 +11,10 @@ const AuthBox = styled(Box)(({ theme }) => ({
   margin: theme.spacing(5),
 }));
 
+/**
+ * Component for displaying a container with a button that opens the auth modal.
+ * @returns {JSX.Element}
+ */
 export default function AuthContainer() {
   const loginButton = document.getElementById('login-button');
 

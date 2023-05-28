@@ -1,5 +1,14 @@
 import { Box, Slider, Typography } from '@mui/joy';
 
+/**
+ * Component for filtering the price range.
+ * @param {Array} value - The value state.
+ * @param {Function} handleChange - The handler for price range change
+ * @param {Number} lowestPrice - The lowestPrice state.
+ * @param {Number} highestPrice - The highestPrice state.
+ * @param {Function} valueText - The valueText state.
+ * @returns {JSX.Element}
+ */
 export default function FilterSlider({
   value,
   handleChange,

@@ -16,6 +16,13 @@ const StyledFilterMenuBox = styled(Box)(({ theme }) => ({
       : theme.palette.neutral[200],
 }));
 
+/**
+ * Component for the filter menu
+ * @param {Function} ResetFilters - function to reset filters
+ * @param {Function} handleToggle - function to toggle filter menu
+ * @param {Boolean} isShown - boolean to show/hide filter menu
+ * @returns {JSX.Element} FilterMenu component
+ */
 export default function FilterMenu({ ResetFilters, handleToggle, isShown }) {
   return (
     <StyledFilterMenuBox>
