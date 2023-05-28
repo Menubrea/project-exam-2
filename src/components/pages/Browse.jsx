@@ -7,6 +7,7 @@ import Loading from '../Loading';
 import { FilterTags, FilterMenu } from '../venueData/filterComponents';
 import AppMeta from '../AppMeta';
 import { BreadCrumbsNav } from '../UI';
+import Redirect from '../Redirect';
 
 const Filter = styled(Box)(() => ({
   inset: 0,
@@ -147,6 +148,7 @@ export default function Browse({ venues }) {
           display: isShown ? 'block' : 'none',
         }}
       />
+      <Redirect link={'/'} text={'Go back home'} />
     </Box>
   );
 }

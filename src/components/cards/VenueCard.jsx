@@ -22,6 +22,7 @@ const StyledTitle = styled(Typography)(({ theme }) => ({
 const StyledCard = styled(Box)(({ theme }) => ({
   flexBasis: `calc(33.333% - 1em)`,
   minWidth: 260,
+  maxWidth: 575,
   flexGrow: 1,
   height: 390,
   position: 'relative',

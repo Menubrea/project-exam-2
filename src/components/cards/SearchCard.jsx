@@ -6,6 +6,7 @@ import { altImage } from '../../constants/variables';
 const StyledBox = styled(Box)(({ theme }) => ({
   flexBasis: `calc(33.333% - 1em)`,
   minWidth: 260,
+  maxWidth: 575,
   flexGrow: 1,
   backgroundColor:
     theme.palette.mode === 'dark'

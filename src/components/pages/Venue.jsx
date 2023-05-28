@@ -10,6 +10,7 @@ import { altImage } from '../../constants/variables';
 import AppMeta from '../AppMeta';
 import { BreadCrumbsNav } from '../UI';
 import { VenueCard } from '../cards';
+import { Redirect } from '../';
 
 const StyledMainGrid = styled(Container)(() => ({
   display: 'grid',
@@ -215,6 +216,7 @@ export default function Venue({ venue, loading, error }) {
             </MainGrid>
           </Box>
         )}
+        <Redirect link={'/browse'} text={'Proceed to browse'} />
       </Box>
     );
   }

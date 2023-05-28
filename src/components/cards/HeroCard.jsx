@@ -53,6 +53,9 @@ const HeroBody = styled(Box)(({ theme }) => ({
 
   ':hover': {
     cursor: 'pointer',
+    '& h2': {
+      textDecoration: '3px solid underline',
+    },
   },
 
   '@media (prefers-reduced-motion: reduce)': {
