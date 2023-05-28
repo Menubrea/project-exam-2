@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import {
   Box,
   Typography,
-  Checkbox,
   styled,
   FormControl,
   FormLabel,
@@ -20,11 +19,20 @@ import {
   MainThemeSelect,
   StyledOption,
   StyledButton,
+  StyledCheckbox,
 } from '../../styles/GlobalStyles';
 
 import CloseIcon from '@mui/icons-material/Close';
 import { NorwegianCounties } from '../../constants/counties';
 
+/**
+ * Component for creating a new venue
+ * @param {string} token - token for authorization
+ * @param {function} setProfileVenues - function for setting venues in profile
+ * @param {function} setFilteredVenues - function for setting filtered venues
+ * @param {function} handleCloseSlideOut - function for closing slideout
+ * @returns {JSX.Element} - JSX component for creating a new venue
+ */
 export default function CreateVenue({
   token,
   setProfileVenues,
@@ -406,18 +414,26 @@ export default function CreateVenue({
             alignItems: 'center',
             gap: { xs: 2, sm: 2, md: 1 },
           }}>
-          <Checkbox name='meta.wifi' label='wifi' {...register('meta.wifi')} />
-          <Checkbox
+          <StyledCheckbox
+            name='meta.wifi'
+            label='wifi'
+            {...register('meta.wifi')}
+          />
+          <StyledCheckbox
             name='meta.parking'
             label='parking'
             {...register('meta.parking')}
           />
-          <Checkbox
+          <StyledCheckbox
             name='meta.breakfast'
             label='breakfast'
             {...register('meta.breakfast')}
           />
-          <Checkbox name='meta.pets' label='pets' {...register('meta.pets')} />
+          <StyledCheckbox
+            name='meta.pets'
+            label='pets'
+            {...register('meta.pets')}
+          />
         </Box>
       </Box>
       <Box sx={{ padding: 2 }}>

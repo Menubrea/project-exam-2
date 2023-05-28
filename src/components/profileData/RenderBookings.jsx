@@ -3,6 +3,11 @@ import { Box, Typography } from '@mui/joy';
 import GroupsIcon from '@mui/icons-material/Groups';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
+/**
+ * Component for displaying active bookings for a user's venue
+ * @param {object} profileVenues - profile venues object
+ * @returns {JSX.Element}
+ */
 export default function RenderBookings({ profileVenues }) {
   const [profileBookings, setProfileBookings] = useState([]);
   console.log(profileBookings);

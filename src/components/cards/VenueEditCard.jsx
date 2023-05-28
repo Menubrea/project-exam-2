@@ -27,6 +27,12 @@ const StyledVenueCard = styled(Box)(({ theme }) => ({
   },
 }));
 
+/**
+ * Component for displaying a venue owned by the current user
+ * @param {object} venue - venue object
+ * @param {function} handleBookingsSlideIn - function to open the bookings slide in
+ * @returns {JSX.Element}
+ */
 export default function VenueEditCard({ venue, handleBookingsSlideIn }) {
   const [filteredBookings, setFilteredBookings] = useState([]);
 

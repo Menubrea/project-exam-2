@@ -2,6 +2,14 @@ import { Box, Checkbox, Typography } from '@mui/joy';
 import { MainThemeButton } from '../../styles/GlobalStyles';
 import { useState } from 'react';
 
+/**
+ * Function for deleting a venue
+ * @param {object} venue - venue object
+ * @param {string} token - token for authentication
+ * @param {function} setProfileVenues - function for updating profile venues
+ * @param {function} handleCloseSlideOut - function for closing slideout
+ * @returns {JSX.Element}
+ */
 export default function DeleteBooking({
   venue,
   token,

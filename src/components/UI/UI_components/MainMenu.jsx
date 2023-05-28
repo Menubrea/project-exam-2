@@ -29,6 +29,10 @@ const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   },
 }));
 
+/**
+ * Component for handling the main menu
+ * @returns {JSX.Element}
+ */
 export default function MainMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setIsOpen] = useState(false);

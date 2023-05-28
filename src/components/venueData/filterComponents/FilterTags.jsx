@@ -14,6 +14,15 @@ const StyledText = styled(Typography)(({ theme }) => ({
   flexGrow: 1,
 }));
 
+/**
+ * Component for displaying the filter tags.
+ * @param {String} search - search query
+ * @param {String} region - region filter
+ * @param {String} guests - guest filter
+ * @param {Array} filtered - array of filtered venues
+ * @param {Array} value - array of price range values
+ * @returns {JSX.Element} FilterTags component
+ */
 const FilterTags = ({ search, region, guests, filtered, value }) => {
   return (
     <Box

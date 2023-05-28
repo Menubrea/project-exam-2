@@ -20,6 +20,12 @@ const VenueWrapper = styled(Box)(({ theme }) => ({
   },
 }));
 
+/**
+ * Component for displaying a list of a user's venues
+ * @param {object} venues - array of venue objects
+ * @param {function} handleBookingsSlideIn - function for opening bookings slide in
+ * @returns {JSX.Element}
+ */
 export default function ProfileVenueList({ venues, handleBookingsSlideIn }) {
   const [input, setInput] = useState('');
   const [filteredVenues, setFilteredVenues] = useState([]);

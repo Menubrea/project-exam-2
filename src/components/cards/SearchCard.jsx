@@ -6,6 +6,7 @@ import { altImage } from '../../constants/variables';
 const StyledBox = styled(Box)(({ theme }) => ({
   flexBasis: `calc(33.333% - 1em)`,
   minWidth: 260,
+  maxWidth: 575,
   flexGrow: 1,
   backgroundColor:
     theme.palette.mode === 'dark'
@@ -22,6 +23,12 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }));
 
+/**
+ * Component for displaying a venue card in filtered results
+ * @param {object} venue - venue object
+ * @param {function} handleClose - function to close the search modal
+ * @returns {JSX.Element}
+ */
 export default function SearchCard({ venue, handleClose }) {
   return (
     <StyledBox sx={{ position: 'relative' }}>

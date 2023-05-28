@@ -8,6 +8,11 @@ const BookingsContainer = styled(Box)(({ theme }) => ({
   gap: theme.spacing(2),
 }));
 
+/**
+ * Component for displaying bookings of a user
+ * @param {object} profile - profile object
+ * @returns {JSX.Element}
+ */
 export default function ProfileBookings({ profile }) {
   const [profileBookings, setProfileBookings] = useState([]);
 

@@ -48,6 +48,11 @@ const StyledIconBox = styled(Box)(({ theme }) => ({
   },
 }));
 
+/**
+ * Component for displaying the venue meta data.
+ * @param {Object} meta - meta data from venue object model
+ * @returns {JSX.Element} VenueMeta component
+ */
 export default function VenueMeta({ meta, maxGuests, ...props }) {
   return (
     <VenueMetaStyle

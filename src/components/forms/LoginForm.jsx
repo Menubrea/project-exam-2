@@ -28,6 +28,11 @@ const loginSchema = yup.object({
   password: yup.string().required().min(8).trim(),
 });
 
+/**
+ * Component for displaying a login form
+ * @param {function} onLoginSuccess - function to run on successful login
+ * @returns {JSX.Element}
+ */
 export default function LoginForm({ onLoginSuccess }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
